@@ -5,11 +5,9 @@ export class ServiceNowQueryCtrl extends QueryCtrl {
   static templateUrl = 'partials/query.editor.html';
   supportedTables = [
     { text: 'Incidents (INC)', value: 'incident' },
-    { text: 'Change Request (CHG)', value: 'change_request' }
+    { text: 'Change Request (CHG)', value: 'change_request' },
   ];
-  supportedTypes = [
-    { text: 'Table', value: 'table' }
-  ];
+  supportedTypes = [{ text: 'Table', value: 'table' }];
   defaults = {
     table: 'incident',
     type: 'table',

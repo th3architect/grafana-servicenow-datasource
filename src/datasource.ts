@@ -16,7 +16,7 @@ export class Datasource extends DataSourceApi {
     const snOptions = cloneDeep(options);
     if (snOptions.targets.length > 0) {
       const snIncidentPromise = this.serviceNowDataSource.query(snOptions);
-      if(snIncidentPromise){
+      if (snIncidentPromise) {
         promises.push(snIncidentPromise);
       }
     }
@@ -27,18 +27,20 @@ export class Datasource extends DataSourceApi {
 
   testDatasource() {
     return new Promise(async (resolve: any, reject: any) => {
-      this.serviceNowDataSource.query({
-        range: {
-          from: '',
-          to: '',
-        },
-        targets: [
-        ],
-      }).then((result: any) => {
-        resolve({ message: 'Successfully Connected ServiceNow', status: 'success' });
-      }).catch((ex: any) => {
-        reject({ message: 'Failed to Connect ServiceNow', status: 'error' });
-      })
+      this.serviceNowDataSource
+        .query({
+          range: {
+            from: '',
+            to: '',
+          },
+          targets: [],
+        })
+        .then((result: any) => {
+          resolve({ message: 'Successfully Connected ServiceNow', status: 'success' });
+        })
+        .catch((ex: any) => {
+          reject({ message: 'Failed to Connect ServiceNow', status: 'error' });
+        });
     });
   }
 
