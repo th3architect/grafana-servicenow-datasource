@@ -1,0 +1,49 @@
+{
+  "name": "Service Now",
+  "id": "yesoreyeram-grafana-servicenow-datasource",
+  "type": "datasource",
+  "category": "management",
+  "metrics": true,
+  "info": {
+    "version": "0.0.1",
+    "updated": "2020-07-27",
+    "description": "Grafana Service Now Datasource",
+    "author": {
+      "name": "Sriramajeyam Sugumaran",
+      "url": "https://www.google.com/search?q=Sriramajeyam+Sugumaran"
+    },
+    "logos": {
+      "small": "img/yesoreyeram-grafana-servicenow-datasource-logo.jpg",
+      "large": "img/yesoreyeram-grafana-servicenow-datasource-logo.jpg"
+    },
+    "keywords": [
+      "grafana",
+      "Service Now",
+      "servicenow",
+      "service-now"
+    ],
+    "links": [
+      {
+        "name": "Github",
+        "url": "https://github.com/yesoreyeram/grafana-servicenow-datasource"
+      }
+    ]
+  },
+  "dependencies": {
+    "grafanaVersion": "5.2.x",
+    "plugins": []
+  },
+  "routes": [
+    {
+      "path": "servicenow",
+      "method": "*",
+      "url": "https://{{ .JsonData.instanceID }}.service-now.com",
+      "headers": [
+        {
+          "name": "Accept",
+          "content": "application/json"
+        }
+      ]
+    }
+  ]
+}

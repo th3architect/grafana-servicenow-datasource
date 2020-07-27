@@ -1,0 +1,35 @@
+<query-editor-row query-ctrl="ctrl" can-collapse="true">
+    <div class="gf-form-inline">
+        <div class="gf-form">
+            <label class="gf-form-label query-keyword width-8">Query</label>
+            <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+                <select class="gf-form-input service-dropdown" ng-model="ctrl.target.table" ng-options="f.value as f.text for f in ctrl.supportedTables"></select>
+            </div>
+        </div>
+        <div class="gf-form">
+            <label class="gf-form-label query-keyword width-8">Type</label>
+            <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+                <select class="gf-form-input service-dropdown" ng-model="ctrl.target.type" ng-options="f.value as f.text for f in ctrl.supportedTypes"></select>
+            </div>
+        </div>
+    </div>
+    <div class="gf-form-inline">
+        <div class="gf-form">
+            <label class="gf-form-label query-keyword width-8">Fields</label>
+            <input class="gf-form-input width-24" ng-model="ctrl.target.fields" type="text"></input>
+        </div>
+    </div>
+    <div class="gf-form-inline">
+        <div class="gf-form">
+            <label class="gf-form-label query-keyword width-8">Query</label>
+            <textarea class="gf-form-input width-24" rows="5" ng-model="ctrl.target.query" type="text"></textarea>
+        </div>
+    </div>
+    <div class="gf-form-inline">
+        <div class="gf-form">
+            <label class="gf-form-label query-keyword width-8">Limit</label>
+            <input class="gf-form-input" ng-model="ctrl.target.limit" type="text"></input>
+        </div>
+    </div>
+
+</query-editor-row>
