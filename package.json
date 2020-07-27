@@ -1,0 +1,39 @@
+{
+  "name": "grafana-servicenow-datasource",
+  "version": "0.0.1",
+  "description": "Grafana Service-Now Datasource",
+  "main": "dist/module.js",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yesoreyeram/grafana-servicenow-datasource.git"
+  },
+  "keywords": [
+    "grafana",
+    "Service Now",
+    "servicenow",
+    "service-now"
+  ],
+  "author": "Sriramajeyam Sugumaran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yesoreyeram/grafana-servicenow-datasource/issues"
+  },
+  "homepage": "https://github.com/yesoreyeram/grafana-servicenow-datasource#readme",
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@grafana/data": "6.6.1",
+    "@grafana/runtime": "6.6.1",
+    "@grafana/toolkit": "6.5.3",
+    "@grafana/ui": "6.6.1",
+    "@types/grafana": "github:CorpGlory/types-grafana.git",
+    "@types/lodash": "^4.14.149"
+  }
+}
