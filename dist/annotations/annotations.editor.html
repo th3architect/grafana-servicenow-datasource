@@ -1,0 +1,36 @@
+<div class="gf-form-group">
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Table</label>
+    <div class="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+      <select class="gf-form-input service-dropdown" ng-model="ctrl.annotation.table" ng-options="f.value as f.text for f in ctrl.supportedTables"></select>
+    </div>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Fields</label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.fields' placeholder=""></input>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Query / Filter </label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.query' placeholder=""></input>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Title</label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.title' placeholder=""></input>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Description </label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.description' placeholder=""></input>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Start Time Field</label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.startTimeField' placeholder="sys_created_on"></input>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">End Time Field</label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.endTimeField' placeholder="sys_created_on"></input>
+  </div>
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-8">Limit</label>
+    <input type="text" class="gf-form-input" ng-model='ctrl.annotation.limit' placeholder="10"></input>
+  </div>
+</div>

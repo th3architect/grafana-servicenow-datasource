@@ -4,9 +4,10 @@
   "type": "datasource",
   "category": "management",
   "metrics": true,
+  "annotations": true,
   "info": {
     "version": "0.0.1",
-    "updated": "2020-07-27",
+    "updated": "2020-07-29",
     "description": "Grafana Service Now Datasource",
     "author": {
       "name": "Sriramajeyam Sugumaran",
