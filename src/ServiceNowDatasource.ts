@@ -1,6 +1,14 @@
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
 
+export class ServiceNowRequestOptions {
+  limit = 10;
+  fields = '';
+  query = '';
+  type = '';
+  table = '';
+}
+
 /** @ngInject */
 export class ServiceNowDataSource {
   url = '';
@@ -8,7 +16,7 @@ export class ServiceNowDataSource {
   constructor(private instanceSettings: any, private backendSrv: any) {
     this.url = this.instanceSettings.url + '/servicenow';
   }
-  private doServiceNowRequest(options: any, maxRetries = 1) {
+  private doServiceNowRequest(options: ServiceNowRequestOptions, maxRetries = 1) {
     const URL_PARAMS: any[] = [];
     URL_PARAMS.push(`sysparm_limit=${options.limit || 10}`);
     URL_PARAMS.push(`sysparm_display_value=all`);
@@ -34,9 +42,9 @@ export class ServiceNowDataSource {
   }
   private doQueries(queries: any[]) {
     return queries.map((query: any) => {
-      return this.doServiceNowRequest(query)
+      return this.doServiceNowRequest(query.servicenow)
         .then((result: any) => {
-          return { result, query, queryType: 'query' };
+          return { result, query };
         })
         .catch((error: any) => {
           throw { error, query };
@@ -49,14 +57,6 @@ export class ServiceNowDataSource {
       queries = options.targets.filter((item: any) => {
         return item.hide !== true;
       });
-    } else if (options.annotation) {
-      queries.push({
-        _queryType: 'annotation',
-        limit: 10,
-        fields: 'sys_created_on,number,short_description',
-        query: '',
-        table: 'incident',
-      });
     }
     const promises = this.doQueries(queries);
     return Promise.all(promises).then((results: any) => {
@@ -65,10 +65,10 @@ export class ServiceNowDataSource {
     });
   }
   private doAnnotationQueries(queries: any[]) {
-    return queries.map((query: any) => {
+    return queries.map((query: ServiceNowRequestOptions) => {
       return this.doServiceNowRequest(query)
         .then((result: any) => {
-          return { result, query, queryType: 'annotation' };
+          return { result, query };
         })
         .catch((error: any) => {
           throw { error, query };

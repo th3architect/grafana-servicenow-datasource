@@ -7,11 +7,13 @@ export class ServiceNowQueryCtrl extends QueryCtrl {
   supportedTables = TABLE_NAMES;
   supportedTypes = [{ text: 'Table', value: 'table' }];
   defaults = {
-    table: 'incident',
-    type: 'table',
-    fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority',
-    query: 'incident_state=1^ORincident_state=2^ORincident_state=3^ORincident_state=4^ORincident_state=5^ORincident_state=10',
-    limit: 10,
+    servicenow: {
+      table: 'incident',
+      type: 'table',
+      fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority',
+      query: 'ORDERBYDESCopened_at',
+      limit: 10,
+    },
   };
 
   /** @ngInject */
