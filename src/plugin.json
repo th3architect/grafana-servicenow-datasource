@@ -4,6 +4,7 @@
   "type": "datasource",
   "category": "management",
   "metrics": true,
+  "annotations": true,
   "info": {
     "version": "%VERSION%",
     "updated": "%TODAY%",

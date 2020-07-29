@@ -25,6 +25,22 @@ export class Datasource extends DataSourceApi {
     });
   }
 
+  annotationQuery(options: any) {
+    options.annotation.query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
+    var annotationQuery = {
+      range: options.range,
+      rangeRaw: options.rangeRaw,
+      annotation: options.annotation
+    };
+    return this.serviceNowDataSource.annotationsQuery(annotationQuery)
+      .then((result: any) => {
+        return result;
+      }).catch((ex: any) => {
+        console.error(ex);
+        return [];
+      })
+  }
+
   testDatasource() {
     return new Promise(async (resolve: any, reject: any) => {
       this.serviceNowDataSource

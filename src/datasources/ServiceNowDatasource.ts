@@ -5,7 +5,6 @@ export class ServiceNowDataSource {
   url: string;
   constructor(private instanceSettings: any, private backendSrv: any) {
     this.url = this.instanceSettings.url + '/servicenow';
-    console.log(typeof this.templateSrv);
   }
   private doServiceNowRequest(options: any, maxRetries = 1) {
     const URL_PARAMS: any[] = [];
@@ -35,7 +34,7 @@ export class ServiceNowDataSource {
     return queries.map((query: any) => {
       return this.doServiceNowRequest(query)
         .then((result: any) => {
-          return { result, query };
+          return { result, query, queryType: 'query' };
         })
         .catch((error: any) => {
           throw { error, query };
@@ -43,13 +42,59 @@ export class ServiceNowDataSource {
     });
   }
   query(options: any): Promise<any> {
-    const queries: any[] = options.targets.filter((item: any) => {
-      return item.hide !== true;
-    });
+    let queries: any[] = [];
+    if (options.targets) {
+      queries = options.targets.filter((item: any) => {
+        return item.hide !== true;
+      });
+    } else if (options.annotation) {
+      queries.push({
+        _queryType: 'annotation',
+        limit: 10,
+        fields: 'sys_created_on,number,short_description',
+        query: '',
+        table: 'incident'
+      })
+    }
     const promises = this.doQueries(queries);
     return Promise.all(promises).then((results: any) => {
       const parsedResults = new ServiceNowResultsParser(results);
       return parsedResults.output;
+    });
+  }
+  private doAnnotationQueries(queries: any[]) {
+    return queries.map((query: any) => {
+      return this.doServiceNowRequest(query)
+        .then((result: any) => {
+          return { result, query, queryType: 'annotation' };
+        })
+        .catch((error: any) => {
+          throw { error, query };
+        });
+    });
+  }
+  annotationsQuery(options: any): Promise<any> {
+    let queries: any[] = [];
+    if (options.targets) {
+      queries = options.targets.filter((item: any) => {
+        return item.hide !== true;
+      });
+    } else if (options.annotation) {
+      queries.push({
+        limit: options.annotation.limit || 30,
+        startTimeField: options.annotation.startTimeField,
+        endTimeField: options.annotation.endTimeField,
+        title: options.annotation.title,
+        description: options.annotation.description,
+        fields: [...options.annotation.fields.split(","), options.annotation.title, options.annotation.description, options.annotation.startTimeField, options.annotation.endTimeField].filter(Boolean).join(','),
+        query: (options.annotation.query || ''),
+        table: options.annotation.table
+      })
+    }
+    const promises = this.doAnnotationQueries(queries);
+    return Promise.all(promises).then((results: any) => {
+      const parsedResults = new ServiceNowResultsParser(results);
+      return parsedResults.getResultsAsAnnotations();
     });
   }
 }

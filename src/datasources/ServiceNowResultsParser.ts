@@ -1,6 +1,43 @@
 import { forEach } from 'lodash';
 
+const getServiceNowRowAsAnnotation = (row: any, cols: any, query: any) => {
+  let annotation: any = {};
+  let amendText: string = '';
+  annotation.text = '';
+  annotation.tags = [];
+  forEach(cols, (value, index) => {
+    if (value.text === query.startTimeField) {
+      if (row[index]) {
+        annotation.time = new Date(row[index]).getTime();
+        amendText += `${value.text} : ${row[index]}\n`;
+      }
+    } else if (value.text === query.endTimeField) {
+      if (row[index]) {
+        annotation.timeEnd = new Date(row[index]).getTime();
+        amendText += `${value.text} : ${row[index]}\n`;
+      }
+    } else if (value.text === query.title) {
+      if (row[index]) {
+        annotation.title = row[index];
+      }
+    } else if (value.text === query.description) {
+      if (row[index]) {
+        annotation.text = row[index];
+      }
+    } else {
+      if (row[index]) {
+        annotation.tags.push(`${value.text} : ${row[index]}`);
+      }
+    }
+  })
+  annotation.text += `
+    ${amendText}
+  `;
+  return annotation;
+}
+
 export class ServiceNowResultsParser {
+  query: any = '';
   output: any = {
     columns: [],
     rows: [],
@@ -10,7 +47,7 @@ export class ServiceNowResultsParser {
     results
       .filter(res => res && res.result && res.result.data && res.result.data.result)
       .forEach((res: any) => {
-        console.log(res);
+        this.query = res.query;
         res.result.data.result.forEach((item: any, index: number) => {
           if (index === 0) {
             forEach(item, (value, key) => {
@@ -40,5 +77,13 @@ export class ServiceNowResultsParser {
           this.output.rows.push(row);
         });
       });
+  }
+  getResultsAsAnnotations() {
+    let annotations: any[] = [];
+    forEach(this.output.rows, row => {
+      let annotation = getServiceNowRowAsAnnotation(row, this.output.columns, this.query);
+      annotations.push(annotation);
+    })
+    return annotations;
   }
 }
