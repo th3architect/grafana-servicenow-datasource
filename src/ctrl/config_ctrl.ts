@@ -1,3 +1,7 @@
+import { TEMPLATE_URL } from './../config';
+
 export class ServiceNowConfigCtrl {
-  static templateUrl = 'partials/config.html';
+
+  static templateUrl = TEMPLATE_URL.CONFIG
+
 }

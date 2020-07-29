@@ -1,8 +1,9 @@
+import { TEMPLATE_URL, TABLE_NAMES } from './../config';
+
 export class AnnotationCtrl {
-  static templateUrl = 'partials/annotations.editor.html';
+
+  static templateUrl = TEMPLATE_URL.ANNOTATION;
   annotation: any;
-  supportedTables = [
-    { text: 'Incidents (INC)', value: 'incident' },
-    { text: 'Change Request (CHG)', value: 'change_request' },
-  ];
+  supportedTables = TABLE_NAMES;
+
 }

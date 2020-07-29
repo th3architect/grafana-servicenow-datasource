@@ -1,12 +1,11 @@
 import { defaultsDeep } from 'lodash';
 import { QueryCtrl } from 'grafana/app/plugins/sdk';
+import { TEMPLATE_URL, TABLE_NAMES } from './../config';
 
 export class ServiceNowQueryCtrl extends QueryCtrl {
-  static templateUrl = 'partials/query.editor.html';
-  supportedTables = [
-    { text: 'Incidents (INC)', value: 'incident' },
-    { text: 'Change Request (CHG)', value: 'change_request' },
-  ];
+
+  static templateUrl = TEMPLATE_URL.QUERY_EDITOR;
+  supportedTables = TABLE_NAMES;
   supportedTypes = [{ text: 'Table', value: 'table' }];
   defaults = {
     table: 'incident',
