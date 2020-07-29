@@ -1,3 +1,13 @@
+export class ServiceNowAnnotationQuery {
+  table = '';
+  fields = '';
+  query = '';
+  titleField = '';
+  descriptionField = '';
+  startTimeField = '';
+  endTimeField = '';
+  limit = 25;
+}
 export class Annotation {
   title = '';
   text = '';

@@ -1,7 +1,7 @@
 import { forEach } from 'lodash';
-import { Annotation } from './annotations/annotation';
+import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
 
-const getServiceNowRowAsAnnotation = (row: any, cols: any, query: any): Annotation => {
+const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnnotationQuery): Annotation => {
   const annotation: Annotation = {
     text: '',
     title: '',
@@ -20,11 +20,11 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: any): Annotati
         annotation.timeEnd = new Date(row[index]).getTime();
         amendText += `${value.text} : ${row[index]}\n`;
       }
-    } else if (value.text === query.title) {
+    } else if (value.text === query.titleField) {
       if (row[index]) {
         annotation.title = row[index];
       }
-    } else if (value.text === query.description) {
+    } else if (value.text === query.descriptionField) {
       if (row[index]) {
         annotation.text = row[index];
       }

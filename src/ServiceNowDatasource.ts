@@ -1,5 +1,5 @@
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
-import { Annotation } from './annotations/annotation';
+import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
 
 /** @ngInject */
 export class ServiceNowDataSource {
@@ -76,7 +76,7 @@ export class ServiceNowDataSource {
     });
   }
   annotationsQuery(options: any): Promise<Annotation[]> {
-    let queries: any[] = [];
+    let queries: ServiceNowAnnotationQuery[] = [];
     if (options.targets) {
       queries = options.targets.filter((item: any) => {
         return item.hide !== true;
@@ -86,12 +86,12 @@ export class ServiceNowDataSource {
         limit: options.annotation.limit || 30,
         startTimeField: options.annotation.startTimeField,
         endTimeField: options.annotation.endTimeField,
-        title: options.annotation.title,
-        description: options.annotation.description,
+        titleField: options.annotation.titleField,
+        descriptionField: options.annotation.descriptionField,
         fields: [
           ...options.annotation.fields.split(','),
-          options.annotation.title,
-          options.annotation.description,
+          options.annotation.titleField,
+          options.annotation.descriptionField,
           options.annotation.startTimeField,
           options.annotation.endTimeField,
         ]
