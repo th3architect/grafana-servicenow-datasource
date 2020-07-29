@@ -1,10 +1,14 @@
 import { forEach } from 'lodash';
+import { Annotation } from './annotations/annotation';
 
-const getServiceNowRowAsAnnotation = (row: any, cols: any, query: any) => {
-  let annotation: any = {};
-  let amendText: string = '';
-  annotation.text = '';
-  annotation.tags = [];
+const getServiceNowRowAsAnnotation = (row: any, cols: any, query: any): Annotation => {
+  const annotation: Annotation = {
+    text: '',
+    title: '',
+    tags: [],
+    time: new Date().getTime(),
+  };
+  let amendText = '';
   forEach(cols, (value, index) => {
     if (value.text === query.startTimeField) {
       if (row[index]) {
@@ -29,12 +33,12 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: any) => {
         annotation.tags.push(`${value.text} : ${row[index]}`);
       }
     }
-  })
+  });
   annotation.text += `
     ${amendText}
   `;
   return annotation;
-}
+};
 
 export class ServiceNowResultsParser {
   query: any = '';
@@ -78,12 +82,12 @@ export class ServiceNowResultsParser {
         });
       });
   }
-  getResultsAsAnnotations() {
-    let annotations: any[] = [];
+  getResultsAsAnnotations(): Annotation[] {
+    const annotations: Annotation[] = [];
     forEach(this.output.rows, row => {
-      let annotation = getServiceNowRowAsAnnotation(row, this.output.columns, this.query);
+      const annotation: Annotation = getServiceNowRowAsAnnotation(row, this.output.columns, this.query);
       annotations.push(annotation);
-    })
+    });
     return annotations;
   }
 }

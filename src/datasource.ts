@@ -1,6 +1,6 @@
 import { flatten, cloneDeep } from 'lodash';
 import { DataSourceApi } from '@grafana/data';
-import { ServiceNowDataSource } from './datasources/ServiceNowDatasource';
+import { ServiceNowDataSource } from './ServiceNowDatasource';
 
 export class Datasource extends DataSourceApi {
   private serviceNowDataSource: ServiceNowDataSource;
@@ -27,18 +27,20 @@ export class Datasource extends DataSourceApi {
 
   annotationQuery(options: any) {
     options.annotation.query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
-    var annotationQuery = {
+    const annotationQuery = {
       range: options.range,
       rangeRaw: options.rangeRaw,
-      annotation: options.annotation
+      annotation: options.annotation,
     };
-    return this.serviceNowDataSource.annotationsQuery(annotationQuery)
+    return this.serviceNowDataSource
+      .annotationsQuery(annotationQuery)
       .then((result: any) => {
         return result;
-      }).catch((ex: any) => {
+      })
+      .catch((ex: any) => {
         console.error(ex);
         return [];
-      })
+      });
   }
 
   testDatasource() {

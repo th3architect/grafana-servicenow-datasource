@@ -1,8 +1,10 @@
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
+import { Annotation } from './annotations/annotation';
 
 /** @ngInject */
 export class ServiceNowDataSource {
-  url: string;
+  url = '';
+
   constructor(private instanceSettings: any, private backendSrv: any) {
     this.url = this.instanceSettings.url + '/servicenow';
   }
@@ -53,8 +55,8 @@ export class ServiceNowDataSource {
         limit: 10,
         fields: 'sys_created_on,number,short_description',
         query: '',
-        table: 'incident'
-      })
+        table: 'incident',
+      });
     }
     const promises = this.doQueries(queries);
     return Promise.all(promises).then((results: any) => {
@@ -73,7 +75,7 @@ export class ServiceNowDataSource {
         });
     });
   }
-  annotationsQuery(options: any): Promise<any> {
+  annotationsQuery(options: any): Promise<Annotation[]> {
     let queries: any[] = [];
     if (options.targets) {
       queries = options.targets.filter((item: any) => {
@@ -86,10 +88,18 @@ export class ServiceNowDataSource {
         endTimeField: options.annotation.endTimeField,
         title: options.annotation.title,
         description: options.annotation.description,
-        fields: [...options.annotation.fields.split(","), options.annotation.title, options.annotation.description, options.annotation.startTimeField, options.annotation.endTimeField].filter(Boolean).join(','),
-        query: (options.annotation.query || ''),
-        table: options.annotation.table
-      })
+        fields: [
+          ...options.annotation.fields.split(','),
+          options.annotation.title,
+          options.annotation.description,
+          options.annotation.startTimeField,
+          options.annotation.endTimeField,
+        ]
+          .filter(Boolean)
+          .join(','),
+        query: options.annotation.query || '',
+        table: options.annotation.table,
+      });
     }
     const promises = this.doAnnotationQueries(queries);
     return Promise.all(promises).then((results: any) => {
