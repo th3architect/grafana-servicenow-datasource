@@ -8,7 +8,7 @@ export class Datasource extends DataSourceApi {
   /** @ngInject */
   constructor(private instanceSettings: any, private backendSrv: any, private templateSrv: any) {
     super(instanceSettings);
-    this.serviceNowDataSource = new ServiceNowDataSource(this.instanceSettings, this.backendSrv, this.templateSrv);
+    this.serviceNowDataSource = new ServiceNowDataSource(this.instanceSettings, this.backendSrv);
   }
 
   query(options: any) {

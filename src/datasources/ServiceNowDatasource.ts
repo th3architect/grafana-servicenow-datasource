@@ -3,8 +3,7 @@ import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 /** @ngInject */
 export class ServiceNowDataSource {
   url: string;
-  withCredentials: any;
-  constructor(private instanceSettings: any, private backendSrv: any, private templateSrv: any) {
+  constructor(private instanceSettings: any, private backendSrv: any) {
     this.url = this.instanceSettings.url + '/servicenow';
     console.log(typeof this.templateSrv);
   }
