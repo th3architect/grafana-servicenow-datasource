@@ -1,5 +1,5 @@
 import { flatten, cloneDeep } from 'lodash';
-import { DataSourceApi } from '@grafana/data';
+import { DataSourceApi } from './grafana';
 import { ServiceNowDataSource } from './ServiceNowDatasource';
 
 export class Datasource extends DataSourceApi {

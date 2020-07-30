@@ -6,6 +6,6 @@ export const TEMPLATE_URL = {
 export const TABLE_NAME_INCIDENT = 'incident';
 export const TABLE_NAME_CHANGE_REQUEST = 'change_request';
 export const TABLE_NAMES = [
-  { text: 'Incidents (INC)', value: TABLE_NAME_INCIDENT },
-  { text: 'Change Request (CHG)', value: TABLE_NAME_CHANGE_REQUEST },
+  { label: 'Incidents (INC)', value: TABLE_NAME_INCIDENT },
+  { label: 'Change Request (CHG)', value: TABLE_NAME_CHANGE_REQUEST },
 ];

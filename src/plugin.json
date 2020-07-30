@@ -1,8 +1,7 @@
 {
   "name": "Service Now",
-  "id": "yesoreyeram-grafana-servicenow-datasource",
+  "id": "yesoreyeram-servicenow-datasource",
   "type": "datasource",
-  "category": "management",
   "metrics": true,
   "annotations": true,
   "info": {

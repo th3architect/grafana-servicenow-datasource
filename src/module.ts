@@ -1,4 +1,11 @@
-export { Datasource } from './datasource';
-export { ServiceNowQueryCtrl as QueryCtrl } from './query_editor/query_ctrl';
-export { ServiceNowConfigCtrl as ConfigCtrl } from './config/config_ctrl';
-export { AnnotationCtrl as AnnotationsQueryCtrl } from './annotations/annotation_ctrl';
+import { DataSourcePlugin } from './grafana';
+
+import { Datasource } from './datasource';
+import { ServiceNowQueryEditor } from './QueryEditor';
+import { ServiceNowConfigCtrl } from './config/config_ctrl';
+import { AnnotationCtrl } from './annotations/annotation_ctrl';
+
+export const plugin = new DataSourcePlugin(Datasource)
+  .setConfigCtrl(ServiceNowConfigCtrl)
+  .setQueryEditor(ServiceNowQueryEditor)
+  .setAnnotationQueryCtrl(AnnotationCtrl);
