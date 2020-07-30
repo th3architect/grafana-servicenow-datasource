@@ -1,13 +1,12 @@
 {
   "name": "Service Now",
-  "id": "yesoreyeram-grafana-servicenow-datasource",
+  "id": "yesoreyeram-servicenow-datasource",
   "type": "datasource",
-  "category": "management",
   "metrics": true,
   "annotations": true,
   "info": {
     "version": "0.0.1",
-    "updated": "2020-07-29",
+    "updated": "2020-07-30",
     "description": "Grafana Service Now Datasource",
     "author": {
       "name": "Sriramajeyam Sugumaran",
