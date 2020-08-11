@@ -33,17 +33,5 @@
     "grafanaVersion": "5.2.x",
     "plugins": []
   },
-  "routes": [
-    {
-      "path": "servicenow",
-      "method": "*",
-      "url": "https://{{ .JsonData.instanceID }}.service-now.com",
-      "headers": [
-        {
-          "name": "Accept",
-          "content": "application/json"
-        }
-      ]
-    }
-  ]
+  "routes": []
 }

@@ -1,11 +1,11 @@
 import { DataSourcePlugin } from './grafana';
 
 import { Datasource } from './datasource';
+import { ServiceNowConfigEditor } from './ConfigEditor';
 import { ServiceNowQueryEditor } from './QueryEditor';
-import { ServiceNowConfigCtrl } from './config/config_ctrl';
 import { AnnotationCtrl } from './annotations/annotation_ctrl';
 
 export const plugin = new DataSourcePlugin(Datasource)
-  .setConfigCtrl(ServiceNowConfigCtrl)
+  .setConfigEditor(ServiceNowConfigEditor)
   .setQueryEditor(ServiceNowQueryEditor)
   .setAnnotationQueryCtrl(AnnotationCtrl);

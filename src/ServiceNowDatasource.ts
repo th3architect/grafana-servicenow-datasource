@@ -14,7 +14,7 @@ export class ServiceNowDataSource {
   url = '';
 
   constructor(private instanceSettings: any, private backendSrv: any) {
-    this.url = this.instanceSettings.url + '/servicenow';
+    this.url = this.instanceSettings.url + '';
   }
   private doServiceNowRequest(options: ServiceNowRequestOptions, maxRetries = 1) {
     const URL_PARAMS: any[] = [];
