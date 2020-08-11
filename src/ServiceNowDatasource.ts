@@ -6,6 +6,8 @@ export class ServiceNowRequestOptions {
   fields = '';
   query = '';
   type = '';
+  groupBy = '';
+  resultFormat = '';
   table = '';
 }
 
@@ -24,8 +26,18 @@ export class ServiceNowDataSource {
       URL_PARAMS.push(`sysparm_fields=${options.fields || 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'}`);
     }
     if (options.query) {
-      const sysparmQueries = [options.query];
+      const query = options.query
+        .trim()
+        .replace(/\^\n/g, '^')
+        .replace(/\n/g, '^');
+      const sysparmQueries = [query].filter(Boolean);
       URL_PARAMS.push(`sysparm_query=${sysparmQueries.join('^')}`);
+    }
+    if (options.type === 'stats') {
+      URL_PARAMS.push(`sysparm_count=true`);
+      if (options.groupBy) {
+        URL_PARAMS.push(`sysparm_group_by=${options.groupBy.trim()}`);
+      }
     }
     return this.backendSrv
       .datasourceRequest({
@@ -40,11 +52,11 @@ export class ServiceNowDataSource {
         throw error;
       });
   }
-  private doQueries(queries: any[]) {
+  private doQueries(queries: any[], options: any) {
     return queries.map((query: any) => {
       return this.doServiceNowRequest(query.servicenow)
         .then((result: any) => {
-          return { result, query };
+          return { result, query, options };
         })
         .catch((error: any) => {
           throw { error, query };
@@ -58,9 +70,12 @@ export class ServiceNowDataSource {
         return item.hide !== true;
       });
     }
-    const promises = this.doQueries(queries);
+    const promises = this.doQueries(queries, options);
     return Promise.all(promises).then((results: any) => {
       const parsedResults = new ServiceNowResultsParser(results);
+      if (parsedResults.resultFormat === 'time_series') {
+        return parsedResults.getResultsAsTimeSeries(new Date(results[0].options.range.to).getTime());
+      }
       return parsedResults.output;
     });
   }

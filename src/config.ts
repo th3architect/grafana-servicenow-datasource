@@ -1,5 +1,4 @@
 export const TEMPLATE_URL = {
-  CONFIG: 'config/config.html',
   QUERY_EDITOR: 'query_editor/query.editor.html',
   ANNOTATION: 'annotations/annotations.editor.html',
 };
