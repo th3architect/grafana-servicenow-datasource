@@ -6,7 +6,7 @@
   "annotations": true,
   "info": {
     "version": "0.0.1",
-    "updated": "2020-07-30",
+    "updated": "2020-08-11",
     "description": "Grafana Service Now Datasource",
     "author": {
       "name": "Sriramajeyam Sugumaran",
@@ -33,17 +33,5 @@
     "grafanaVersion": "5.2.x",
     "plugins": []
   },
-  "routes": [
-    {
-      "path": "servicenow",
-      "method": "*",
-      "url": "https://{{ .JsonData.instanceID }}.service-now.com",
-      "headers": [
-        {
-          "name": "Accept",
-          "content": "application/json"
-        }
-      ]
-    }
-  ]
+  "routes": []
 }
