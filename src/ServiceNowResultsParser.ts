@@ -1,5 +1,6 @@
-import { forEach } from 'lodash';
+import { forEach, toInteger } from 'lodash';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
+import { ServiceNowQuery } from './ServiceNowQuery';
 
 const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnnotationQuery): Annotation => {
   const annotation: Annotation = {
@@ -42,7 +43,7 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnno
 
 export class ServiceNowResultsParser {
   resultFormat = 'table';
-  query: ServiceNowAnnotationQuery = new ServiceNowAnnotationQuery();
+  query: ServiceNowAnnotationQuery | ServiceNowQuery | any;
   output: any = {
     columns: [],
     rows: [],
@@ -66,7 +67,11 @@ export class ServiceNowResultsParser {
                 type: 'number',
               });
             }
-            this.output.rows.push([item.groupby_fields[0].display_value || item.groupby_fields[0].value, item.stats.count]);
+            if (item && item.stats && item.stats.count) {
+              const displayValue = item.groupby_fields[0].display_value || item.groupby_fields[0].value;
+              const value = toInteger(item.stats.count);
+              this.output.rows.push([displayValue, value]);
+            }
           });
         } else {
           res.result.data.result.forEach((item: any, index: number) => {

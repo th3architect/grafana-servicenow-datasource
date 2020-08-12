@@ -1,14 +1,24 @@
 {
     "cSpell.words": [
         "Copened",
+        "DATEPART",
         "ENDSWITH",
         "ISEMPTY",
         "ISNOTEMPTY",
+        "LESSTHAN",
+        "MORETHAN",
         "NOTLIKE",
+        "NOTON",
         "NSAMEAS",
         "ORDERBYDESC",
+        "RELATIVEEE",
+        "RELATIVEGE",
+        "RELATIVEGT",
+        "RELATIVELE",
+        "RELATIVELT",
         "SAMEAS",
         "STARTSWITH",
+        "cmdb",
         "datapoints"
     ]
 }

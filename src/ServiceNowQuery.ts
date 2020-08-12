@@ -69,6 +69,7 @@ export class ServiceNowQuery {
     }
     const query = (this.query + '')
       .trim()
+      .replace(/\^OR\n/g, '^OR')
       .replace(/\^\n/g, '^')
       .replace(/\n/g, '^');
     const sysparmQueries = [query].filter(Boolean);
@@ -76,7 +77,7 @@ export class ServiceNowQuery {
       sysparmQueries.push((this.orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + this.orderBy.trim());
     }
     this.filters.forEach(filter => {
-      sysparmQueries.push(filter.toString());
+      sysparmQueries.push(`${filter.field}${filter.operator}${filter.value}`.trim());
     });
     if (sysparmQueries.length > 0) {
       URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join('^')));
