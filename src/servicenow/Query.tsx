@@ -10,11 +10,6 @@ const SUPPORTED_TYPES: SelectableValue[] = [
   { label: 'Stats', value: 'stats' },
 ];
 
-const RESULT_FORMATS: SelectableValue[] = [
-  { label: 'Table', value: 'table' },
-  { label: 'Time Series', value: 'time_series' },
-];
-
 const ORDER_DIRECTIONS: SelectableValue[] = [
   { label: 'Ascending', value: 'asc' },
   { label: 'Descending', value: 'desc' },
@@ -216,13 +211,6 @@ export class ServiceNowQueryLimitCtrl extends PureComponent<any, any> {
     servicenow.limit = limit;
     onChange({ ...query, servicenow });
   };
-  onResultFormatChange = (event: SelectableValue) => {
-    const resultFormat = event.value;
-    const { query, onChange } = this.props;
-    const servicenow: any = query.servicenow;
-    servicenow.resultFormat = resultFormat;
-    onChange({ ...query, servicenow });
-  };
   render() {
     const query = this.props.query;
     return (
@@ -240,18 +228,6 @@ export class ServiceNowQueryLimitCtrl extends PureComponent<any, any> {
               placeholder="Limit"
               title="Limit"
             ></input>
-            <label className="gf-form-label width-8" title="Format As">
-              Format As
-            </label>
-            <div className="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-              <Select
-                className="width-12"
-                value={RESULT_FORMATS.find((service: any) => service.value === query.servicenow.resultFormat)}
-                options={RESULT_FORMATS}
-                defaultValue={query.servicenow.resultFormat}
-                onChange={this.onResultFormatChange}
-              />
-            </div>
           </div>
         </div>
       </div>

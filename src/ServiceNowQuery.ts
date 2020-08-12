@@ -2,7 +2,6 @@ import { DataQuery, getBackendSrv } from './grafana';
 
 type SERVICE_NOW_QUERY_TABLE_NAME = `incident` | 'change_request';
 type SERVICE_NOW_QUERY_TYPE = `table` | 'stats';
-type SERVICE_NOW_QUERY_RESULT_FORMAT = `table` | 'time_series';
 type SERVICE_NOW_URL_PARAM = 'sysparm_display_value' | 'sysparm_limit' | 'sysparm_fields' | 'sysparm_query' | 'sysparm_count' | 'sysparm_group_by';
 type SERVICE_NOW_QUERY_ORDER_BY_DIRECTION = `asc` | `desc`;
 
@@ -35,7 +34,6 @@ export class ServiceNowQueryFilter {
 export class ServiceNowQuery {
   table: SERVICE_NOW_QUERY_TABLE_NAME = 'incident';
   type: SERVICE_NOW_QUERY_TYPE = 'table';
-  resultFormat: SERVICE_NOW_QUERY_RESULT_FORMAT = 'table';
   fields: string;
   query: string;
   filters: ServiceNowQueryFilter[];
@@ -46,7 +44,6 @@ export class ServiceNowQuery {
   constructor(options: any) {
     this.table = options.table || 'incident';
     this.type = options.type || 'table';
-    this.resultFormat = options.resultFormat || 'table';
     this.fields = options.fields || '';
     this.query = options.query || '';
     this.filters = options.filters || [];
@@ -104,7 +101,6 @@ export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQuery({
   groupBy: '',
   orderBy: 'opened_at',
   orderByDirection: 'desc',
-  resultFormat: 'table',
   limit: 10,
 });
 

@@ -42,7 +42,6 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnno
 };
 
 export class ServiceNowResultsParser {
-  resultFormat = 'table';
   query: ServiceNowAnnotationQuery | ServiceNowQuery | any;
   output: any = {
     columns: [],
@@ -55,7 +54,6 @@ export class ServiceNowResultsParser {
       .forEach((res: any) => {
         this.query = res.query;
         if (res && res.query && res.query.servicenow && res.query.servicenow.type === 'stats') {
-          this.resultFormat = res.query.servicenow.result_format;
           res.result.data.result.forEach((item: any, index: number) => {
             if (index === 0) {
               this.output.columns.push({
@@ -112,15 +110,5 @@ export class ServiceNowResultsParser {
       annotations.push(annotation);
     });
     return annotations;
-  }
-  getResultsAsTimeSeries(timestamp: number): any[] {
-    const out: any[] = [];
-    this.output.rows.forEach((row: any[]) => {
-      out.push({
-        target: row[0] || '-',
-        datapoints: [[row[1], timestamp]],
-      });
-    });
-    return out;
   }
 }

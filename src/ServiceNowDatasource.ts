@@ -51,9 +51,6 @@ export class ServiceNowDataSource {
     const promises = this.doQueries(queries, options);
     return Promise.all(promises).then((results: any) => {
       const parsedResults = new ServiceNowResultsParser(results);
-      if (parsedResults.resultFormat === 'time_series') {
-        return parsedResults.getResultsAsTimeSeries(new Date(results[0].options.range.to).getTime());
-      }
       return parsedResults.output;
     });
   }
