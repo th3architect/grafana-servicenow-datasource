@@ -1,6 +1,7 @@
 import React, { PureComponent, ChangeEvent } from 'react';
 import { Select, SelectableValue } from './../grafana';
 import { TABLE_NAMES } from './../config';
+export { ServiceNowQueryFiltersCtrl } from './ServiceNowQueryFiltersCtrl';
 
 const SUPPORTED_TABLES: SelectableValue[] = TABLE_NAMES as SelectableValue[];
 
@@ -113,8 +114,8 @@ export class ServiceNowQueryQueryCtrl extends PureComponent<any, any> {
       <div>
         <div className="gf-form-inline">
           <div className="gf-form">
-            <label className="gf-form-label width-8" title="Filter/Query">
-              Filter / Query
+            <label className="gf-form-label width-8" title="Query">
+              Query
             </label>
             <textarea value={query.servicenow.query || ''} onChange={this.onQueryChange} className="gf-form-input min-width-30 width-30" rows={3} />
           </div>

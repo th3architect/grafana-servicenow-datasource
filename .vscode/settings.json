@@ -1,7 +1,14 @@
 {
     "cSpell.words": [
         "Copened",
+        "ENDSWITH",
+        "ISEMPTY",
+        "ISNOTEMPTY",
+        "NOTLIKE",
+        "NSAMEAS",
         "ORDERBYDESC",
+        "SAMEAS",
+        "STARTSWITH",
         "datapoints"
     ]
 }

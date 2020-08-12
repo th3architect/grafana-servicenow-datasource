@@ -18,12 +18,27 @@ class ServiceNowQueryURLParam {
   }
 }
 
+export class ServiceNowQueryFilter {
+  field: string;
+  operator: string;
+  value: string;
+  constructor(field: string, operator: string, value: string) {
+    this.field = field;
+    this.operator = operator;
+    this.value = value;
+  }
+  toString() {
+    return `${this.field}${this.operator}${this.value}`.trim();
+  }
+}
+
 export class ServiceNowQuery {
   table: SERVICE_NOW_QUERY_TABLE_NAME = 'incident';
   type: SERVICE_NOW_QUERY_TYPE = 'table';
   resultFormat: SERVICE_NOW_QUERY_RESULT_FORMAT = 'table';
   fields: string;
   query: string;
+  filters: ServiceNowQueryFilter[];
   orderBy: string;
   orderByDirection: SERVICE_NOW_QUERY_ORDER_BY_DIRECTION = 'asc';
   groupBy: string;
@@ -34,6 +49,7 @@ export class ServiceNowQuery {
     this.resultFormat = options.resultFormat || 'table';
     this.fields = options.fields || '';
     this.query = options.query || '';
+    this.filters = options.filters || [];
     this.orderByDirection = options.orderByDirection || 'asc';
     this.orderBy = options.orderBy || '';
     this.groupBy = options.groupBy || '';
@@ -59,6 +75,9 @@ export class ServiceNowQuery {
     if (this.orderBy) {
       sysparmQueries.push((this.orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + this.orderBy.trim());
     }
+    this.filters.forEach(filter => {
+      sysparmQueries.push(filter.toString());
+    });
     if (sysparmQueries.length > 0) {
       URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join('^')));
     }
