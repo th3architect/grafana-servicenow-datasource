@@ -14,6 +14,11 @@ const RESULT_FORMATS: SelectableValue[] = [
   { label: 'Time Series', value: 'time_series' },
 ];
 
+const ORDER_DIRECTIONS: SelectableValue[] = [
+  { label: 'Ascending', value: 'asc' },
+  { label: 'Descending', value: 'desc' },
+];
+
 export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
   onTableChange = (table: SelectableValue) => {
     const { query, onChange } = this.props;
@@ -144,6 +149,57 @@ export class ServiceNowQueryGroupByCtrl extends PureComponent<any, any> {
               placeholder=""
               title="Group By"
             ></input>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
+  onOrderByChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const orderBy = event.target.value;
+    const { query, onChange } = this.props;
+    const servicenow: any = query.servicenow;
+    servicenow.orderBy = orderBy;
+    onChange({ ...query, servicenow });
+  };
+  onOrderDirectionChange = (event: SelectableValue) => {
+    const orderByDirection = event.value;
+    const { query, onChange } = this.props;
+    const servicenow: any = query.servicenow;
+    servicenow.orderByDirection = orderByDirection;
+    onChange({ ...query, servicenow });
+  };
+  render() {
+    const query = this.props.query;
+    return (
+      <div>
+        <div className="gf-form-inline">
+          <div className="gf-form">
+            <label className="gf-form-label width-8" title="Order By">
+              Order By
+            </label>
+            <input
+              className="gf-form-input width-10"
+              type="text"
+              onChange={this.onOrderByChange}
+              value={query.servicenow.orderBy}
+              placeholder=""
+              title="Order By"
+            ></input>
+            <label className="gf-form-label width-8" title="Order Direction">
+              Order Direction
+            </label>
+            <div className="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
+              <Select
+                className="width-12"
+                value={ORDER_DIRECTIONS.find((service: any) => service.value === query.servicenow.orderByDirection)}
+                options={ORDER_DIRECTIONS}
+                defaultValue={query.servicenow.orderByDirection}
+                onChange={this.onOrderDirectionChange}
+              />
+            </div>
           </div>
         </div>
       </div>

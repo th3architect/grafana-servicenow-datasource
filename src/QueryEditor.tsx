@@ -7,6 +7,7 @@ import {
   ServiceNowQueryFieldsCtrl,
   ServiceNowQueryQueryCtrl,
   ServiceNowQueryGroupByCtrl,
+  ServiceNowQueryOrderByCtrl,
   ServiceNowQueryLimitCtrl,
 } from './servicenow/Query';
 import { ServiceNowPluginQuery, DEFAULT_SERVICENOW_QUERY } from './ServiceNowQuery';
@@ -28,6 +29,7 @@ export class ServiceNowQueryEditor extends PureComponent<Props> {
         <ServiceNowQueryFieldsCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryQueryCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         {groupByCtrl}
+        <ServiceNowQueryOrderByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryLimitCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
       </div>
     );

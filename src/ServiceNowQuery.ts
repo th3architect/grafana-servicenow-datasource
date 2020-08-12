@@ -4,6 +4,7 @@ type SERVICE_NOW_QUERY_TABLE_NAME = `incident` | 'change_request';
 type SERVICE_NOW_QUERY_TYPE = `table` | 'stats';
 type SERVICE_NOW_QUERY_RESULT_FORMAT = `table` | 'time_series';
 type SERVICE_NOW_URL_PARAM = 'sysparm_display_value' | 'sysparm_limit' | 'sysparm_fields' | 'sysparm_query' | 'sysparm_count' | 'sysparm_group_by';
+type SERVICE_NOW_QUERY_ORDER_BY_DIRECTION = `asc` | `desc`;
 
 class ServiceNowQueryURLParam {
   key: SERVICE_NOW_URL_PARAM;
@@ -23,6 +24,8 @@ export class ServiceNowQuery {
   resultFormat: SERVICE_NOW_QUERY_RESULT_FORMAT = 'table';
   fields: string;
   query: string;
+  orderBy: string;
+  orderByDirection: SERVICE_NOW_QUERY_ORDER_BY_DIRECTION = 'asc';
   groupBy: string;
   limit: number;
   constructor(options: any) {
@@ -31,6 +34,8 @@ export class ServiceNowQuery {
     this.resultFormat = options.resultFormat || 'table';
     this.fields = options.fields || '';
     this.query = options.query || '';
+    this.orderByDirection = options.orderByDirection || 'asc';
+    this.orderBy = options.orderBy || '';
     this.groupBy = options.groupBy || '';
     this.limit = options.limit || 25;
   }
@@ -46,12 +51,15 @@ export class ServiceNowQuery {
         )
       );
     }
-    if (this.query) {
-      const query = this.query
-        .trim()
-        .replace(/\^\n/g, '^')
-        .replace(/\n/g, '^');
-      const sysparmQueries = [query].filter(Boolean);
+    const query = (this.query + '')
+      .trim()
+      .replace(/\^\n/g, '^')
+      .replace(/\n/g, '^');
+    const sysparmQueries = [query].filter(Boolean);
+    if (this.orderBy) {
+      sysparmQueries.push((this.orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + this.orderBy.trim());
+    }
+    if (sysparmQueries.length > 0) {
       URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join('^')));
     }
     if (this.type === 'stats') {
@@ -72,8 +80,10 @@ export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQuery({
   table: 'incident',
   type: 'table',
   fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority',
-  query: 'ORDERBYDESCopened_at',
+  query: '',
   groupBy: '',
+  orderBy: 'opened_at',
+  orderByDirection: 'desc',
   resultFormat: 'time_series',
   limit: 10,
 });
