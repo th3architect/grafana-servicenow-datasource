@@ -72,9 +72,12 @@ export class ServiceNowResultsParser {
             if (item && item.stats) {
               const value = toInteger(item.stats.count);
               let outArray: any[] = [];
-              item.groupby_fields.forEach((groupField: any) => {
-                outArray.push(groupField.display_value || groupField.value);
-              })
+              res.query.servicenow.groupBy.split(",").forEach((groupItem: string) => {
+                let field = item.groupby_fields.find((g: any) => g.field === groupItem);
+                if (field) {
+                  outArray.push(field.display_value || field.value || "-");
+                }
+              });
               outArray.push(value);
               this.output.rows.push(outArray);
             }
