@@ -1,5 +1,5 @@
-export class ServiceNowAnnotationQuery {
-  table = '';
+export class ServiceNowAnnotationQuery{
+  table = 'incident';
   fields = '';
   query = '';
   titleField = '';

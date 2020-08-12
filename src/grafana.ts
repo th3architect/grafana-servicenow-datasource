@@ -8,3 +8,4 @@ export {
   DataSourcePluginOptionsEditorProps,
   DataSourceJsonData,
 } from '@grafana/data';
+export { getBackendSrv } from '@grafana/runtime';

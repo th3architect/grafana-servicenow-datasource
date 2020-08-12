@@ -1,62 +1,30 @@
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
+import { ServiceNowQuery, ServiceNowPluginQuery, doServiceNowRequest } from './ServiceNowQuery';
 
-export class ServiceNowRequestOptions {
-  limit = 10;
-  fields = '';
-  query = '';
-  type = '';
-  groupBy = '';
-  resultFormat = '';
-  table = '';
-}
-
-/** @ngInject */
 export class ServiceNowDataSource {
   url = '';
-
-  constructor(private instanceSettings: any, private backendSrv: any) {
+  constructor(private instanceSettings: any) {
     this.url = this.instanceSettings.url + '';
   }
-  private doServiceNowRequest(options: ServiceNowRequestOptions, maxRetries = 1) {
-    const URL_PARAMS: any[] = [];
-    URL_PARAMS.push(`sysparm_limit=${options.limit || 10}`);
-    URL_PARAMS.push(`sysparm_display_value=all`);
-    if (options.fields && options.fields !== '*') {
-      URL_PARAMS.push(`sysparm_fields=${options.fields || 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'}`);
-    }
-    if (options.query) {
-      const query = options.query
-        .trim()
-        .replace(/\^\n/g, '^')
-        .replace(/\n/g, '^');
-      const sysparmQueries = [query].filter(Boolean);
-      URL_PARAMS.push(`sysparm_query=${sysparmQueries.join('^')}`);
-    }
-    if (options.type === 'stats') {
-      URL_PARAMS.push(`sysparm_count=true`);
-      if (options.groupBy) {
-        URL_PARAMS.push(`sysparm_group_by=${options.groupBy.trim()}`);
-      }
-    }
-    return this.backendSrv
-      .datasourceRequest({
-        method: 'GET',
-        url: this.url + `/api/now/${options.type || 'table'}/${options.table}?${URL_PARAMS.join('&')}`,
-      })
-      .catch((error: any) => {
-        console.log(error);
-        if (maxRetries > 0) {
-          return this.doServiceNowRequest(options, maxRetries - 1);
-        }
-        throw error;
-      });
-  }
-  private doQueries(queries: any[], options: any) {
-    return queries.map((query: any) => {
-      return this.doServiceNowRequest(query.servicenow)
+  private doQueries(queries: ServiceNowPluginQuery[], options: any) {
+    return queries.map((query: ServiceNowPluginQuery) => {
+      const serviceNowQuery = new ServiceNowQuery(query.servicenow);
+      return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
         .then((result: any) => {
           return { result, query, options };
+        })
+        .catch((error: any) => {
+          throw { error, query };
+        });
+    });
+  }
+  private doAnnotationQueries(queries: ServiceNowAnnotationQuery[]) {
+    return queries.map((query: ServiceNowAnnotationQuery) => {
+      const serviceNowQuery = new ServiceNowQuery(query);
+      return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
+        .then((result: any) => {
+          return { result, query, options: {} };
         })
         .catch((error: any) => {
           throw { error, query };
@@ -79,17 +47,6 @@ export class ServiceNowDataSource {
       return parsedResults.output;
     });
   }
-  private doAnnotationQueries(queries: any[]) {
-    return queries.map((query: ServiceNowRequestOptions) => {
-      return this.doServiceNowRequest(query)
-        .then((result: any) => {
-          return { result, query };
-        })
-        .catch((error: any) => {
-          throw { error, query };
-        });
-    });
-  }
   annotationsQuery(options: any): Promise<Annotation[]> {
     let queries: ServiceNowAnnotationQuery[] = [];
     if (options.targets) {
@@ -97,7 +54,7 @@ export class ServiceNowDataSource {
         return item.hide !== true;
       });
     } else if (options.annotation) {
-      queries.push({
+      const annotationQuery = {
         limit: options.annotation.limit || 30,
         startTimeField: options.annotation.startTimeField,
         endTimeField: options.annotation.endTimeField,
@@ -114,7 +71,8 @@ export class ServiceNowDataSource {
           .join(','),
         query: options.annotation.query || '',
         table: options.annotation.table,
-      });
+      };
+      queries.push(annotationQuery);
     }
     const promises = this.doAnnotationQueries(queries);
     return Promise.all(promises).then((results: any) => {

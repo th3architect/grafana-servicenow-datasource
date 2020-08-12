@@ -1,6 +1,6 @@
 import { defaults } from 'lodash';
 import React, { PureComponent } from 'react';
-import { QueryEditorProps, DataQuery } from './grafana';
+import { QueryEditorProps } from './grafana';
 import { Datasource } from './datasource';
 import {
   ServiceNowQueryTableAndTypeCtrl,
@@ -9,30 +9,7 @@ import {
   ServiceNowQueryGroupByCtrl,
   ServiceNowQueryLimitCtrl,
 } from './servicenow/Query';
-
-interface ServiceNowQueryStructure {
-  table: string;
-  type: string;
-  fields: string;
-  query: string;
-  group_by: string;
-  result_format: string;
-  limit: number;
-}
-
-export interface ServiceNowPluginQuery extends DataQuery {
-  servicenow?: ServiceNowQueryStructure;
-}
-
-const DEFAULT_SERVICENOW_QUERY: ServiceNowQueryStructure = {
-  table: 'incident',
-  type: 'table',
-  fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority',
-  query: 'ORDERBYDESCopened_at',
-  group_by: '',
-  result_format: 'time_series',
-  limit: 10,
-};
+import { ServiceNowPluginQuery, DEFAULT_SERVICENOW_QUERY } from './ServiceNowQuery';
 
 type Props = QueryEditorProps<Datasource, ServiceNowPluginQuery>;
 

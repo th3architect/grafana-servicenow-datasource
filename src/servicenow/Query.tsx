@@ -2,7 +2,7 @@ import React, { PureComponent, ChangeEvent } from 'react';
 import { Select, SelectableValue } from './../grafana';
 import { TABLE_NAMES } from './../config';
 
-const SUPPORTED_TABLES = TABLE_NAMES as SelectableValue[];
+const SUPPORTED_TABLES: SelectableValue[] = TABLE_NAMES as SelectableValue[];
 
 const SUPPORTED_TYPES: SelectableValue[] = [
   { label: 'Table', value: 'table' },
