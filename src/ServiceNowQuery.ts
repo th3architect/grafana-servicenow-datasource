@@ -77,7 +77,7 @@ export class ServiceNowQuery {
       sysparmQueries.push((this.orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + this.orderBy.trim());
     }
     this.filters.forEach(filter => {
-      sysparmQueries.push(`${filter.field}${filter.operator}${filter.value}`.trim());
+      sysparmQueries.push(encodeURIComponent(`${filter.field}${filter.operator}${filter.value}`.trim()));
     });
     if (sysparmQueries.length > 0) {
       URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join('^')));
@@ -104,7 +104,7 @@ export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQuery({
   groupBy: '',
   orderBy: 'opened_at',
   orderByDirection: 'desc',
-  resultFormat: 'time_series',
+  resultFormat: 'table',
   limit: 10,
 });
 
