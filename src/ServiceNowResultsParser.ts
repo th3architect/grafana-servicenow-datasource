@@ -56,19 +56,27 @@ export class ServiceNowResultsParser {
         if (res && res.query && res.query.servicenow && res.query.servicenow.type === 'stats') {
           res.result.data.result.forEach((item: any, index: number) => {
             if (index === 0) {
-              this.output.columns.push({
-                text: 'stat',
-                type: 'string',
-              });
-              this.output.columns.push({
-                text: 'value',
-                type: 'number',
-              });
+              if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
+                res.query.servicenow.groupBy.split(",").forEach((groupItem: string) => {
+                  this.output.columns.push({
+                    text: groupItem,
+                    type: 'string'
+                  })
+                })
+                this.output.columns.push({
+                  text: 'count',
+                  type: 'number',
+                });
+              }
             }
-            if (item && item.stats && item.stats.count) {
-              const displayValue = item.groupby_fields[0].display_value || item.groupby_fields[0].value;
+            if (item && item.stats) {
               const value = toInteger(item.stats.count);
-              this.output.rows.push([displayValue, value]);
+              let outArray: any[] = [];
+              item.groupby_fields.forEach((groupField: any) => {
+                outArray.push(groupField.display_value || groupField.value);
+              })
+              outArray.push(value);
+              this.output.rows.push(outArray);
             }
           });
         } else {
