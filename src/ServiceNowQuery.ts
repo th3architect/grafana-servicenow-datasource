@@ -4,6 +4,7 @@ type SERVICE_NOW_QUERY_TABLE_NAME = `incident` | 'change_request';
 type SERVICE_NOW_QUERY_TYPE = `table` | 'stats';
 type SERVICE_NOW_URL_PARAM = 'sysparm_display_value' | 'sysparm_limit' | 'sysparm_fields' | 'sysparm_query' | 'sysparm_count' | 'sysparm_group_by';
 type SERVICE_NOW_QUERY_ORDER_BY_DIRECTION = `asc` | `desc`;
+export type SERVICE_NOW_QUERY_FILTER_CONDITION = `^` | `^OR`;
 
 class ServiceNowQueryURLParam {
   key: SERVICE_NOW_URL_PARAM;
@@ -18,10 +19,12 @@ class ServiceNowQueryURLParam {
 }
 
 export class ServiceNowQueryFilter {
+  condition: SERVICE_NOW_QUERY_FILTER_CONDITION;
   field: string;
   operator: string;
   value: string;
-  constructor(field: string, operator: string, value: string) {
+  constructor(field: string, operator: string, value: string, condition: SERVICE_NOW_QUERY_FILTER_CONDITION = '^') {
+    this.condition = condition;
     this.field = field;
     this.operator = operator;
     this.value = value;
@@ -70,14 +73,15 @@ export class ServiceNowQuery {
       .replace(/\^\n/g, '^')
       .replace(/\n/g, '^');
     const sysparmQueries = [query].filter(Boolean);
-    if (this.orderBy) {
-      sysparmQueries.push((this.orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + this.orderBy.trim());
-    }
-    this.filters.forEach(filter => {
-      sysparmQueries.push(encodeURIComponent(`${filter.field}${filter.operator}${filter.value}`.trim()));
+    this.filters.forEach((filter, index) => {
+      let prefix: string = (sysparmQueries.length === 0 && index === 0) ? '' : (filter.condition || '^');
+      sysparmQueries.push(encodeURIComponent(`${prefix}${filter.field}${filter.operator}${filter.value}`.trim()));
     });
+    if (this.orderBy) {
+      sysparmQueries.push((this.orderByDirection === 'asc' ? '^ORDERBY' : '^ORDERBYDESC') + this.orderBy.trim());
+    }
     if (sysparmQueries.length > 0) {
-      URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join('^')));
+      URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join("")));
     }
     if (this.type === 'stats') {
       URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_count`, 'true'));

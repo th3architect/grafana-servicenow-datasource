@@ -1,5 +1,5 @@
 import React, { PureComponent, ChangeEvent } from 'react';
-import { ServiceNowQueryFilter, ServiceNowQuery } from './../ServiceNowQuery';
+import { ServiceNowQueryFilter, ServiceNowQuery, SERVICE_NOW_QUERY_FILTER_CONDITION } from './../ServiceNowQuery';
 import { Select, SelectableValue } from './../grafana';
 
 const FilterFields: SelectableValue[] = [
@@ -56,10 +56,10 @@ const FilterOperators: SelectableValue[] = [
   { value: 'LT_OR_EQUALS_FIELD', label: 'Less than or is field' },
 ];
 export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
-  onFilterAdd = () => {
+  onFilterAdd = (condition: SERVICE_NOW_QUERY_FILTER_CONDITION = '^') => {
     const { query, onChange } = this.props;
     const servicenow: ServiceNowQuery = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG');
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', condition);
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters.push(newFilter);
     onChange({ ...query, servicenow });
@@ -67,16 +67,25 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
   onFilterRemove = (index: number) => {
     const { query, onChange } = this.props;
     const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG');
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters.splice(index, 1);
+    onChange({ ...query, servicenow });
+  };
+  onFilterConditionChange = (event: SelectableValue, index: number) => {
+    const condition = event.value;
+    const { query, onChange } = this.props;
+    const servicenow: any = query.servicenow;
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', condition);
+    servicenow.filters = servicenow.filters || [newFilter];
+    servicenow.filters[index].condition = condition;
     onChange({ ...query, servicenow });
   };
   onFilterKeyChange = (event: SelectableValue, index: number) => {
     const filterType = event.value;
     const { query, onChange } = this.props;
     const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG');
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters[index].field = filterType;
     onChange({ ...query, servicenow });
@@ -85,7 +94,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
     const operator = event.value;
     const { query, onChange } = this.props;
     const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG');
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters[index].operator = operator;
     onChange({ ...query, servicenow });
@@ -94,7 +103,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
     const value = event.target.value;
     const { query, onChange } = this.props;
     const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG');
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters[index].value = value;
     onChange({ ...query, servicenow });
@@ -114,7 +123,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
             </div>
             <div className="gf-form">
               <div className="gf-form gf-form--grow">
-                <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={this.onFilterAdd}>
+                <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterAdd('^')}>
                   Add Filter
                 </span>
               </div>
@@ -161,9 +170,11 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
             <span>
               <div className="gf-form">
                 <div className="gf-form gf-form--grow">
-                  <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={this.onFilterAdd}>
-                    +
-                  </span>
+                  {index !== 0 ? null : (
+                    <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterAdd('^')}>
+                      +
+                    </span>
+                  )}
                   <span className="btn btn-danger btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterRemove(index)}>
                     x
                   </span>
