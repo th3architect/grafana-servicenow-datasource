@@ -4,12 +4,22 @@ import { ServiceNowQuery, ServiceNowPluginQuery, doServiceNowRequest } from './S
 
 export class ServiceNowDataSource {
   url = '';
-  constructor(private instanceSettings: any) {
+  constructor(private instanceSettings: any, private templateSrv: any) {
     this.url = this.instanceSettings.url + '';
   }
   private doQueries(queries: ServiceNowPluginQuery[], options: any) {
     return queries.map((query: ServiceNowPluginQuery) => {
-      const serviceNowQuery = new ServiceNowQuery(query.servicenow);
+      const servicenowQueryItem = query.servicenow;
+      if (servicenowQueryItem && servicenowQueryItem.query) {
+        servicenowQueryItem.query = this.templateSrv.replace(servicenowQueryItem.query, {}, 'glob');
+      }
+      if (servicenowQueryItem && servicenowQueryItem.filters) {
+        servicenowQueryItem.filters = servicenowQueryItem.filters.map(filter => {
+          filter.value = this.templateSrv.replace(filter.value, {}, 'glob');
+          return filter;
+        });
+      }
+      const serviceNowQuery = new ServiceNowQuery(servicenowQueryItem);
       return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
         .then((result: any) => {
           return { result, query, options };
@@ -32,9 +42,9 @@ export class ServiceNowDataSource {
     });
   }
   query(options: any): Promise<any> {
-    let queries: any[] = [];
+    let queries: ServiceNowPluginQuery[] = [];
     if (options.targets) {
-      queries = options.targets.filter((item: any) => {
+      queries = options.targets.filter((item: ServiceNowPluginQuery) => {
         return item.hide !== true;
       });
     }
