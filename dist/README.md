@@ -1,6 +1,4 @@
-<div style="text-align:center;">
-    <h1>grafana-servicenow-datasource<h1>
-</div>
+# grafana-servicenow-datasource
 
 Service Now data source for Grafana.
 
