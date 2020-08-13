@@ -57,12 +57,12 @@ export class ServiceNowResultsParser {
           res.result.data.result.forEach((item: any, index: number) => {
             if (index === 0) {
               if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
-                res.query.servicenow.groupBy.split(",").forEach((groupItem: string) => {
+                res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
                   this.output.columns.push({
                     text: groupItem,
-                    type: 'string'
-                  })
-                })
+                    type: 'string',
+                  });
+                });
                 this.output.columns.push({
                   text: 'count',
                   type: 'number',
@@ -71,11 +71,11 @@ export class ServiceNowResultsParser {
             }
             if (item && item.stats) {
               const value = toInteger(item.stats.count);
-              let outArray: any[] = [];
-              res.query.servicenow.groupBy.split(",").forEach((groupItem: string) => {
-                let field = item.groupby_fields.find((g: any) => g.field === groupItem);
+              const outArray: any[] = [];
+              res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+                const field = item.groupby_fields.find((g: any) => g.field === groupItem);
                 if (field) {
-                  outArray.push(field.display_value || field.value || "-");
+                  outArray.push(field.display_value || field.value || '-');
                 }
               });
               outArray.push(value);

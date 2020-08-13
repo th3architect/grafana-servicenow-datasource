@@ -23,7 +23,7 @@ export class ServiceNowQueryEditor extends PureComponent<Props> {
       servicenow: defaults(this.props.query.servicenow, DEFAULT_SERVICENOW_QUERY),
     });
     if (query && query.servicenow && query.servicenow.type === 'table') {
-      fieldsCtrl = <ServiceNowQueryFieldsCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
+      fieldsCtrl = <ServiceNowQueryFieldsCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />;
     }
     if (query && query.servicenow && query.servicenow.type === 'stats') {
       groupByCtrl = <ServiceNowQueryGroupByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />;

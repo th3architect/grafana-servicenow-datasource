@@ -74,14 +74,14 @@ export class ServiceNowQuery {
       .replace(/\n/g, '^');
     const sysparmQueries = [query].filter(Boolean);
     this.filters.forEach((filter, index) => {
-      let prefix: string = (sysparmQueries.length === 0 && index === 0) ? '' : (filter.condition || '^');
+      const prefix: string = sysparmQueries.length === 0 && index === 0 ? '' : filter.condition || '^';
       sysparmQueries.push(encodeURIComponent(`${prefix}${filter.field}${filter.operator}${filter.value}`.trim()));
     });
     if (this.orderBy) {
       sysparmQueries.push((this.orderByDirection === 'asc' ? '^ORDERBY' : '^ORDERBYDESC') + this.orderBy.trim());
     }
     if (sysparmQueries.length > 0) {
-      URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join("")));
+      URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_query`, sysparmQueries.join('')));
     }
     if (this.type === 'stats') {
       URL_PARAMS.push(new ServiceNowQueryURLParam(`sysparm_count`, 'true'));
