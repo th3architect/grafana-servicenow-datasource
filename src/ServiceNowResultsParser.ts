@@ -54,34 +54,42 @@ export class ServiceNowResultsParser {
       .forEach((res: any) => {
         this.query = res.query;
         if (res && res.query && res.query.servicenow && res.query.servicenow.type === 'stats') {
-          res.result.data.result.forEach((item: any, index: number) => {
-            if (index === 0) {
-              if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
-                res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
-                  this.output.columns.push({
-                    text: groupItem,
-                    type: 'string',
+          if (res.result.data.result.stats) {
+            this.output.columns.push({
+              text: 'count',
+              type: 'number',
+            });
+            this.output.rows.push([toInteger(res.result.data.result.stats.count)]);
+          } else {
+            res.result.data.result.forEach((item: any, index: number) => {
+              if (index === 0) {
+                if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
+                  res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+                    this.output.columns.push({
+                      text: groupItem,
+                      type: 'string',
+                    });
                   });
-                });
-                this.output.columns.push({
-                  text: 'count',
-                  type: 'number',
-                });
-              }
-            }
-            if (item && item.stats) {
-              const value = toInteger(item.stats.count);
-              const outArray: any[] = [];
-              res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
-                const field = item.groupby_fields.find((g: any) => g.field === groupItem);
-                if (field) {
-                  outArray.push(field.display_value || field.value || '-');
+                  this.output.columns.push({
+                    text: 'count',
+                    type: 'number',
+                  });
                 }
-              });
-              outArray.push(value);
-              this.output.rows.push(outArray);
-            }
-          });
+              }
+              if (item && item.stats) {
+                const value = toInteger(item.stats.count);
+                const outArray: any[] = [];
+                res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+                  const field = item.groupby_fields.find((g: any) => g.field === groupItem);
+                  if (field) {
+                    outArray.push(field.display_value || field.value || '-');
+                  }
+                });
+                outArray.push(value);
+                this.output.rows.push(outArray);
+              }
+            });
+          }
         } else {
           res.result.data.result.forEach((item: any, index: number) => {
             if (index === 0) {
