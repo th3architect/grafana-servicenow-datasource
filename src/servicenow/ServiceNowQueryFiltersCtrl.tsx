@@ -6,7 +6,7 @@ const FilterFields: SelectableValue[] = [
   { value: 'number', label: 'Number', tables: ['incident', 'change_request'] },
   { value: 'short_description', label: 'Short Description', tables: ['incident', 'change_request'] },
   { value: 'incident_state', label: 'Incident State', tables: ['incident'] },
-  { value: 'state', label: 'State', tables: ['incident'] },
+  { value: 'state', label: 'State', tables: ['incident','change_request'] },
   { value: 'assigned_to', label: 'Assigned To', tables: ['incident'] },
   { value: 'assignment_group.name', label: 'Assignment Group', tables: ['incident', 'change_request'] },
   { value: 'assignment_group', label: 'Assignment Group ID', tables: ['incident', 'change_request'] },
