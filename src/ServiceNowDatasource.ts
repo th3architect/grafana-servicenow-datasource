@@ -2,6 +2,15 @@ import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
 import { ServiceNowQuery, ServiceNowPluginQuery, doServiceNowRequest } from './ServiceNowQuery';
 
+const replaceWithGrafanaTimeRange = (field: string, from: any, to: any): string => {
+  const fromDateString = `javascript:gs.dateGenerate('${from.format('YYYY-MM-DD')}','${from.format('HH:mm:ss')}')`;
+  const toDateString = `javascript:gs.dateGenerate('${to.format('YYYY-MM-DD')}','${to.format('HH:mm:ss')}')`;
+  field = field.replace('$__timeFrom()', fromDateString);
+  field = field.replace('$__timeTo()', toDateString);
+  field = field.replace('$__timeFilter()', `${fromDateString}@${toDateString}`);
+  return field;
+};
+
 export class ServiceNowDataSource {
   url = '';
   constructor(private instanceSettings: any, private templateSrv: any) {
@@ -11,10 +20,12 @@ export class ServiceNowDataSource {
     return queries.map((query: ServiceNowPluginQuery) => {
       const servicenowQueryItem = query.servicenow;
       if (servicenowQueryItem && servicenowQueryItem.query) {
+        servicenowQueryItem.query = replaceWithGrafanaTimeRange(servicenowQueryItem.query, options.range.from, options.range.to);
         servicenowQueryItem.query = this.templateSrv.replace(servicenowQueryItem.query, {}, 'glob');
       }
       if (servicenowQueryItem && servicenowQueryItem.filters) {
         servicenowQueryItem.filters = servicenowQueryItem.filters.map(filter => {
+          filter.value = replaceWithGrafanaTimeRange(filter.value, options.range.from, options.range.to);
           filter.value = this.templateSrv.replace(filter.value, {}, 'glob');
           return filter;
         });
@@ -29,8 +40,9 @@ export class ServiceNowDataSource {
         });
     });
   }
-  private doAnnotationQueries(queries: ServiceNowAnnotationQuery[]) {
+  private doAnnotationQueries(queries: ServiceNowAnnotationQuery[], options: any) {
     return queries.map((query: ServiceNowAnnotationQuery) => {
+      query.query = replaceWithGrafanaTimeRange(query.query, options.range.from, options.range.to);
       const serviceNowQuery = new ServiceNowQuery(query);
       return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
         .then((result: any) => {
@@ -81,7 +93,7 @@ export class ServiceNowDataSource {
       };
       queries.push(annotationQuery);
     }
-    const promises = this.doAnnotationQueries(queries);
+    const promises = this.doAnnotationQueries(queries, options);
     return Promise.all(promises).then((results: any) => {
       const parsedResults = new ServiceNowResultsParser(results);
       return parsedResults.getResultsAsAnnotations();
