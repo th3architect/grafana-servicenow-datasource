@@ -143,7 +143,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
               <div className="gf-form gf-form--grow">
                 <Select
                   className="width-12"
-                  value={FilterFields.find((field: any) => field.value === filter.field)}
+                  value={FilterFields.find((field: any) => field.value === filter.field) || { value: filter.field, label: filter.field }}
                   options={FilterFields.filter((field: any) => field.tables.indexOf(query.servicenow.table) > -1)}
                   defaultValue={filter.field}
                   onChange={e => this.onFilterKeyChange(e, index)}
@@ -151,7 +151,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                 />
                 <Select
                   className="width-12"
-                  value={FilterOperators.find((gran: any) => gran.value === filter.operator)}
+                  value={FilterOperators.find((gran: any) => gran.value === filter.operator) || { value: filter.operator, label: filter.operator }}
                   options={FilterOperators}
                   defaultValue={filter.operator}
                   onChange={e => this.onFilterOperatorChange(e, index)}
