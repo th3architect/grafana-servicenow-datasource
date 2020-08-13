@@ -170,11 +170,11 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
             <span>
               <div className="gf-form">
                 <div className="gf-form gf-form--grow">
-                  {index !== 0 ? null : (
+                  {index === (query.servicenow.filters.length - 1) ? (
                     <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterAdd('^')}>
                       +
                     </span>
-                  )}
+                  ) : null}
                   <span className="btn btn-danger btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterRemove(index)}>
                     x
                   </span>

@@ -35,27 +35,23 @@ export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
         <div className="gf-form-inline">
           <div className="gf-form">
             <label className="gf-form-label query-keyword width-8">Table</label>
-            <div className="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-              <Select
-                className="width-12"
-                value={SUPPORTED_TABLES.find((service: any) => service.value === query.servicenow.table)}
-                options={SUPPORTED_TABLES}
-                defaultValue={query.servicenow.table}
-                onChange={this.onTableChange}
-              />
-            </div>
+            <Select
+              className="width-12"
+              value={SUPPORTED_TABLES.find((service: any) => service.value === query.servicenow.table)}
+              options={SUPPORTED_TABLES}
+              defaultValue={query.servicenow.table}
+              onChange={this.onTableChange}
+            />
           </div>
           <div className="gf-form">
             <label className="gf-form-label query-keyword width-6">Type</label>
-            <div className="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-              <Select
-                className="width-12"
-                value={SUPPORTED_TYPES.find((service: any) => service.value === query.servicenow.type)}
-                options={SUPPORTED_TYPES}
-                defaultValue={query.servicenow.type}
-                onChange={this.onTypeChange}
-              />
-            </div>
+            <Select
+              className="width-12"
+              value={SUPPORTED_TYPES.find((service: any) => service.value === query.servicenow.type)}
+              options={SUPPORTED_TYPES}
+              defaultValue={query.servicenow.type}
+              onChange={this.onTypeChange}
+            />
           </div>
         </div>
       </div>
@@ -187,15 +183,13 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
             <label className="gf-form-label width-8" title="Order Direction">
               Order Direction
             </label>
-            <div className="gf-form-select-wrapper gf-form-select-wrapper--caret-indent">
-              <Select
-                className="width-12"
-                value={ORDER_DIRECTIONS.find((service: any) => service.value === query.servicenow.orderByDirection)}
-                options={ORDER_DIRECTIONS}
-                defaultValue={query.servicenow.orderByDirection}
-                onChange={this.onOrderDirectionChange}
-              />
-            </div>
+            <Select
+              className="width-12"
+              value={ORDER_DIRECTIONS.find((service: any) => service.value === query.servicenow.orderByDirection)}
+              options={ORDER_DIRECTIONS}
+              defaultValue={query.servicenow.orderByDirection}
+              onChange={this.onOrderDirectionChange}
+            />
           </div>
         </div>
       </div>
