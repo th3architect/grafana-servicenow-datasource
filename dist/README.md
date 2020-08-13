@@ -1,6 +1,10 @@
-# grafana-servicenow-datasource
+<div style="text-align:center;">
+    <h1>grafana-servicenow-datasource<h1>
+</div>
 
-Work in progress.
+Service Now data source for Grafana.
+
+![image](https://user-images.githubusercontent.com/153843/90186224-c0177700-ddaf-11ea-9f47-425d17aa0eaf.png)
 
 **Note:** This is not official plugin from Grafana / Service Now. Use [official plugin from Grafana](https://grafana.com/grafana/plugins/grafana-servicenow-datasource) for additional capabilities like alerting, official support. 
 
