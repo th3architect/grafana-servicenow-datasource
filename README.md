@@ -4,6 +4,8 @@ Service Now data source for Grafana.
 
 ![image](https://user-images.githubusercontent.com/153843/90186224-c0177700-ddaf-11ea-9f47-425d17aa0eaf.png)
 
+For more screenshots, follow [this github issue](https://github.com/yesoreyeram/grafana-servicenow-datasource/issues/1).
+
 **Note:** This is not official plugin from Grafana / Service Now. Use [official plugin from Grafana](https://grafana.com/grafana/plugins/grafana-servicenow-datasource) for additional capabilities like alerting, official support. 
 
 ## Time fields in query & filters
