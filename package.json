@@ -1,6 +1,6 @@
 {
   "name": "grafana-servicenow-datasource",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Grafana Service-Now Datasource",
   "main": "dist/module.js",
   "scripts": {

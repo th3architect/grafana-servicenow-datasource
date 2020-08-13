@@ -22,6 +22,12 @@
       "servicenow",
       "service-now"
     ],
+    "screenshots": [
+      {
+        "name": "Service Now Dashboard",
+        "path": "https://user-images.githubusercontent.com/153843/90186224-c0177700-ddaf-11ea-9f47-425d17aa0eaf.png"
+      }
+    ],
     "links": [
       {
         "name": "Github",
@@ -30,6 +36,7 @@
     ]
   },
   "dependencies": {
+    "grafanaDependency": ">=7.0.0",
     "grafanaVersion": "5.2.x",
     "plugins": []
   },
