@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.19.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@grafana/ui > lodash':
+        patched: '2020-08-14T12:56:03.427Z'
+    - '@grafana/runtime > @grafana/ui > lodash':
+        patched: '2020-08-14T12:56:03.427Z'
