@@ -1,4 +1,4 @@
-export { Select } from '@grafana/ui';
+export { Select, Modal } from '@grafana/ui';
 export {
   DataSourcePlugin,
   DataSourceApi,
