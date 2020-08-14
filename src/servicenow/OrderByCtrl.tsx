@@ -8,6 +8,10 @@ const ORDER_DIRECTIONS: SelectableValue[] = [
   { label: 'Descending', value: 'desc' },
 ];
 
+const LIMITS: SelectableValue[] = [10, 25, 50, 100, 250, 500, 1000].map(i => {
+  return { label: i.toString(), value: i.toString() } as SelectableValue;
+});
+
 export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
   render() {
     const query = this.props.query;
@@ -35,11 +39,27 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
               Order Direction
             </label>
             <Select
-              className="width-10"
+              className="width-8"
               value={ORDER_DIRECTIONS.find((service: any) => service.value === query.servicenow.orderByDirection)}
               options={ORDER_DIRECTIONS}
               defaultValue={query.servicenow.orderByDirection}
               onChange={e => onSelectChange(e, 'orderByDirection', this.props)}
+            />
+            <label className="gf-form-label width-3" title="Limit">
+              Limit
+            </label>
+            <Select
+              className="width-5"
+              value={
+                LIMITS.find((service: any) => service.value === query.servicenow.limit) || {
+                  value: query.servicenow.limit,
+                  label: query.servicenow.limit,
+                }
+              }
+              options={LIMITS}
+              defaultValue={query.servicenow.limit}
+              onChange={e => onSelectChange(e, 'limit', this.props)}
+              allowCustomValue
             />
           </div>
         </div>

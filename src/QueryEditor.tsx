@@ -9,7 +9,6 @@ import { ServiceNowQueryQueryCtrl } from './servicenow/QueryCtrl';
 import { ServiceNowQueryGroupByCtrl } from './servicenow/GroupByCtrl';
 import { ServiceNowQueryOrderByCtrl } from './servicenow/OrderByCtrl';
 import { ServiceNowQueryFiltersCtrl } from './servicenow/FiltersCtrl';
-import { ServiceNowQueryLimitCtrl } from './servicenow/LimitCtrl';
 
 type Props = QueryEditorProps<Datasource, ServiceNowPluginQuery>;
 
@@ -36,7 +35,6 @@ export class ServiceNowQueryEditor extends PureComponent<Props> {
         <ServiceNowQueryQueryCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryFiltersCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryOrderByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
-        <ServiceNowQueryLimitCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
       </div>
     );
   }
