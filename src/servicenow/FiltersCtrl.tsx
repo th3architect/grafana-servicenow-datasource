@@ -1,6 +1,7 @@
-import React, { PureComponent, ChangeEvent } from 'react';
+import React, { PureComponent } from 'react';
 import { ServiceNowQueryFilter, ServiceNowQuery, SERVICE_NOW_QUERY_FILTER_CONDITION } from './../ServiceNowQuery';
 import { Select, SelectableValue } from './../grafana';
+import { onSelectChange, onInputTextChange } from './../utils';
 
 const FilterFields: SelectableValue[] = [
   { value: 'number', label: 'Number', tables: ['incident', 'change_request'] },
@@ -72,42 +73,6 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
     servicenow.filters.splice(index, 1);
     onChange({ ...query, servicenow });
   };
-  onFilterConditionChange = (event: SelectableValue, index: number) => {
-    const condition = event.value;
-    const { query, onChange } = this.props;
-    const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', condition);
-    servicenow.filters = servicenow.filters || [newFilter];
-    servicenow.filters[index].condition = condition;
-    onChange({ ...query, servicenow });
-  };
-  onFilterKeyChange = (event: SelectableValue, index: number) => {
-    const filterType = event.value;
-    const { query, onChange } = this.props;
-    const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
-    servicenow.filters = servicenow.filters || [newFilter];
-    servicenow.filters[index].field = filterType;
-    onChange({ ...query, servicenow });
-  };
-  onFilterOperatorChange = (event: SelectableValue, index: number) => {
-    const operator = event.value;
-    const { query, onChange } = this.props;
-    const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
-    servicenow.filters = servicenow.filters || [newFilter];
-    servicenow.filters[index].operator = operator;
-    onChange({ ...query, servicenow });
-  };
-  onFilterValueChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
-    const value = event.target.value;
-    const { query, onChange } = this.props;
-    const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
-    servicenow.filters = servicenow.filters || [newFilter];
-    servicenow.filters[index].value = value;
-    onChange({ ...query, servicenow });
-  };
   render() {
     const { query } = this.props;
     return (
@@ -146,7 +111,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                   value={FilterFields.find((field: any) => field.value === filter.field) || { value: filter.field, label: filter.field }}
                   options={FilterFields.filter((field: any) => field.tables.indexOf(query.servicenow.table) > -1)}
                   defaultValue={filter.field}
-                  onChange={e => this.onFilterKeyChange(e, index)}
+                  onChange={e => onSelectChange(e, `filters[${index}].field`, this.props)}
                   allowCustomValue
                 />
                 <Select
@@ -154,7 +119,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                   value={FilterOperators.find((gran: any) => gran.value === filter.operator) || { value: filter.operator, label: filter.operator }}
                   options={FilterOperators}
                   defaultValue={filter.operator}
-                  onChange={e => this.onFilterOperatorChange(e, index)}
+                  onChange={e => onSelectChange(e, `filters[${index}].operator`, this.props)}
                   allowCustomValue
                 />
                 <input
@@ -163,7 +128,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                   title="Value"
                   placeholder="Value"
                   value={filter.value}
-                  onChange={e => this.onFilterValueChange(e, index)}
+                  onChange={e => onInputTextChange(e, `filters[${index}].value`, index)}
                 ></input>
               </div>
             </div>

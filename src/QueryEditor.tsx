@@ -2,16 +2,14 @@ import { defaults } from 'lodash';
 import React, { PureComponent } from 'react';
 import { QueryEditorProps } from './grafana';
 import { Datasource } from './datasource';
-import {
-  ServiceNowQueryTableAndTypeCtrl,
-  ServiceNowQueryFieldsCtrl,
-  ServiceNowQueryQueryCtrl,
-  ServiceNowQueryFiltersCtrl,
-  ServiceNowQueryGroupByCtrl,
-  ServiceNowQueryOrderByCtrl,
-  ServiceNowQueryLimitCtrl,
-} from './servicenow/Query';
 import { ServiceNowPluginQuery, DEFAULT_SERVICENOW_QUERY } from './ServiceNowQuery';
+import { ServiceNowQueryTableAndTypeCtrl } from './servicenow/TableAndTypeCtrl';
+import { ServiceNowQueryFieldsCtrl } from './servicenow/FieldsCtrl';
+import { ServiceNowQueryQueryCtrl } from './servicenow/QueryCtrl';
+import { ServiceNowQueryGroupByCtrl } from './servicenow/GroupByCtrl';
+import { ServiceNowQueryOrderByCtrl } from './servicenow/OrderByCtrl';
+import { ServiceNowQueryFiltersCtrl } from './servicenow/FiltersCtrl';
+import { ServiceNowQueryLimitCtrl } from './servicenow/LimitCtrl';
 
 type Props = QueryEditorProps<Datasource, ServiceNowPluginQuery>;
 
