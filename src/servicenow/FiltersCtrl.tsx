@@ -110,7 +110,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                   title="Value"
                   placeholder="Value"
                   value={filter.value}
-                  onChange={e => onInputTextChange(e, `filters[${index}].value`, index)}
+                  onChange={e => onInputTextChange(e, `filters[${index}].value`, this.props)}
                 ></input>
               </div>
             </div>
