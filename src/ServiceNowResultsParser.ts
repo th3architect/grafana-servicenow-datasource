@@ -1,4 +1,4 @@
-import { forEach, toInteger } from 'lodash';
+import { forEach, toInteger, uniq } from 'lodash';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
 import { ServiceNowQuery } from './ServiceNowQuery';
 
@@ -102,30 +102,34 @@ export class ServiceNowResultsParser {
     });
   }
   private parseResultsAsTable(res: any) {
+    this.output.columns = [];
+    let fields = '';
+    fields = res && res.query && res.query.servicenow && res.query.servicenow.fields ? res.query.servicenow.fields : fields;
+    fields = res && res.query && res.query && res.query.fields ? res.query.fields : fields;
+    const cols: string[] = uniq(
+      fields
+        .split(',')
+        .map((item: string) => item.trim())
+        .filter(Boolean)
+    );
     res.result.data.result.forEach((item: any, index: number) => {
       if (index === 0) {
-        forEach(item, (value, key) => {
-          if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
-            this.output.columns.push({
-              text: key,
-              type: 'string',
-            });
-          } else {
-            this.output.columns.push({
-              text: key,
-              type: typeof value === 'object' ? 'string' : typeof value,
-            });
-          }
+        forEach(cols, col => {
+          this.output.columns.push({
+            text: col,
+            type: 'string',
+          });
         });
       }
       const row: any = [];
-      forEach(item, value => {
-        if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
-          row.push(value.display_value || value.value);
-        } else if (typeof value === 'object') {
-          row.push(JSON.stringify(value));
+      this.output.columns.forEach((col: any) => {
+        const matchingItem = item[col.text];
+        if (typeof matchingItem === 'object' && matchingItem && (matchingItem.display_value || matchingItem.value === '')) {
+          row.push(matchingItem.display_value || matchingItem.value);
+        } else if (typeof matchingItem === 'object') {
+          row.push(JSON.stringify(matchingItem));
         } else {
-          row.push(value);
+          row.push(matchingItem);
         }
       });
       this.output.rows.push(row);
