@@ -8,3 +8,5 @@ patch:
         patched: '2020-08-14T12:56:03.427Z'
     - '@grafana/runtime > @grafana/ui > lodash':
         patched: '2020-08-14T12:56:03.427Z'
+    - '@grafana/runtime > @grafana/ui > @grafana/data > lodash':
+        patched: '2020-08-14T13:14:44.177Z'
