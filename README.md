@@ -10,7 +10,7 @@ Service Now data source for Grafana.
 
 For more screenshots, follow [this github issue](https://github.com/yesoreyeram/grafana-servicenow-datasource/issues/1).
 
-**Note:** This is not official plugin from Grafana / Service Now. Use [official plugin from Grafana](https://grafana.com/grafana/plugins/grafana-servicenow-datasource) for additional capabilities like alerting, official support. 
+**Warning:** This is not official plugin from Grafana / Service Now. Use [official plugin from Grafana](https://grafana.com/grafana/plugins/grafana-servicenow-datasource) for additional capabilities like alerting, official support. This is a community contributed plugin and it may have only limited features comparing to official plugin.
 
 ## Time fields in query & filters
 
@@ -24,6 +24,72 @@ If you want to use grafana time picker's time field in your query/filter values,
 
 In query field this can be used like `start_date>$__timeFrom()^start_date<$__timeTo()`. Above example returns data where start_date is within grafana time range. Also `start_dateBETWEEN$__timeFilter()` can be used as shortcut.
 
-## Service Now Wiki useful links
+## Installation
+
+There are multiple ways to install this plugin into your grafana instance
+
+#### Download and extract zip file
+
+Download the zip file from [github](https://github.com/yesoreyeram/grafana-servicenow-datasource/archive/master.zip) and extract into your grafana plugin folder. Then restart Grafana.
+
+#### Using grafana-cli
+
+If you are using grafana-cli, execute the following command to install the plugin
+
+```
+grafana-cli --pluginUrl https://github.com/yesoreyeram/grafana-servicenow-datasource/archive/master.zip plugins install yesoreyeram-servicenow-datasource
+```
+#### Using helm chart
+
+If you use help chart to provision grafana, use the following config to install the plugin
+
+```
+plugins:
+  - https://github.com/yesoreyeram/grafana-servicenow-datasource/archive/master.zip;yesoreyeram-servicenow-datasource
+```
+
+## Configurations
+
+Configuration of the plugin requires following field.
+
+| Field      | Description |
+|------------|-------------|
+| URL        | URL for the service now instance. Typically, it will be `https://<YOUR_INSTNACE_NAME>.service-now.com`. |
+| Username   | Service now username |
+| Password   | Service now password |
+
+#### Provisioning via file
+
+If you want to use the grafana provisioning feature, use the following yaml
+
+```
+apiVersion: 1
+
+datasources:
+- name: <Datasource Name>
+  type: yesoreyeram-servicenow-datasource
+  access: proxy
+  isDefault: false
+  url: https://<YOUR_INSTNACE_NAME>.service-now.com
+  basicAuth: true
+  basicAuthUser: <Service Now User Name>
+  withCredentials: false
+  secureJsonData:
+       basicAuthPassword: <Service Now Password>
+  version: 1
+  readOnly: false
+```
+
+## Service now permissions
+
+In order to retrieve the data from service-now, the user account used should have appropriate roles in service now. Typically [**Business Stakeholder role**](https://docs.servicenow.com/bundle/orlando-it-business-management/page/product/project-portfolio-suite-with-financials/reference/business-stakeholder-role-ppm.html) can give enough permissions to read the data. If you want to reduce the permissions to more granular level, use one or more of the following roles.
+
+* sn_incident_read
+* sn_change_read
+* sn_problem_read
+* sn_request_read
+* cmdb_read
+
+## Service Now wiki useful links
 
 [Operators available for filters and queries](https://docs.servicenow.com/bundle/orlando-platform-user-interface/page/use/common-ui-elements/reference/r_OpAvailableFiltersQueries.html) 
