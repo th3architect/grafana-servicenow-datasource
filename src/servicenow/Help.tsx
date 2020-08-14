@@ -54,7 +54,7 @@ export class ServiceNowQueryHelpCtrl extends PureComponent<any, State> {
               <br />
               <br />
               <p>
-                More help can be found at
+                More help can be found at{' '}
                 <a
                   href="https://docs.servicenow.com/bundle/orlando-platform-user-interface/page/use/common-ui-elements/reference/r_OpAvailableFiltersQueries.html"
                   target="_blank"
