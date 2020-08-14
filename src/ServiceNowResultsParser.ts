@@ -55,72 +55,81 @@ export class ServiceNowResultsParser {
         this.query = res.query;
         if (res && res.query && res.query.servicenow && res.query.servicenow.type === 'stats') {
           if (res.result.data.result.stats) {
-            this.output.columns.push({
-              text: 'count',
-              type: 'number',
-            });
-            this.output.rows.push([toInteger(res.result.data.result.stats.count)]);
+            this.parseResultsAsSingleStat(res);
           } else {
-            res.result.data.result.forEach((item: any, index: number) => {
-              if (index === 0) {
-                if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
-                  res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
-                    this.output.columns.push({
-                      text: groupItem,
-                      type: 'string',
-                    });
-                  });
-                  this.output.columns.push({
-                    text: 'count',
-                    type: 'number',
-                  });
-                }
-              }
-              if (item && item.stats) {
-                const value = toInteger(item.stats.count);
-                const outArray: any[] = [];
-                res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
-                  const field = item.groupby_fields.find((g: any) => g.field === groupItem);
-                  if (field) {
-                    outArray.push(field.display_value || field.value || '-');
-                  }
-                });
-                outArray.push(value);
-                this.output.rows.push(outArray);
-              }
-            });
+            this.parseResultsAsMultiStat(res);
           }
         } else {
-          res.result.data.result.forEach((item: any, index: number) => {
-            if (index === 0) {
-              forEach(item, (value, key) => {
-                if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
-                  this.output.columns.push({
-                    text: key,
-                    type: 'string',
-                  });
-                } else {
-                  this.output.columns.push({
-                    text: key,
-                    type: typeof value === 'object' ? 'string' : typeof value,
-                  });
-                }
-              });
-            }
-            const row: any = [];
-            forEach(item, value => {
-              if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
-                row.push(value.display_value || value.value);
-              } else if (typeof value === 'object') {
-                row.push(JSON.stringify(value));
-              } else {
-                row.push(value);
-              }
-            });
-            this.output.rows.push(row);
-          });
+          this.parseResultsAsTable(res);
         }
       });
+  }
+  private parseResultsAsSingleStat(res: any) {
+    this.output.columns.push({
+      text: 'count',
+      type: 'number',
+    });
+    this.output.rows.push([toInteger(res.result.data.result.stats.count)]);
+  }
+  private parseResultsAsMultiStat(res: any) {
+    res.result.data.result.forEach((item: any, index: number) => {
+      if (index === 0) {
+        if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
+          res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+            this.output.columns.push({
+              text: groupItem,
+              type: 'string',
+            });
+          });
+          this.output.columns.push({
+            text: 'count',
+            type: 'number',
+          });
+        }
+      }
+      if (item && item.stats) {
+        const value = toInteger(item.stats.count);
+        const outArray: any[] = [];
+        res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+          const field = item.groupby_fields.find((g: any) => g.field === groupItem);
+          if (field) {
+            outArray.push(field.display_value || field.value || '-');
+          }
+        });
+        outArray.push(value);
+        this.output.rows.push(outArray);
+      }
+    });
+  }
+  private parseResultsAsTable(res: any) {
+    res.result.data.result.forEach((item: any, index: number) => {
+      if (index === 0) {
+        forEach(item, (value, key) => {
+          if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
+            this.output.columns.push({
+              text: key,
+              type: 'string',
+            });
+          } else {
+            this.output.columns.push({
+              text: key,
+              type: typeof value === 'object' ? 'string' : typeof value,
+            });
+          }
+        });
+      }
+      const row: any = [];
+      forEach(item, value => {
+        if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
+          row.push(value.display_value || value.value);
+        } else if (typeof value === 'object') {
+          row.push(JSON.stringify(value));
+        } else {
+          row.push(value);
+        }
+      });
+      this.output.rows.push(row);
+    });
   }
   getResultsAsAnnotations(): Annotation[] {
     const annotations: Annotation[] = [];
