@@ -1,5 +1,9 @@
 # grafana-servicenow-datasource
 
+[![License](https://img.shields.io/github/license/yesoreyeram/grafana-servicenow-datasource)](LICENSE)
+![Build](https://github.com/yesoreyeram/grafana-servicenow-datasource/workflows/Build%20&%20Publish/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/83c309f7c60efdfd2fd3/maintainability)](https://codeclimate.com/github/yesoreyeram/grafana-servicenow-datasource/maintainability)
+
 Service Now data source for Grafana.
 
 ![image](https://user-images.githubusercontent.com/153843/90186224-c0177700-ddaf-11ea-9f47-425d17aa0eaf.png)
