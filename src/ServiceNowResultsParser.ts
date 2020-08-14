@@ -112,28 +112,59 @@ export class ServiceNowResultsParser {
         .map((item: string) => item.trim())
         .filter(Boolean)
     );
-    res.result.data.result.forEach((item: any, index: number) => {
-      if (index === 0) {
-        forEach(cols, col => {
-          this.output.columns.push({
-            text: col,
-            type: 'string',
+    if (fields && fields[0] !== '*') {
+      res.result.data.result.forEach((item: any, index: number) => {
+        if (index === 0) {
+          forEach(cols, col => {
+            this.output.columns.push({
+              text: col,
+              type: 'string',
+            });
           });
-        });
-      }
-      const row: any = [];
-      this.output.columns.forEach((col: any) => {
-        const matchingItem = item[col.text];
-        if (typeof matchingItem === 'object' && matchingItem && (matchingItem.display_value || matchingItem.value === '')) {
-          row.push(matchingItem.display_value || matchingItem.value);
-        } else if (typeof matchingItem === 'object') {
-          row.push(JSON.stringify(matchingItem));
-        } else {
-          row.push(matchingItem);
         }
+        const row: any = [];
+        this.output.columns.forEach((col: any) => {
+          const matchingItem = item[col.text];
+          if (typeof matchingItem === 'object' && matchingItem && (matchingItem.display_value || matchingItem.value === '')) {
+            row.push(matchingItem.display_value || matchingItem.value);
+          } else if (typeof matchingItem === 'object') {
+            row.push(JSON.stringify(matchingItem));
+          } else {
+            row.push(matchingItem);
+          }
+        });
+        this.output.rows.push(row);
       });
-      this.output.rows.push(row);
-    });
+    } else {
+      res.result.data.result.forEach((item: any, index: number) => {
+        if (index === 0) {
+          forEach(item, (value, key) => {
+            if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
+              this.output.columns.push({
+                text: key,
+                type: 'string',
+              });
+            } else {
+              this.output.columns.push({
+                text: key,
+                type: typeof value === 'object' ? 'string' : typeof value,
+              });
+            }
+          });
+        }
+        const row: any = [];
+        forEach(item, value => {
+          if (typeof value === 'object' && value && (value.display_value || value.value === '')) {
+            row.push(value.display_value || value.value);
+          } else if (typeof value === 'object') {
+            row.push(JSON.stringify(value));
+          } else {
+            row.push(value);
+          }
+        });
+        this.output.rows.push(row);
+      });
+    }
   }
   getResultsAsAnnotations(): Annotation[] {
     const annotations: Annotation[] = [];
