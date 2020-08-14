@@ -16,16 +16,10 @@ const ORDER_DIRECTIONS: SelectableValue[] = [
 ];
 
 export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
-  onTableChange = (table: SelectableValue) => {
+  onSelectChange = (table: SelectableValue, field: string) => {
     const { query, onChange } = this.props;
     const servicenow: any = query.servicenow;
-    servicenow.table = table.value;
-    onChange({ ...query, servicenow });
-  };
-  onTypeChange = (typeValue: SelectableValue) => {
-    const { query, onChange } = this.props;
-    const servicenow: any = query.servicenow;
-    servicenow.type = typeValue.value;
+    servicenow[field] = table.value;
     onChange({ ...query, servicenow });
   };
   render() {
@@ -40,7 +34,7 @@ export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
               value={SUPPORTED_TABLES.find((service: any) => service.value === query.servicenow.table)}
               options={SUPPORTED_TABLES}
               defaultValue={query.servicenow.table}
-              onChange={this.onTableChange}
+              onChange={(e) => this.onSelectChange(e, 'table')}
             />
           </div>
           <div className="gf-form">
@@ -50,7 +44,7 @@ export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
               value={SUPPORTED_TYPES.find((service: any) => service.value === query.servicenow.type)}
               options={SUPPORTED_TYPES}
               defaultValue={query.servicenow.type}
-              onChange={this.onTypeChange}
+              onChange={(e) => this.onSelectChange(e, 'type')}
             />
           </div>
         </div>

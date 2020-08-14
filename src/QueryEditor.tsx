@@ -17,22 +17,24 @@ type Props = QueryEditorProps<Datasource, ServiceNowPluginQuery>;
 
 export class ServiceNowQueryEditor extends PureComponent<Props> {
   render() {
-    let fieldsCtrl: any;
-    let groupByCtrl: any;
+    let outCtrl: any;
     const query: ServiceNowPluginQuery = defaults(this.props.query, {
       servicenow: defaults(this.props.query.servicenow, DEFAULT_SERVICENOW_QUERY),
     });
-    if (query && query.servicenow && query.servicenow.type === 'table') {
-      fieldsCtrl = <ServiceNowQueryFieldsCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />;
-    }
-    if (query && query.servicenow && query.servicenow.type === 'stats') {
-      groupByCtrl = <ServiceNowQueryGroupByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />;
+    if (query && query.servicenow && query.servicenow.type) {
+      switch (query.servicenow.type) {
+        case 'table':
+          outCtrl = <ServiceNowQueryFieldsCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />;
+          break;
+        case 'stats':
+          outCtrl = <ServiceNowQueryGroupByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />;
+          break;
+      }
     }
     return (
       <div>
         <ServiceNowQueryTableAndTypeCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
-        {fieldsCtrl}
-        {groupByCtrl}
+        {outCtrl}
         <ServiceNowQueryQueryCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryFiltersCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryOrderByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
