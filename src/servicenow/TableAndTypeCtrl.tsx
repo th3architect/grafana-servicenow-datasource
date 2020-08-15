@@ -21,10 +21,16 @@ export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
             <label className="gf-form-label query-keyword width-8">Table</label>
             <Select
               className="width-12"
-              value={SUPPORTED_TABLES.find((service: any) => service.value === query.servicenow.table)}
+              value={
+                SUPPORTED_TABLES.find((service: any) => service.value === query.servicenow.table) || {
+                  label: query.servicenow.table,
+                  value: query.servicenow.table,
+                }
+              }
               options={SUPPORTED_TABLES}
               defaultValue={query.servicenow.table}
               onChange={e => onSelectChange(e, 'table', this.props)}
+              allowCustomValue
             />
           </div>
           <div className="gf-form">
