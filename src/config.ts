@@ -4,7 +4,9 @@ export const TEMPLATE_URL = {
 };
 export const TABLE_NAME_INCIDENT = 'incident';
 export const TABLE_NAME_CHANGE_REQUEST = 'change_request';
+export const TABLE_NAME_PROBLEM = 'problem';
 export const TABLE_NAMES = [
-  { label: 'Incidents (INC)', value: TABLE_NAME_INCIDENT },
-  { label: 'Change Request (CHG)', value: TABLE_NAME_CHANGE_REQUEST },
+  { label: 'Incidents (INC)', value: TABLE_NAME_INCIDENT, short_code: 'INC' },
+  { label: 'Change Request (CHG)', value: TABLE_NAME_CHANGE_REQUEST, short_code: 'CHG' },
+  { label: 'Problem (PRB)', value: TABLE_NAME_PROBLEM, short_code: 'PRB' },
 ];

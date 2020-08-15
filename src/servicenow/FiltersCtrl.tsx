@@ -3,6 +3,7 @@ import { ServiceNowQueryFilter, ServiceNowQuery, SERVICE_NOW_QUERY_FILTER_CONDIT
 import { Select, SelectableValue } from './../grafana';
 import { FieldsList } from './Field';
 import { onSelectChange, onInputTextChange } from './../utils';
+import { TABLE_NAMES } from './../config';
 
 const FilterOperators: SelectableValue[] = [
   { value: '=', label: 'Equals' },
@@ -42,7 +43,8 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
   onFilterAdd = (condition: SERVICE_NOW_QUERY_FILTER_CONDITION = '^') => {
     const { query, onChange } = this.props;
     const servicenow: ServiceNowQuery = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', condition);
+    const table = TABLE_NAMES.find(t => t.value === servicenow.table);
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', table ? table.short_code : 'CHG', condition);
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters.push(newFilter);
     onChange({ ...query, servicenow });
@@ -50,7 +52,8 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
   onFilterRemove = (index: number) => {
     const { query, onChange } = this.props;
     const servicenow: any = query.servicenow;
-    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', servicenow.table === 'incident' ? 'INC' : 'CHG', '^');
+    const table = TABLE_NAMES.find(t => t.value === servicenow.table);
+    const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', table ? table.short_code : 'CHG');
     servicenow.filters = servicenow.filters || [newFilter];
     servicenow.filters.splice(index, 1);
     onChange({ ...query, servicenow });

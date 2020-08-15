@@ -1,6 +1,6 @@
 import { DataQuery, getBackendSrv } from './grafana';
 
-type SERVICE_NOW_QUERY_TABLE_NAME = `incident` | 'change_request';
+type SERVICE_NOW_QUERY_TABLE_NAME = `incident` | 'change_request' | 'problem';
 type SERVICE_NOW_QUERY_TYPE = `table` | 'stats';
 type SERVICE_NOW_URL_PARAM = 'sysparm_display_value' | 'sysparm_limit' | 'sysparm_fields' | 'sysparm_query' | 'sysparm_count' | 'sysparm_group_by';
 type SERVICE_NOW_QUERY_ORDER_BY_DIRECTION = `asc` | `desc`;
