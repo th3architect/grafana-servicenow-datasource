@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Select, SelectableValue } from './../../grafana';
 import { onSelectChange } from './../../utils';
-import { FieldsList } from './Field';
+import { FIELDS_LIST } from './../../config';
 
 const ORDER_DIRECTIONS: SelectableValue[] = [
   { label: 'Ascending', value: 'asc' },
@@ -25,12 +25,12 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
             <Select
               className="width-12"
               value={
-                FieldsList.find((field: any) => field.value === query.servicenow.orderBy) || {
+                FIELDS_LIST.find((field: any) => field.value === query.servicenow.orderBy) || {
                   value: query.servicenow.orderBy,
                   label: query.servicenow.orderBy,
                 }
               }
-              options={FieldsList.filter((field: any) => field.tables.indexOf(query.servicenow.table) > -1)}
+              options={FIELDS_LIST.filter((field: any) => field.tables.indexOf(query.servicenow.table) > -1)}
               defaultValue={query.servicenow.orderBy}
               onChange={e => onSelectChange(e, `orderBy`, this.props)}
               allowCustomValue

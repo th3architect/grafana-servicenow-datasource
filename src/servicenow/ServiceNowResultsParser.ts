@@ -1,5 +1,5 @@
 import { forEach, toInteger, uniq } from 'lodash';
-import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
+import { Annotation, ServiceNowAnnotationQuery } from './../editors/annotations/annotation';
 import { ServiceNowQueryCtrlFields } from './ServiceNowQuery';
 
 const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnnotationQuery): Annotation => {

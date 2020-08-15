@@ -1,6 +1,8 @@
+import { ServiceNowTableQuery, ServiceNowAggregationQuery } from './ServiceNowQuery';
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
-import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
-import { ServiceNowQueryCtrlFields, ServiceNowPluginQuery, doServiceNowRequest } from './ServiceNowQuery';
+import { Annotation, ServiceNowAnnotationQuery } from './../editors/annotations/annotation';
+import { ServiceNowPluginQuery } from './ServiceNowQuery';
+import { getBackendSrv } from './../grafana';
 
 const replaceWithGrafanaTimeRange = (field: string, from: any, to: any): string => {
   const fromDateString = `javascript:gs.dateGenerate('${from.format('YYYY-MM-DD')}','${from.format('HH:mm:ss')}')`;
@@ -10,11 +12,22 @@ const replaceWithGrafanaTimeRange = (field: string, from: any, to: any): string 
   field = field.replace('$__timeFilter()', `${fromDateString}@${toDateString}`);
   return field;
 };
-
-export class ServiceNowDataSource {
-  url = '';
+export class ServiceNowInstance {
+  url: string;
   constructor(private instanceSettings: any, private templateSrv: any) {
-    this.url = this.instanceSettings.url + '';
+    this.url = this.instanceSettings.url;
+  }
+  getServiceNowResults(query: ServiceNowTableQuery | ServiceNowAggregationQuery, maxRetries = 1): Promise<any> {
+    const url = this.url + query.getUrl();
+    return getBackendSrv()
+      .datasourceRequest({ method: 'GET', url })
+      .catch((error: any) => {
+        console.log(error);
+        if (maxRetries > 0) {
+          return this.getServiceNowResults(query, maxRetries - 1);
+        }
+        throw error;
+      });
   }
   private doQueries(queries: ServiceNowPluginQuery[], options: any) {
     return queries.map((query: ServiceNowPluginQuery) => {
@@ -30,8 +43,15 @@ export class ServiceNowDataSource {
           return filter;
         });
       }
-      const serviceNowQuery = new ServiceNowQueryCtrlFields(servicenowQueryItem);
-      return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
+      let q: ServiceNowTableQuery | ServiceNowAnnotationQuery = new ServiceNowAggregationQuery('', [], '', 'true', [], '', 'desc');
+      if (query.servicenow && query.servicenow.type === 'table') {
+        const sn = query.servicenow;
+        q = new ServiceNowTableQuery(sn.table, sn.fields.trim().split(','), sn.query, sn.limit, sn.filters, sn.orderBy, sn.orderByDirection);
+      } else if (query.servicenow && query.servicenow.type === 'stats') {
+        const sn = query.servicenow;
+        q = new ServiceNowAggregationQuery(sn.table, sn.groupBy.trim().split(','), sn.query, 'true', sn.filters, sn.orderBy, sn.orderByDirection);
+      }
+      return this.getServiceNowResults(q)
         .then((result: any) => {
           return { result, query, options };
         })
@@ -43,8 +63,8 @@ export class ServiceNowDataSource {
   private doAnnotationQueries(queries: ServiceNowAnnotationQuery[], options: any) {
     return queries.map((query: ServiceNowAnnotationQuery) => {
       query.query = replaceWithGrafanaTimeRange(query.query, options.range.from, options.range.to);
-      const serviceNowQuery = new ServiceNowQueryCtrlFields(query);
-      return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
+      const q = new ServiceNowTableQuery(query.table, query.fields.trim().split(','), query.query, query.limit, [], query.startTimeField, 'asc');
+      return this.getServiceNowResults(q)
         .then((result: any) => {
           return { result, query, options: {} };
         })

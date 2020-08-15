@@ -1,46 +1,11 @@
 import React, { PureComponent } from 'react';
-import { ServiceNowQueryFilter, ServiceNowQueryCtrlFields, SERVICE_NOW_QUERY_FILTER_CONDITION } from './../../ServiceNowQuery';
-import { Select, SelectableValue } from './../../grafana';
-import { FieldsList } from './Field';
+import { ServiceNowQueryCtrlFields, ServiceNowQueryFilter, type_service_now_query_filter_condition } from './../ServiceNowQuery';
+import { Select } from './../../grafana';
 import { onSelectChange, onInputTextChange } from './../../utils';
-import { TABLE_NAMES } from './../../config';
+import { TABLE_NAMES, FIELDS_LIST, FILTER_OPERATIONS } from './../../config';
 
-const FilterOperators: SelectableValue[] = [
-  { value: '=', label: 'Equals' },
-  { value: '!=', label: 'Not Equals' },
-  { value: '<', label: 'Less than' },
-  { value: '<=', label: 'Less than or Equals' },
-  { value: '>', label: 'Greater than' },
-  { value: '>=', label: 'Greater than or Equals' },
-  { value: 'STARTSWITH', label: 'Starts With' },
-  { value: 'ENDSWITH', label: 'Ends With' },
-  { value: 'LIKE', label: 'Like' },
-  { value: 'NOTLIKE', label: 'Not Like' },
-  { value: 'ISEMPTY', label: 'Is Empty' },
-  { value: 'ISNOTEMPTY', label: 'Is Not Empty' },
-  { value: 'IN', label: 'In' },
-  { value: 'NOT IN', label: 'Not In' },
-  { value: 'ANYTHING', label: 'Anything' },
-  { value: 'BETWEEN', label: 'Between' },
-  { value: 'SAMEAS', label: 'Is Same' },
-  { value: 'NSAMEAS', label: 'Is Different' },
-  { value: 'ONToday', label: 'On Today' },
-  { value: 'NOTONToday', label: 'NOT ON Today' },
-  { value: 'DATEPART', label: 'Date Part' },
-  { value: 'RELATIVEGE', label: 'Relative (on or after)' },
-  { value: 'RELATIVELE', label: 'Relative (on or before)' },
-  { value: 'RELATIVEGT', label: 'Relative (after)' },
-  { value: 'RELATIVELT', label: 'Relative (before)' },
-  { value: 'RELATIVEEE', label: 'Relative (on)' },
-  { value: 'MORETHAN', label: 'Is More than' },
-  { value: 'LESSTHAN', label: 'Is Less than' },
-  { value: 'GT_FIELD', label: 'Greater than field' },
-  { value: 'LT_FIELD', label: 'Less than field' },
-  { value: 'GT_OR_EQUALS_FIELD', label: 'Greater than or is field' },
-  { value: 'LT_OR_EQUALS_FIELD', label: 'Less than or is field' },
-];
 export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
-  onFilterAdd = (condition: SERVICE_NOW_QUERY_FILTER_CONDITION = '^') => {
+  onFilterAdd = (condition: type_service_now_query_filter_condition = '^') => {
     const { query, onChange } = this.props;
     const servicenow: ServiceNowQueryCtrlFields = query.servicenow;
     const table = TABLE_NAMES.find(t => t.value === servicenow.table);
@@ -93,16 +58,16 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
               <div className="gf-form gf-form--grow">
                 <Select
                   className="width-12"
-                  value={FieldsList.find((field: any) => field.value === filter.field) || { value: filter.field, label: filter.field }}
-                  options={FieldsList.filter((field: any) => field.tables.indexOf(query.servicenow.table) > -1)}
+                  value={FIELDS_LIST.find((field: any) => field.value === filter.field) || { value: filter.field, label: filter.field }}
+                  options={FIELDS_LIST.filter((field: any) => field.tables.indexOf(query.servicenow.table) > -1)}
                   defaultValue={filter.field}
                   onChange={e => onSelectChange(e, `filters[${index}].field`, this.props)}
                   allowCustomValue
                 />
                 <Select
                   className="width-12"
-                  value={FilterOperators.find((gran: any) => gran.value === filter.operator) || { value: filter.operator, label: filter.operator }}
-                  options={FilterOperators}
+                  value={FILTER_OPERATIONS.find((gran: any) => gran.value === filter.operator) || { value: filter.operator, label: filter.operator }}
+                  options={FILTER_OPERATIONS}
                   defaultValue={filter.operator}
                   onChange={e => onSelectChange(e, `filters[${index}].operator`, this.props)}
                   allowCustomValue

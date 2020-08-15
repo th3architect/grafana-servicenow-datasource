@@ -1,5 +1,5 @@
 import React, { PureComponent, ChangeEvent } from 'react';
-import { DataSourcePluginOptionsEditorProps, DataSourceJsonData } from './grafana';
+import { DataSourcePluginOptionsEditorProps, DataSourceJsonData } from './../grafana';
 
 interface ServiceNowOptions extends DataSourceJsonData {
   url?: string;

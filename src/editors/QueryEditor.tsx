@@ -1,14 +1,14 @@
 import { defaults } from 'lodash';
 import React, { PureComponent } from 'react';
-import { QueryEditorProps } from './grafana';
-import { Datasource } from './datasource';
-import { ServiceNowPluginQuery, DEFAULT_SERVICENOW_QUERY } from './ServiceNowQuery';
-import { ServiceNowQueryTableAndTypeCtrl } from './servicenow/editor/TableAndTypeCtrl';
-import { ServiceNowQueryFieldsCtrl } from './servicenow/editor/FieldsCtrl';
-import { ServiceNowQueryQueryCtrl } from './servicenow/editor/QueryCtrl';
-import { ServiceNowQueryGroupByCtrl } from './servicenow/editor/GroupByCtrl';
-import { ServiceNowQueryOrderByCtrl } from './servicenow/editor/OrderByCtrl';
-import { ServiceNowQueryFiltersCtrl } from './servicenow/editor/FiltersCtrl';
+import { QueryEditorProps } from './../grafana';
+import { Datasource } from './../datasource';
+import { ServiceNowPluginQuery, DEFAULT_SERVICENOW_QUERY } from './../servicenow/ServiceNowQuery';
+import { ServiceNowQueryTableAndTypeCtrl } from './../servicenow/editor/TableAndTypeCtrl';
+import { ServiceNowQueryFieldsCtrl } from './../servicenow/editor/FieldsCtrl';
+import { ServiceNowQueryQueryCtrl } from './../servicenow/editor/QueryCtrl';
+import { ServiceNowQueryGroupByCtrl } from './../servicenow/editor/GroupByCtrl';
+import { ServiceNowQueryOrderByCtrl } from './../servicenow/editor/OrderByCtrl';
+import { ServiceNowQueryFiltersCtrl } from './../servicenow/editor/FiltersCtrl';
 
 type Props = QueryEditorProps<Datasource, ServiceNowPluginQuery>;
 

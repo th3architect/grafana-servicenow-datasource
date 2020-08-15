@@ -1,21 +1,22 @@
 import { flatten, cloneDeep } from 'lodash';
 import { DataSourceApi } from './grafana';
-import { ServiceNowDataSource } from './ServiceNowDatasource';
+import { ServiceNowInstance } from './servicenow/ServiceNowInstance';
+import { ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
 
 export class Datasource extends DataSourceApi {
-  private serviceNowDataSource: ServiceNowDataSource;
+  private serviceNowInstance: ServiceNowInstance;
 
   /** @ngInject */
   constructor(private instanceSettings: any, private templateSrv: any) {
     super(instanceSettings);
-    this.serviceNowDataSource = new ServiceNowDataSource(this.instanceSettings, this.templateSrv);
+    this.serviceNowInstance = new ServiceNowInstance(this.instanceSettings, this.templateSrv);
   }
 
   query(options: any) {
     const promises: any[] = [];
     const snOptions = cloneDeep(options);
     if (snOptions.targets.length > 0) {
-      const snIncidentPromise = this.serviceNowDataSource.query(snOptions);
+      const snIncidentPromise = this.serviceNowInstance.query(snOptions);
       if (snIncidentPromise) {
         promises.push(snIncidentPromise);
       }
@@ -32,7 +33,7 @@ export class Datasource extends DataSourceApi {
       rangeRaw: options.rangeRaw,
       annotation: options.annotation,
     };
-    return this.serviceNowDataSource
+    return this.serviceNowInstance
       .annotationsQuery(annotationQuery)
       .then((result: any) => {
         return result;
@@ -43,29 +44,30 @@ export class Datasource extends DataSourceApi {
       });
   }
 
-  testDatasource() {
-    return new Promise(async (resolve: any, reject: any) => {
-      this.serviceNowDataSource
-        .query({
-          range: {
-            from: '',
-            to: '',
-          },
-          targets: [],
-        })
-        .then((result: any) => {
-          resolve({ message: 'Successfully Connected ServiceNow', status: 'success' });
-        })
-        .catch((ex: any) => {
-          reject({ message: 'Failed to Connect ServiceNow', status: 'error' });
-        });
-    });
-  }
-
   metricFindQuery(query: string) {
     if (!query) {
       return Promise.resolve([]);
     }
     return Promise.resolve([]);
+  }
+
+  testDatasource() {
+    return new Promise(async (resolve: any, reject: any) => {
+      const query = new ServiceNowAggregationQuery('incident', [], '', 'true', [], '', 'desc');
+      this.serviceNowInstance
+        .getServiceNowResults(query, 0)
+        .then((result: any) => {
+          if (result && result.status === 200) {
+            resolve({ message: 'Successfully Connected ServiceNow', status: 'success' });
+          } else {
+            console.error(result);
+            reject({ message: 'Failed to Connect ServiceNow', status: 'error' });
+          }
+        })
+        .catch((ex: any) => {
+          console.error(ex);
+          reject({ message: 'Failed to Connect ServiceNow', status: 'error' });
+        });
+    });
   }
 }
