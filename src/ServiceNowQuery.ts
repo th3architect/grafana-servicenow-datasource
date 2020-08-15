@@ -34,7 +34,7 @@ export class ServiceNowQueryFilter {
   }
 }
 
-export class ServiceNowQuery {
+export class ServiceNowQueryCtrlFields {
   table: SERVICE_NOW_QUERY_TABLE_NAME = 'incident';
   type: SERVICE_NOW_QUERY_TYPE = 'table';
   fields: string;
@@ -94,10 +94,10 @@ export class ServiceNowQuery {
 }
 
 export interface ServiceNowPluginQuery extends DataQuery {
-  servicenow?: ServiceNowQuery;
+  servicenow?: ServiceNowQueryCtrlFields;
 }
 
-export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQuery({
+export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQueryCtrlFields({
   table: 'incident',
   type: 'table',
   fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority',
@@ -108,7 +108,7 @@ export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQuery({
   limit: 10,
 });
 
-export const doServiceNowRequest = (url: string, serviceNowQuery: ServiceNowQuery, maxRetries = 1): Promise<any> => {
+export const doServiceNowRequest = (url: string, serviceNowQuery: ServiceNowQueryCtrlFields, maxRetries = 1): Promise<any> => {
   return getBackendSrv()
     .datasourceRequest({ method: 'GET', url: url })
     .catch((error: any) => {

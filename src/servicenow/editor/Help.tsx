@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal } from './../grafana';
+import { Modal } from './../../grafana';
 
 interface State {
   showHelpModal: boolean;

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Select, SelectableValue } from './../grafana';
-import { onSelectChange } from './../utils';
-import { TABLE_NAMES } from './../config';
+import { Select, SelectableValue } from './../../grafana';
+import { onSelectChange } from './../../utils';
+import { TABLE_NAMES } from './../../config';
 import { ServiceNowQueryHelpCtrl } from './Help';
 
 const SUPPORTED_TABLES: SelectableValue[] = TABLE_NAMES as SelectableValue[];

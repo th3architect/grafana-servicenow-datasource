@@ -1,6 +1,6 @@
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
-import { ServiceNowQuery, ServiceNowPluginQuery, doServiceNowRequest } from './ServiceNowQuery';
+import { ServiceNowQueryCtrlFields, ServiceNowPluginQuery, doServiceNowRequest } from './ServiceNowQuery';
 
 const replaceWithGrafanaTimeRange = (field: string, from: any, to: any): string => {
   const fromDateString = `javascript:gs.dateGenerate('${from.format('YYYY-MM-DD')}','${from.format('HH:mm:ss')}')`;
@@ -30,7 +30,7 @@ export class ServiceNowDataSource {
           return filter;
         });
       }
-      const serviceNowQuery = new ServiceNowQuery(servicenowQueryItem);
+      const serviceNowQuery = new ServiceNowQueryCtrlFields(servicenowQueryItem);
       return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
         .then((result: any) => {
           return { result, query, options };
@@ -43,7 +43,7 @@ export class ServiceNowDataSource {
   private doAnnotationQueries(queries: ServiceNowAnnotationQuery[], options: any) {
     return queries.map((query: ServiceNowAnnotationQuery) => {
       query.query = replaceWithGrafanaTimeRange(query.query, options.range.from, options.range.to);
-      const serviceNowQuery = new ServiceNowQuery(query);
+      const serviceNowQuery = new ServiceNowQueryCtrlFields(query);
       return doServiceNowRequest(this.url + serviceNowQuery.getUrl(), serviceNowQuery)
         .then((result: any) => {
           return { result, query, options: {} };

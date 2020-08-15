@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { onInputTextChange } from './../utils';
+import { onInputTextChange } from './../../utils';
 
 export class ServiceNowQueryFieldsCtrl extends PureComponent<any, any> {
   render() {

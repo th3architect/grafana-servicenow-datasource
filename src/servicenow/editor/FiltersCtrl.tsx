@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import { ServiceNowQueryFilter, ServiceNowQuery, SERVICE_NOW_QUERY_FILTER_CONDITION } from './../ServiceNowQuery';
-import { Select, SelectableValue } from './../grafana';
+import { ServiceNowQueryFilter, ServiceNowQueryCtrlFields, SERVICE_NOW_QUERY_FILTER_CONDITION } from './../../ServiceNowQuery';
+import { Select, SelectableValue } from './../../grafana';
 import { FieldsList } from './Field';
-import { onSelectChange, onInputTextChange } from './../utils';
-import { TABLE_NAMES } from './../config';
+import { onSelectChange, onInputTextChange } from './../../utils';
+import { TABLE_NAMES } from './../../config';
 
 const FilterOperators: SelectableValue[] = [
   { value: '=', label: 'Equals' },
@@ -42,7 +42,7 @@ const FilterOperators: SelectableValue[] = [
 export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
   onFilterAdd = (condition: SERVICE_NOW_QUERY_FILTER_CONDITION = '^') => {
     const { query, onChange } = this.props;
-    const servicenow: ServiceNowQuery = query.servicenow;
+    const servicenow: ServiceNowQueryCtrlFields = query.servicenow;
     const table = TABLE_NAMES.find(t => t.value === servicenow.table);
     const newFilter = new ServiceNowQueryFilter('number', 'STARTSWITH', table ? table.short_code : 'CHG', condition);
     servicenow.filters = servicenow.filters || [newFilter];

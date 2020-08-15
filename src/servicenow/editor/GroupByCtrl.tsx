@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { onInputTextChange } from './../utils';
+import { onInputTextChange } from './../../utils';
 
 export class ServiceNowQueryGroupByCtrl extends PureComponent<any, any> {
   render() {

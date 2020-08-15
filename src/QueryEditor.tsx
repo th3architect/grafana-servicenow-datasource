@@ -3,12 +3,12 @@ import React, { PureComponent } from 'react';
 import { QueryEditorProps } from './grafana';
 import { Datasource } from './datasource';
 import { ServiceNowPluginQuery, DEFAULT_SERVICENOW_QUERY } from './ServiceNowQuery';
-import { ServiceNowQueryTableAndTypeCtrl } from './servicenow/TableAndTypeCtrl';
-import { ServiceNowQueryFieldsCtrl } from './servicenow/FieldsCtrl';
-import { ServiceNowQueryQueryCtrl } from './servicenow/QueryCtrl';
-import { ServiceNowQueryGroupByCtrl } from './servicenow/GroupByCtrl';
-import { ServiceNowQueryOrderByCtrl } from './servicenow/OrderByCtrl';
-import { ServiceNowQueryFiltersCtrl } from './servicenow/FiltersCtrl';
+import { ServiceNowQueryTableAndTypeCtrl } from './servicenow/editor/TableAndTypeCtrl';
+import { ServiceNowQueryFieldsCtrl } from './servicenow/editor/FieldsCtrl';
+import { ServiceNowQueryQueryCtrl } from './servicenow/editor/QueryCtrl';
+import { ServiceNowQueryGroupByCtrl } from './servicenow/editor/GroupByCtrl';
+import { ServiceNowQueryOrderByCtrl } from './servicenow/editor/OrderByCtrl';
+import { ServiceNowQueryFiltersCtrl } from './servicenow/editor/FiltersCtrl';
 
 type Props = QueryEditorProps<Datasource, ServiceNowPluginQuery>;
 

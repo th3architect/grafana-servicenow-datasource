@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Select, SelectableValue } from './../grafana';
-import { onSelectChange } from './../utils';
+import { Select, SelectableValue } from './../../grafana';
+import { onSelectChange } from './../../utils';
 import { FieldsList } from './Field';
 
 const ORDER_DIRECTIONS: SelectableValue[] = [

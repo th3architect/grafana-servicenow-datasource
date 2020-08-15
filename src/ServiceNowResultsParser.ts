@@ -1,6 +1,6 @@
 import { forEach, toInteger, uniq } from 'lodash';
 import { Annotation, ServiceNowAnnotationQuery } from './annotations/annotation';
-import { ServiceNowQuery } from './ServiceNowQuery';
+import { ServiceNowQueryCtrlFields } from './ServiceNowQuery';
 
 const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnnotationQuery): Annotation => {
   const annotation: Annotation = {
@@ -42,7 +42,7 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnno
 };
 
 export class ServiceNowResultsParser {
-  query: ServiceNowAnnotationQuery | ServiceNowQuery | any;
+  query: ServiceNowAnnotationQuery | ServiceNowQueryCtrlFields | any;
   output: any = {
     columns: [],
     rows: [],

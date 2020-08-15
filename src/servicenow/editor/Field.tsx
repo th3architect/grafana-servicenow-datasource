@@ -1,10 +1,10 @@
-import { SelectableValue } from './../grafana';
+import { SelectableValue } from './../../grafana';
 import {
   TABLE_NAME_CHANGE_REQUEST as CHANGE_REQUEST,
   TABLE_NAME_INCIDENT as INCIDENT,
   TABLE_NAME_PROBLEM as PROBLEM,
   TABLE_NAME_SYSTEM_USER_GROUP as SYS_USER_GROUP,
-} from './../config';
+} from './../../config';
 
 export const FieldsList: SelectableValue[] = [
   { value: 'active', label: 'Active', tables: [INCIDENT, CHANGE_REQUEST, PROBLEM] },
