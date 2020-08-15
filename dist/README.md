@@ -7,7 +7,7 @@
 
 Service Now data source for Grafana.
 
-![image](https://user-images.githubusercontent.com/153843/90186224-c0177700-ddaf-11ea-9f47-425d17aa0eaf.png)
+![image](https://user-images.githubusercontent.com/153843/90303029-56c46080-dea2-11ea-8a8c-b68f88c55d26.png)
 
 For more screenshots, follow [this github issue](https://github.com/yesoreyeram/grafana-servicenow-datasource/issues/1).
 
