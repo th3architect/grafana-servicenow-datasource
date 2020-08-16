@@ -1,0 +1,26 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/setup-go@master
+      with:
+        go-version: "1.13.3"
+    - run: |
+        git clone https://github.com/grafana/plugin-validator;
+        cd ./plugin-validator/cmd/plugincheck;
+        go install
+        ce ../../;
+        pwd
+        ls -lh;
+        plugincheck -url https://github.com/yesoreyeram/grafana-servicenow-datasource;
+        echo $?;
