@@ -93,4 +93,4 @@ In order to retrieve the data from service-now, the user account used should hav
 
 ## Service Now wiki useful links
 
-[Operators available for filters and queries](https://docs.servicenow.com/bundle/orlando-platform-user-interface/page/use/common-ui-elements/reference/r_OpAvailableFiltersQueries.html) 
+[Operators available for filters and queries](https://docs.servicenow.com/bundle/paris-platform-user-interface/page/use/common-ui-elements/reference/r_OpAvailableFiltersQueries.html) 
