@@ -55,14 +55,13 @@ export class ServiceNowQuery {
   ) {
     this.api = api;
     this.tableName = tableName;
-    const query = this.getNormalizedSysParmQuery(sysparmQuery);
-    const sysparmQueries = [query].filter(Boolean);
+    const sysparmQueries = [this.getNormalizedSysParmQuery(sysparmQuery) + '^'].filter(i => i !== '^');
     filters.forEach((filter, index) => {
-      const prefix: string = sysparmQueries.length === 0 && index === 0 ? '' : filter.condition || '^';
-      sysparmQueries.push(encodeURIComponent(`${prefix}${filter.field}${filter.operator}${filter.value}`.trim()));
+      const suffix: string = index === filters.length - 1 ? '' : filter.condition || '^';
+      sysparmQueries.push(encodeURIComponent(`${filter.field}${filter.operator}${filter.value}${suffix}`.trim()));
     });
     if (orderBy) {
-      sysparmQueries.push((orderByDirection === 'asc' ? '^ORDERBY' : '^ORDERBYDESC') + orderBy.trim());
+      sysparmQueries.push((orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + orderBy.trim());
     }
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_query', sysparmQueries.join('')));
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_display_value', sysparmDisplayValue));

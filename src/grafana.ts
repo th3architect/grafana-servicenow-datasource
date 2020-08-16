@@ -7,5 +7,6 @@ export {
   SelectableValue,
   DataSourcePluginOptionsEditorProps,
   DataSourceJsonData,
+  FieldType,
 } from '@grafana/data';
 export { getBackendSrv } from '@grafana/runtime';

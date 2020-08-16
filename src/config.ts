@@ -1,3 +1,4 @@
+import { FieldType } from './grafana';
 export const TABLE_NAME_INCIDENT = 'incident';
 export const TABLE_NAME_CHANGE_REQUEST = 'change_request';
 export const TABLE_NAME_PROBLEM = 'problem';
@@ -22,22 +23,32 @@ export const FIELDS_LIST: any[] = [
     label: 'Description',
     tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM, TABLE_NAME_SYSTEM_USER_GROUP],
   },
-  { value: 'end_date', label: 'End Date', tables: [TABLE_NAME_CHANGE_REQUEST] },
+  { value: 'end_date', label: 'End Date', tables: [TABLE_NAME_CHANGE_REQUEST], FieldType: FieldType.time },
   { value: 'incident_state', label: 'Incident State', tables: [TABLE_NAME_INCIDENT] },
   { value: 'number', label: 'Number', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
-  { value: 'opened_at', label: 'Opened At', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
+  { value: 'opened_at', label: 'Opened At', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM], FieldType: FieldType.time },
   { value: 'priority', label: 'Priority', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
   { value: 'short_description', label: 'Short Description', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
-  { value: 'start_date', label: 'Start Date', tables: [TABLE_NAME_CHANGE_REQUEST] },
+  { value: 'start_date', label: 'Start Date', tables: [TABLE_NAME_CHANGE_REQUEST], FieldType: FieldType.time },
   { value: 'state', label: 'State', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
   { value: 'sys_created_by', label: 'Created By', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
-  { value: 'sys_created_on', label: 'Created On', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
+  {
+    value: 'sys_created_on',
+    label: 'Created On',
+    tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM],
+    FieldType: FieldType.time,
+  },
   { value: 'urgency', label: 'Urgency', tables: [TABLE_NAME_PROBLEM] },
   { value: 'category', label: 'Category', tables: [TABLE_NAME_PROBLEM] },
   { value: 'subcategory', label: 'Subcategory', tables: [TABLE_NAME_PROBLEM] },
   { value: 'name', label: 'Name', tables: [TABLE_NAME_SYSTEM_USER_GROUP] },
   { value: 'manager', label: 'Manager', tables: [TABLE_NAME_SYSTEM_USER_GROUP] },
   { value: 'email', label: 'Email', tables: [TABLE_NAME_SYSTEM_USER_GROUP] },
+];
+export const FIELDS_LIST_TIME = FIELDS_LIST.filter(f => f.FieldType === FieldType.time);
+export const FILTER_CONDITIONS: any[] = [
+  { value: '^', label: 'AND' },
+  { value: '^OR', label: 'OR' },
 ];
 export const FILTER_OPERATIONS: any[] = [
   { value: '=', label: 'Equals' },
@@ -49,7 +60,7 @@ export const FILTER_OPERATIONS: any[] = [
   { value: 'STARTSWITH', label: 'Starts With' },
   { value: 'ENDSWITH', label: 'Ends With' },
   { value: 'LIKE', label: 'Like' },
-  { value: 'NOTLIKE', label: 'Not Like' },
+  { value: 'NOT LIKE', label: 'Not Like' },
   { value: 'ISEMPTY', label: 'Is Empty' },
   { value: 'ISNOTEMPTY', label: 'Is Not Empty' },
   { value: 'IN', label: 'In' },
@@ -77,5 +88,10 @@ export const FILTER_VALUES: any = {
   active: [
     { label: 'True', value: 'true' },
     { label: 'False', value: 'false' },
+  ],
+  grafanaTimestamps: [
+    { label: 'Grafana Start Time', value: '$__timeFrom()' },
+    { label: 'Grafana End Time', value: '$__timeTo()' },
+    { label: 'Grafana Time Range', value: '$__timeFilter()' },
   ],
 };

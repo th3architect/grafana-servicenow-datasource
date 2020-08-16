@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { ServiceNowQueryCtrlFields, ServiceNowQueryFilter, type_service_now_query_filter_condition } from './../ServiceNowQuery';
 import { Select } from './../../grafana';
 import { onSelectChange, onInputTextChange } from './../../utils';
-import { FIELDS_LIST, FILTER_OPERATIONS, FILTER_VALUES } from './../../config';
+import { FIELDS_LIST, FIELDS_LIST_TIME, FILTER_OPERATIONS, FILTER_VALUES, FILTER_CONDITIONS } from './../../config';
 
 export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
   onFilterAdd = (condition: type_service_now_query_filter_condition = '^') => {
@@ -66,6 +66,35 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
               />
             );
           }
+          if (FIELDS_LIST_TIME.map(v => v.value).indexOf(filter.field) > -1) {
+            if (['>', '>=', '<', '<='].indexOf(filter.operator) > -1) {
+              valueCtrl = (
+                <Select
+                  className="width-12"
+                  value={
+                    FILTER_VALUES.grafanaTimestamps.find((field: any) => field.value === filter.value) || { value: filter.value, label: filter.value }
+                  }
+                  options={FILTER_VALUES.grafanaTimestamps}
+                  defaultValue={'$__timeFrom()'}
+                  onChange={e => onSelectChange(e, `filters[${index}].value`, this.props)}
+                  allowCustomValue
+                />
+              );
+            } else if (['BETWEEN'].indexOf(filter.operator) > -1) {
+              valueCtrl = (
+                <Select
+                  className="width-12"
+                  value={
+                    FILTER_VALUES.grafanaTimestamps.find((field: any) => field.value === filter.value) || { value: filter.value, label: filter.value }
+                  }
+                  options={FILTER_VALUES.grafanaTimestamps}
+                  defaultValue={'$__timeFilter()'}
+                  onChange={e => onSelectChange(e, `filters[${index}].value`, this.props)}
+                  allowCustomValue
+                />
+              );
+            }
+          }
           return (
             <div className="gf-form-inline">
               <div className="gf-form">
@@ -84,10 +113,14 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                     defaultValue={filter.field}
                     onChange={e => {
                       onSelectChange(e, `filters[${index}].field`, this.props);
-                      onSelectChange({ value: '=' }, `filters[${index}].operator`, this.props);
                       if (e.value === 'active') {
+                        onSelectChange({ value: '=' }, `filters[${index}].operator`, this.props);
                         onSelectChange({ value: 'true' }, `filters[${index}].value`, this.props);
+                      } else if (FIELDS_LIST_TIME.map(v => v.value).indexOf(e.value) > -1) {
+                        onSelectChange({ value: '>=' }, `filters[${index}].operator`, this.props);
+                        onSelectChange({ value: '$__timeFrom()' }, `filters[${index}].value`, this.props);
                       } else {
+                        onSelectChange({ value: '=' }, `filters[${index}].operator`, this.props);
                         onSelectChange({ value: '' }, `filters[${index}].value`, this.props);
                       }
                     }}
@@ -113,7 +146,16 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
                       <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterAdd('^')}>
                         +
                       </span>
-                    ) : null}
+                    ) : (
+                      <Select
+                        className="width-5"
+                        value={FILTER_CONDITIONS.find((gran: any) => gran.value === (filter.condition || '^'))}
+                        options={FILTER_CONDITIONS}
+                        defaultValue={filter.condition}
+                        onChange={e => onSelectChange(e, `filters[${index}].condition`, this.props)}
+                        allowCustomValue
+                      />
+                    )}
                     <span className="btn btn-danger btn-small" style={{ margin: '5px' }} onClick={() => this.onFilterRemove(index)}>
                       x
                     </span>
