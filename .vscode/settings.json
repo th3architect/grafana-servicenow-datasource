@@ -20,6 +20,7 @@
         "STARTSWITH",
         "cmdb",
         "datapoints",
-        "groupby"
+        "groupby",
+        "plugincheck"
     ]
 }
