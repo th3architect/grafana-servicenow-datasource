@@ -61,9 +61,9 @@ export class ServiceNowQuery {
       sysparmQueries.push(encodeURIComponent(`${filter.field}${filter.operator}${filter.value}${suffix}`.trim()));
     });
     if (orderBy) {
-      sysparmQueries.push((orderByDirection === 'asc' ? 'ORDERBY' : 'ORDERBYDESC') + orderBy.trim());
+      sysparmQueries.push((orderByDirection === 'asc' ? '^ORDERBY' : '^ORDERBYDESC') + orderBy.trim());
     }
-    this.queryParams.push(new ServiceNowQueryURLParam('sysparm_query', sysparmQueries.join('')));
+    this.queryParams.push(new ServiceNowQueryURLParam('sysparm_query', sysparmQueries.join('').replace(/\^\^/g, '^')));
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_display_value', sysparmDisplayValue));
   }
   private getNormalizedSysParmQuery(sysparmQuery: string) {
@@ -120,7 +120,7 @@ export class ServiceNowQueryCtrlFields {
   filters: ServiceNowQueryFilter[];
   orderBy: string;
   orderByDirection: type_service_now_query_order_by_direction = 'asc';
-  groupBy: string;
+  groupBy: string[];
   limit: number;
   constructor(options: any) {
     this.table = options.table || 'incident';
@@ -130,7 +130,7 @@ export class ServiceNowQueryCtrlFields {
     this.filters = options.filters || [];
     this.orderByDirection = options.orderByDirection || 'asc';
     this.orderBy = options.orderBy || '';
-    this.groupBy = options.groupBy || '';
+    this.groupBy = options.groupBy || [];
     this.limit = options.limit || 25;
   }
   getUrl(): string {
@@ -145,12 +145,8 @@ export class ServiceNowQueryCtrlFields {
       const query = new ServiceNowTableQuery(this.table, fields, this.query, this.limit, this.filters, this.orderBy, this.orderByDirection);
       return query.getUrl();
     } else if (this.type === 'stats') {
-      const groupByValue = this.groupBy ? this.groupBy : '';
-      const groupBy: string[] = groupByValue
-        .trim()
-        .split(',')
-        .filter(Boolean)
-        .map(a => a.trim());
+      const groupByValue = this.groupBy ? this.groupBy : [];
+      const groupBy: string[] = groupByValue.filter(Boolean).map(a => a.trim());
       const query = new ServiceNowAggregationQuery(this.table, groupBy, this.query, 'true', this.filters);
       return query.getUrl();
     } else {
@@ -166,7 +162,7 @@ export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQueryCtrlFields({
   type: 'table',
   fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority',
   query: '',
-  groupBy: '',
+  groupBy: [],
   orderBy: 'opened_at',
   orderByDirection: 'desc',
   limit: 10,

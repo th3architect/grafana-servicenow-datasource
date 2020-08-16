@@ -49,7 +49,7 @@ export class ServiceNowInstance {
         q = new ServiceNowTableQuery(sn.table, sn.fields.trim().split(','), sn.query, sn.limit, sn.filters, sn.orderBy, sn.orderByDirection);
       } else if (query.servicenow && query.servicenow.type === 'stats') {
         const sn = query.servicenow;
-        q = new ServiceNowAggregationQuery(sn.table, sn.groupBy.trim().split(','), sn.query, 'true', sn.filters);
+        q = new ServiceNowAggregationQuery(sn.table, sn.groupBy.map(a => a.trim()).filter(Boolean), sn.query, 'true', sn.filters);
       }
       return this.getServiceNowResults(q)
         .then((result: any) => {

@@ -75,7 +75,7 @@ export class ServiceNowResultsParser {
     res.result.data.result.forEach((item: any, index: number) => {
       if (index === 0) {
         if (res && res.query && res.query.servicenow && res.query.servicenow.groupBy) {
-          res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+          res.query.servicenow.groupBy.filter(Boolean).forEach((groupItem: string) => {
             this.output.columns.push({
               text: groupItem,
               type: 'string',
@@ -90,7 +90,7 @@ export class ServiceNowResultsParser {
       if (item && item.stats) {
         const value = toInteger(item.stats.count);
         const outArray: any[] = [];
-        res.query.servicenow.groupBy.split(',').forEach((groupItem: string) => {
+        res.query.servicenow.groupBy.filter(Boolean).forEach((groupItem: string) => {
           const field = item.groupby_fields.find((g: any) => g.field === groupItem);
           if (field) {
             outArray.push(field.display_value || field.value || '-');
