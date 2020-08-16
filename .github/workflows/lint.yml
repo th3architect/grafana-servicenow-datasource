@@ -24,4 +24,4 @@ jobs:
         go install
         cd ../../;
         plugincheck -url https://github.com/yesoreyeram/grafana-servicenow-datasource;
-        echo $?;
+        exit $?;
