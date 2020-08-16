@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react';
-import { set } from 'lodash';
+import { set, toInteger } from 'lodash';
 import { SelectableValue } from './grafana';
 
-export const onSelectChange = (selectableItem: SelectableValue, field: string, props: any) => {
+export const onSelectChange = (selectableItem: SelectableValue, field: string, props: any, format = 'string') => {
   const { query, onChange } = props;
   const servicenow: any = query.servicenow;
-  set(servicenow, field, selectableItem.value);
+  set(servicenow, field, format === 'number' ? toInteger(selectableItem.value) : selectableItem.value);
   onChange({ ...query, servicenow });
 };
 

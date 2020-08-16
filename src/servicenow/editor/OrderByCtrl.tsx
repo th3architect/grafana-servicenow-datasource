@@ -61,7 +61,7 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
               }
               options={LIMITS}
               defaultValue={query.servicenow.limit}
-              onChange={e => onSelectChange(e, 'limit', this.props)}
+              onChange={e => onSelectChange(e, 'limit', this.props, 'number')}
               allowCustomValue
             />
             {orderByCtrl}
