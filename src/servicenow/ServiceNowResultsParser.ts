@@ -106,7 +106,12 @@ export class ServiceNowResultsParser {
     let fields: string[] = [];
     fields = res && res.query && res.query.servicenow && res.query.servicenow.fields ? res.query.servicenow.fields : fields;
     fields = res && res.query && res.query && res.query.fields ? res.query.fields : fields;
-    const cols: string[] = uniq(fields.map((item: string) => item.trim()).filter(Boolean));
+    const cols: string[] = uniq(
+      fields
+        .filter(Boolean)
+        .map((item: string) => item.trim())
+        .filter(Boolean)
+    );
     if (fields && fields[0] !== '*' && fields[0] !== '') {
       res.result.data.result.forEach((item: any, index: number) => {
         if (index === 0) {
