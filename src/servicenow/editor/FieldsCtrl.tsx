@@ -14,8 +14,8 @@ export class ServiceNowQueryFieldsCtrl extends PureComponent<any, any> {
             <input
               className="gf-form-input width-30"
               type="text"
-              onChange={e => onInputTextChange(e, 'fields', this.props)}
-              value={query.servicenow.fields}
+              onChange={e => onInputTextChange(e, 'fields', this.props, true)}
+              value={query.servicenow.fields.join(',')}
               placeholder="Fields ( Comma Separated)"
               title="Fields ( Comma Separated )"
             ></input>

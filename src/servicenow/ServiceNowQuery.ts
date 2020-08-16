@@ -95,7 +95,9 @@ export class ServiceNowTableQuery extends ServiceNowQuery {
     orderByDirection: type_service_now_query_order_by_direction
   ) {
     super('table', tableName, sysparmQuery, filters, 'all', orderBy, orderByDirection);
-    this.queryParams.push(new ServiceNowQueryURLParam('sysparm_fields', sysparmFields.join(',')));
+    if (sysparmFields.length > 0 && sysparmFields[0] && sysparmFields[0] !== '*') {
+      this.queryParams.push(new ServiceNowQueryURLParam('sysparm_fields', sysparmFields.join(',')));
+    }
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_limit', sysparmLimit.toString()));
   }
 }
@@ -115,7 +117,7 @@ export class ServiceNowAggregationQuery extends ServiceNowQuery {
 export class ServiceNowQueryCtrlFields {
   table: type_service_now_table = 'incident';
   type: type_service_now_api = 'table';
-  fields: string;
+  fields: string[];
   query: string;
   filters: ServiceNowQueryFilter[];
   orderBy: string;
@@ -125,7 +127,7 @@ export class ServiceNowQueryCtrlFields {
   constructor(options: any) {
     this.table = options.table || 'incident';
     this.type = options.type || 'table';
-    this.fields = options.fields || '';
+    this.fields = options.fields || [];
     this.query = options.query || '';
     this.filters = options.filters || [];
     this.orderByDirection = options.orderByDirection || 'asc';
@@ -136,12 +138,10 @@ export class ServiceNowQueryCtrlFields {
   getUrl(): string {
     if (this.type === 'table') {
       const fieldsValue =
-        this.fields && this.fields !== '*' ? this.fields || 'opened_at,number,short_description,sys_created_by,severity,category,state,priority' : '';
-      const fields: string[] = fieldsValue
-        .trim()
-        .split(',')
-        .filter(Boolean)
-        .map(a => a.trim());
+        this.fields && this.fields[0] !== '*'
+          ? this.fields || 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'.split(',')
+          : [];
+      const fields: string[] = fieldsValue.filter(Boolean).map(a => a.trim());
       const query = new ServiceNowTableQuery(this.table, fields, this.query, this.limit, this.filters, this.orderBy, this.orderByDirection);
       return query.getUrl();
     } else if (this.type === 'stats') {

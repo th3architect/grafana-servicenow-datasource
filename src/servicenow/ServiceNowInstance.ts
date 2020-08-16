@@ -46,7 +46,15 @@ export class ServiceNowInstance {
       let q: ServiceNowTableQuery | ServiceNowAnnotationQuery = new ServiceNowAggregationQuery('', [], '', 'true', []);
       if (query.servicenow && query.servicenow.type === 'table') {
         const sn = query.servicenow;
-        q = new ServiceNowTableQuery(sn.table, sn.fields.trim().split(','), sn.query, sn.limit, sn.filters, sn.orderBy, sn.orderByDirection);
+        q = new ServiceNowTableQuery(
+          sn.table,
+          sn.fields.map(a => a.trim()).filter(Boolean),
+          sn.query,
+          sn.limit,
+          sn.filters,
+          sn.orderBy,
+          sn.orderByDirection
+        );
       } else if (query.servicenow && query.servicenow.type === 'stats') {
         const sn = query.servicenow;
         q = new ServiceNowAggregationQuery(sn.table, sn.groupBy.map(a => a.trim()).filter(Boolean), sn.query, 'true', sn.filters);
@@ -63,7 +71,7 @@ export class ServiceNowInstance {
   private doAnnotationQueries(queries: ServiceNowAnnotationQuery[], options: any) {
     return queries.map((query: ServiceNowAnnotationQuery) => {
       query.query = replaceWithGrafanaTimeRange(query.query, options.range.from, options.range.to);
-      const q = new ServiceNowTableQuery(query.table, query.fields.trim().split(','), query.query, query.limit, [], query.startTimeField, 'asc');
+      const q = new ServiceNowTableQuery(query.table, query.fields, query.query, query.limit, [], query.startTimeField, 'asc');
       return this.getServiceNowResults(q)
         .then((result: any) => {
           return { result, query, options: {} };
@@ -105,9 +113,7 @@ export class ServiceNowInstance {
           options.annotation.descriptionField,
           options.annotation.startTimeField,
           options.annotation.endTimeField,
-        ]
-          .filter(Boolean)
-          .join(','),
+        ],
         query: options.annotation.query || '',
         table: options.annotation.table,
       };

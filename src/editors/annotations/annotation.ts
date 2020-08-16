@@ -1,6 +1,6 @@
 export class ServiceNowAnnotationQuery {
   table = 'incident';
-  fields = '';
+  fields: string[] = [];
   query = '';
   titleField = '';
   descriptionField = '';
