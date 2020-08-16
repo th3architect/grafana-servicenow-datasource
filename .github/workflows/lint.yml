@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - dist/
+    paths:
+      - dist/
 
 jobs:
   build:
@@ -23,6 +23,5 @@ jobs:
         cd ./plugin-validator/cmd/plugincheck;
         go install
         cd ../../;
-        result=(plugincheck -url https://github.com/yesoreyeram/grafana-servicenow-datasource);
-        echo $result | grep -v '"level": "error",';
+        plugincheck -url https://github.com/yesoreyeram/grafana-servicenow-datasource;
         exit $?;
