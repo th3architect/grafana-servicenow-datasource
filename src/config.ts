@@ -73,3 +73,9 @@ export const FILTER_OPERATIONS: any[] = [
   { value: 'GT_OR_EQUALS_FIELD', label: 'Greater than or is field' },
   { value: 'LT_OR_EQUALS_FIELD', label: 'Less than or is field' },
 ];
+export const FILTER_VALUES: any = {
+  active: [
+    { label: 'True', value: 'true' },
+    { label: 'False', value: 'false' },
+  ],
+};

@@ -1,7 +1,7 @@
 import { flatten, cloneDeep } from 'lodash';
 import { DataSourceApi } from './grafana';
 import { ServiceNowInstance } from './servicenow/ServiceNowInstance';
-import { ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
+import { ServiceNowQuery } from './servicenow/ServiceNowQuery';
 
 export class Datasource extends DataSourceApi {
   private serviceNowInstance: ServiceNowInstance;
@@ -53,12 +53,12 @@ export class Datasource extends DataSourceApi {
 
   testDatasource() {
     return new Promise(async (resolve: any, reject: any) => {
-      const query = new ServiceNowAggregationQuery('incident', [], '', 'true', [], '', 'desc');
+      const query = new ServiceNowQuery('doc', 'table/schema', '', [], 'all', '', 'asc');
       this.serviceNowInstance
         .getServiceNowResults(query, 0)
         .then((result: any) => {
-          if (result && result.status === 200) {
-            resolve({ message: 'Successfully Connected ServiceNow', status: 'success' });
+          if (result && result.status === 200 && result.data && result.data.result) {
+            resolve({ message: `Successfully Connected ServiceNow.${result.data.result.length} tables found.`, status: 'success' });
           } else {
             console.error(result);
             reject({ message: 'Failed to Connect ServiceNow', status: 'error' });

@@ -11,7 +11,7 @@ type type_service_now_url_keys =
 type type_sysparm_count = 'true' | 'false';
 type type_sysparm_display_value = 'true' | 'false' | 'all';
 type type_service_now_table = `incident` | 'change_request' | 'problem';
-type type_service_now_api = `table` | 'stats';
+type type_service_now_api = `table` | 'stats' | 'doc';
 export type type_service_now_query_filter_condition = `^` | `^OR`;
 
 class ServiceNowQueryURLParam {
@@ -46,6 +46,7 @@ export class ServiceNowQuery {
   queryParams: ServiceNowQueryURLParam[] = [];
   constructor(
     api: type_service_now_api,
+    tableName: string,
     sysparmQuery: string,
     filters: ServiceNowQueryFilter[],
     sysparmDisplayValue: type_sysparm_display_value,
@@ -53,6 +54,7 @@ export class ServiceNowQuery {
     orderByDirection: type_service_now_query_order_by_direction = 'desc'
   ) {
     this.api = api;
+    this.tableName = tableName;
     const query = this.getNormalizedSysParmQuery(sysparmQuery);
     const sysparmQueries = [query].filter(Boolean);
     filters.forEach((filter, index) => {
@@ -74,6 +76,8 @@ export class ServiceNowQuery {
   }
   getUrl(): string {
     switch (this.api) {
+      case 'doc':
+        return `/api/now/doc/${this.tableName}`;
       case 'table':
         return `/api/now/table/${this.tableName}?${this.queryParams.map(v => v.getValue()).join('&')}`;
       case 'stats':
@@ -91,8 +95,7 @@ export class ServiceNowTableQuery extends ServiceNowQuery {
     orderBy: string,
     orderByDirection: type_service_now_query_order_by_direction
   ) {
-    super('table', sysparmQuery, filters, 'all', orderBy, orderByDirection);
-    this.tableName = tableName;
+    super('table', tableName, sysparmQuery, filters, 'all', orderBy, orderByDirection);
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_fields', sysparmFields.join(',')));
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_limit', sysparmLimit.toString()));
   }
@@ -103,12 +106,9 @@ export class ServiceNowAggregationQuery extends ServiceNowQuery {
     sysparmGroupBy: string[],
     sysparmQuery: string,
     sysparmCount: type_sysparm_count = 'true',
-    filters: ServiceNowQueryFilter[],
-    orderBy: string,
-    orderByDirection: type_service_now_query_order_by_direction
+    filters: ServiceNowQueryFilter[]
   ) {
-    super('stats', sysparmQuery, filters, 'all', orderBy, orderByDirection);
-    this.tableName = tableName;
+    super('stats', tableName, sysparmQuery, filters, 'all', '', 'asc');
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_group_by', sysparmGroupBy.join(',')));
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_count', sysparmCount));
   }
@@ -152,7 +152,7 @@ export class ServiceNowQueryCtrlFields {
         .split(',')
         .filter(Boolean)
         .map(a => a.trim());
-      const query = new ServiceNowAggregationQuery(this.table, groupBy, this.query, 'true', this.filters, this.orderBy, this.orderByDirection);
+      const query = new ServiceNowAggregationQuery(this.table, groupBy, this.query, 'true', this.filters);
       return query.getUrl();
     } else {
       return '';
