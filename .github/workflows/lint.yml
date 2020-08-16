@@ -23,5 +23,6 @@ jobs:
         cd ./plugin-validator/cmd/plugincheck;
         go install
         cd ../../;
-        plugincheck -url https://github.com/yesoreyeram/grafana-servicenow-datasource;
+        result=(plugincheck -url https://github.com/yesoreyeram/grafana-servicenow-datasource);
+        echo $result | grep -v '"level": "error",';
         exit $?;
