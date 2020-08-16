@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal } from './../../grafana';
+import { Modal } from '../../../grafana';
 
 interface State {
   showHelpModal: boolean;
@@ -17,7 +17,7 @@ export class ServiceNowQueryHelpCtrl extends PureComponent<any, State> {
       <>
         &nbsp;&nbsp;
         <button onClick={this.showHelpModal(true)} title="Help" className="btn btn-secondary btn-small">
-          service now query help
+          query help
         </button>
         <Modal
           title={

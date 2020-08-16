@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { onInputTextChange } from './../../utils';
+import { ServiceNowQueryHelpCtrl } from './Help/QueryHelp';
 
 export class ServiceNowQueryQueryCtrl extends PureComponent<any, any> {
   render() {
@@ -17,6 +18,7 @@ export class ServiceNowQueryQueryCtrl extends PureComponent<any, any> {
               className="gf-form-input min-width-30 width-30"
               rows={3}
             />
+            <ServiceNowQueryHelpCtrl />
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { onInputTextChange } from './../../utils';
+import { ServiceNowFieldsListCtrl } from './Help/FieldsListHelp';
 
 export class ServiceNowQueryGroupByCtrl extends PureComponent<any, any> {
   render() {
@@ -19,6 +20,7 @@ export class ServiceNowQueryGroupByCtrl extends PureComponent<any, any> {
               placeholder=""
               title="Group By"
             ></input>
+            <ServiceNowFieldsListCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} fieldName="groupBy" />
           </div>
         </div>
       </div>

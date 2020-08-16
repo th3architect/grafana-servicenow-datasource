@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { onInputTextChange } from './../../utils';
+import { ServiceNowFieldsListCtrl } from './Help/FieldsListHelp';
 
 export class ServiceNowQueryFieldsCtrl extends PureComponent<any, any> {
   render() {
@@ -19,6 +20,7 @@ export class ServiceNowQueryFieldsCtrl extends PureComponent<any, any> {
               placeholder="Fields ( Comma Separated)"
               title="Fields ( Comma Separated )"
             ></input>
+            <ServiceNowFieldsListCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} fieldName="fields" />
           </div>
         </div>
       </div>

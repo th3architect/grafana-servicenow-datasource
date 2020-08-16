@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { Select } from './../../grafana';
 import { onSelectChange } from './../../utils';
 import { TABLE_NAMES, QUERY_TYPES } from './../../config';
-import { ServiceNowQueryHelpCtrl } from './Help';
 
 export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
   render() {
@@ -35,7 +34,6 @@ export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
               defaultValue={query.servicenow.type}
               onChange={e => onSelectChange(e, 'type', this.props)}
             />
-            <ServiceNowQueryHelpCtrl />
           </div>
         </div>
       </div>
