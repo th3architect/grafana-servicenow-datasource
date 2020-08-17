@@ -6,6 +6,7 @@ Change history of the project. All the feature updates, bug fixes, breaking chan
 
 - Fields chooser with support for multiple tables.
 - Table chooser with support for all available tables.
+- Template variables list support
 
 ## [ 0.1.0 ]
 

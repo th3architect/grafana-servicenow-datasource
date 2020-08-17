@@ -1,7 +1,7 @@
 import { flatten, cloneDeep } from 'lodash';
 import { DataSourceApi } from './grafana';
 import { ServiceNowInstance } from './servicenow/ServiceNowInstance';
-import { ServiceNowQuery } from './servicenow/ServiceNowQuery';
+import { ServiceNowQuery, ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
 
 export class Datasource extends DataSourceApi {
   private serviceNowInstance: ServiceNowInstance;
@@ -47,6 +47,31 @@ export class Datasource extends DataSourceApi {
   metricFindQuery(query: string) {
     if (!query) {
       return Promise.resolve([]);
+    }
+    if (query && query.startsWith('list(') && query.endsWith(')')) {
+      const queryItems = query
+        .replace(`list(`, ``)
+        .slice(0, -1)
+        .split(',');
+      const tableName = queryItems[0];
+      const fieldName = queryItems[1];
+      const querystring = queryItems.filter((item, index) => index > 1).join(',');
+      const snQuery = new ServiceNowAggregationQuery(tableName, [fieldName], querystring, 'true', []);
+      return this.serviceNowInstance
+        .getServiceNowResults(snQuery)
+        .then(res => {
+          return Promise.resolve(
+            res.data.result.map((r: any) => {
+              const text = r && r.groupby_fields && r.groupby_fields[0] ? r.groupby_fields[0].display_value || r.groupby_fields[0].value : '';
+              const value = r && r.groupby_fields && r.groupby_fields[0] ? r.groupby_fields[0].value : '';
+              return { text, value };
+            })
+          );
+        })
+        .catch((ex: any) => {
+          console.error(ex);
+          return Promise.resolve([]);
+        });
     }
     return Promise.resolve([]);
   }
