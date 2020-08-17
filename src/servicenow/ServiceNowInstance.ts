@@ -34,12 +34,12 @@ export class ServiceNowInstance {
       const servicenowQueryItem = query.servicenow;
       if (servicenowQueryItem && servicenowQueryItem.query) {
         servicenowQueryItem.query = replaceWithGrafanaTimeRange(servicenowQueryItem.query, options.range.from, options.range.to);
-        servicenowQueryItem.query = this.templateSrv.replace(servicenowQueryItem.query, {}, 'glob');
+        servicenowQueryItem.query = this.templateSrv.replace(servicenowQueryItem.query, {}, 'csv');
       }
       if (servicenowQueryItem && servicenowQueryItem.filters) {
         servicenowQueryItem.filters = servicenowQueryItem.filters.map(filter => {
           filter.value = replaceWithGrafanaTimeRange(filter.value, options.range.from, options.range.to);
-          filter.value = this.templateSrv.replace(filter.value, {}, 'glob');
+          filter.value = this.templateSrv.replace(filter.value, {}, 'csv');
           return filter;
         });
       }

@@ -27,7 +27,7 @@ export class Datasource extends DataSourceApi {
   }
 
   annotationQuery(options: any) {
-    options.annotation.query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
+    options.annotation.query = this.templateSrv.replace(options.annotation.query, {}, 'csv');
     const annotationQuery = {
       range: options.range,
       rangeRaw: options.rangeRaw,
