@@ -1,4 +1,4 @@
-name: Build & Publish
+name: Super Lint
 
 on:
   push:
