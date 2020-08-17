@@ -13,7 +13,7 @@ export class ServiceNowQueryFieldsCtrl extends PureComponent<any, any> {
               Fields
             </label>
             <input
-              className="gf-form-input width-30"
+              className="gf-form-input width-24"
               type="text"
               onChange={e => onInputTextChange(e, 'fields', this.props, true)}
               value={query.servicenow.fields.join(',')}

@@ -61,10 +61,10 @@ export class ServiceNowFieldsListCtrl extends PureComponent<Props, State> {
     const { showFieldsListModal } = this.state;
     return (
       <>
-        &nbsp;&nbsp;
-        <button onClick={this.showFieldsListModal(true)} title="Fields List" className="btn btn-secondary btn-small">
+        &nbsp;
+        <label role="button" onClick={this.showFieldsListModal(true)} title="Fields List" className="query-keyword gf-form-label width-6">
           choose fields
-        </button>
+        </label>
         <Modal
           title={
             <div className="modal-header-title">

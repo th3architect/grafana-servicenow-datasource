@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Select } from './../../grafana';
 import { onSelectChange } from './../../utils';
-import { TABLE_NAMES, QUERY_TYPES } from './../../config';
+import { QUERY_TYPES } from './../../config';
+import { ServiceNowQueryTableSelectorCtrl } from './Help/TableSelector';
 
 export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
   render() {
@@ -10,25 +11,14 @@ export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {
       <div>
         <div className="gf-form-inline">
           <div className="gf-form">
-            <label className="gf-form-label query-keyword width-8">Table</label>
-            <Select
-              className="width-12"
-              value={
-                TABLE_NAMES.find((service: any) => service.value === query.servicenow.table) || {
-                  label: query.servicenow.table,
-                  value: query.servicenow.table,
-                }
-              }
-              options={TABLE_NAMES}
-              defaultValue={query.servicenow.table}
-              onChange={e => onSelectChange(e, 'table', this.props)}
-              allowCustomValue
-            />
+            <label className="gf-form-label width-8">Table</label>
+            <ServiceNowQueryTableSelectorCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
           </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;
           <div className="gf-form">
-            <label className="gf-form-label query-keyword width-6">Type</label>
+            <label className="gf-form-label width-6">Type</label>
             <Select
-              className="width-12"
+              className="width-11"
               value={QUERY_TYPES.find((service: any) => service.value === query.servicenow.type)}
               options={QUERY_TYPES}
               defaultValue={query.servicenow.type}

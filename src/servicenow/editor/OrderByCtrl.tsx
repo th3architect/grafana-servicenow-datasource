@@ -37,7 +37,7 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
                 allowCustomValue
               />
               &nbsp;&nbsp;
-              <label className="gf-form-label width-8" title="Order By">
+              <label className="gf-form-label width-4" title="Order By">
                 Order By
               </label>
               <Select

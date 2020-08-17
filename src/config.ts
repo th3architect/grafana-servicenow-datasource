@@ -2,12 +2,10 @@ import { FieldType } from './grafana';
 export const TABLE_NAME_INCIDENT = 'incident';
 export const TABLE_NAME_CHANGE_REQUEST = 'change_request';
 export const TABLE_NAME_PROBLEM = 'problem';
-export const TABLE_NAME_SYSTEM_USER_GROUP = 'sys_user_group';
 export const TABLE_NAMES = [
   { label: 'Incidents (INC)', value: TABLE_NAME_INCIDENT, short_code: 'INC' },
   { label: 'Change Request (CHG)', value: TABLE_NAME_CHANGE_REQUEST, short_code: 'CHG' },
   { label: 'Problem (PRB)', value: TABLE_NAME_PROBLEM, short_code: 'PRB' },
-  { label: 'System User Group', value: TABLE_NAME_SYSTEM_USER_GROUP, short_code: '' },
 ];
 export const QUERY_TYPES: any[] = [
   { label: 'Table', value: 'table' },
@@ -21,7 +19,7 @@ export const FIELDS_LIST: any[] = [
   {
     value: 'description',
     label: 'Description',
-    tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM, TABLE_NAME_SYSTEM_USER_GROUP],
+    tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM],
   },
   { value: 'end_date', label: 'End Date', tables: [TABLE_NAME_CHANGE_REQUEST], FieldType: FieldType.time },
   { value: 'incident_state', label: 'Incident State', tables: [TABLE_NAME_INCIDENT] },
@@ -41,9 +39,6 @@ export const FIELDS_LIST: any[] = [
   { value: 'urgency', label: 'Urgency', tables: [TABLE_NAME_PROBLEM] },
   { value: 'category', label: 'Category', tables: [TABLE_NAME_PROBLEM] },
   { value: 'subcategory', label: 'Subcategory', tables: [TABLE_NAME_PROBLEM] },
-  { value: 'name', label: 'Name', tables: [TABLE_NAME_SYSTEM_USER_GROUP] },
-  { value: 'manager', label: 'Manager', tables: [TABLE_NAME_SYSTEM_USER_GROUP] },
-  { value: 'email', label: 'Email', tables: [TABLE_NAME_SYSTEM_USER_GROUP] },
 ];
 export const FIELDS_LIST_TIME = FIELDS_LIST.filter(f => f.FieldType === FieldType.time);
 export const FILTER_CONDITIONS: any[] = [

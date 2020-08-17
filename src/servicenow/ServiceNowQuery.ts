@@ -159,10 +159,10 @@ export interface ServiceNowPluginQuery extends DataQuery {
 }
 export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQueryCtrlFields({
   table: 'incident',
-  type: 'table',
+  type: 'stats',
   fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'.split(','),
   query: '',
-  groupBy: [],
+  groupBy: 'state'.split(','),
   orderBy: 'opened_at',
   orderByDirection: 'desc',
   limit: 10,

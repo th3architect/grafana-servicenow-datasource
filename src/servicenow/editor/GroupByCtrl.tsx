@@ -13,7 +13,7 @@ export class ServiceNowQueryGroupByCtrl extends PureComponent<any, any> {
               Group By
             </label>
             <input
-              className="gf-form-input width-30"
+              className="gf-form-input width-24"
               type="text"
               onChange={e => onInputTextChange(e, 'groupBy', this.props, true)}
               value={query.servicenow.groupBy.join(',')}

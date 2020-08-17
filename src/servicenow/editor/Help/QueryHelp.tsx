@@ -15,10 +15,10 @@ export class ServiceNowQueryHelpCtrl extends PureComponent<any, State> {
     const { showHelpModal } = this.state;
     return (
       <>
-        &nbsp;&nbsp;
-        <button onClick={this.showHelpModal(true)} title="Help" className="btn btn-secondary btn-small">
-          query help
-        </button>
+        &nbsp;
+        <label role="button" onClick={this.showHelpModal(true)} title="Help" className="btn btn-secondary btn-small">
+          ?
+        </label>
         <Modal
           title={
             <div className="modal-header-title">

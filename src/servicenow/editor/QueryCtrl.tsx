@@ -15,7 +15,7 @@ export class ServiceNowQueryQueryCtrl extends PureComponent<any, any> {
             <textarea
               value={query.servicenow.query || ''}
               onChange={e => onInputTextChange(e, 'query', this.props)}
-              className="gf-form-input min-width-30 width-30"
+              className="gf-form-input min-width-28 width-28"
               rows={3}
             />
             <ServiceNowQueryHelpCtrl />
