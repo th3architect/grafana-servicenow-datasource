@@ -26,6 +26,20 @@ If you want to use grafana time picker's time field in your query/filter values,
 
 In query field this can be used like `start_date>$__timeFrom()^start_date<$__timeTo()`. Above example returns data where start_date is within grafana time range. Also `start_dateBETWEEN$__timeFilter()` can be used as shortcut.
 
+## Template variables
+
+If you want to pull the list of items for any field in a table as a variable dropdown, use the following query to define the variable
+
+| Format | Definition | Example |
+|--------|------------|---------|
+|`list(YOUR_TABLE_NAME,YOUR_FIELD_NAME)` | This will list all the **YOUR_FIELD_NAME** from the **YOUR_TABLE_NAME** table. | `list(incident,state)` will list all the state values from the incident table.|
+| `list(YOUR_TABLE_NAME,YOUR_FIELD_NAME,YOUR_QUERY)` | This will list all the **YOUR_FIELD_NAME** from the **YOUR_TABLE_NAME** table after applying **YOUR_QUERY** filter. Query can contain any number of and/or conditions | `list(change_request,assignment_group,assignment_group.nameLIKEInfra)` will list all the assignment_groups from the change_request table where the assignment group name is like Infra. |
+
+While using any template variable in your actual query, it only supports single value. Multi value template variables are not supported in the query.
+
+**Note:** Under the hood, the list query performs an aggregation over the table and returns the result. So consider the performance impact while querying fields with lots of unique values. 
+
+
 ## Installation
 
 There are multiple ways to install this plugin into your grafana instance
