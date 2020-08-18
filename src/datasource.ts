@@ -40,7 +40,7 @@ export class Datasource extends DataSourceApi {
             const value = last(row);
             data.push({
               target,
-              datapoints: [[value, options.range.from]],
+              datapoints: [[value, options.range.to]],
             });
           });
         });
