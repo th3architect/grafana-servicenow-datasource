@@ -9,6 +9,7 @@
 Service Now data source for Grafana.
 
 ![image](https://user-images.githubusercontent.com/153843/90303029-56c46080-dea2-11ea-8a8c-b68f88c55d26.png)
+![image](https://user-images.githubusercontent.com/153843/90485149-0e6da280-e12f-11ea-9384-11f576d8cbb3.png)
 
 For more screenshots, follow [this github issue](https://github.com/yesoreyeram/grafana-servicenow-datasource/issues/1).
 
@@ -37,6 +38,19 @@ If you want to pull the list of items for any field in a table as a variable dro
 
 **Note:** Under the hood, the list query performs an aggregation over the table and returns the result. So consider the performance impact while querying fields with lots of unique values. 
 
+## Annotation
+
+You can annotate any servicenow table data as annotation in grafana with any of the time field in that table. For example, you can annotate **Priority 1** incidents as annotations over a graph as an event. Annotation fields and their usage.
+
+| Field | Description |
+|-------|-------------|
+| Title | Field in service now displayed as annotation title. Typically it is **number** or **short_description**. Only single field allowed.   |
+| Description| Field in service now displayed as annotation description.Typically it will be **short_description** of **description**. Only single field allowed. |
+| Stat Time Field | **[Mandatory]** Field in service now which should be considered as annotation start time. |
+| End Time Field | Field in service now which should be considered as annotation start time. If you specify this field, annotation will be shown as ranged annotation. |
+| Tags | List of comma separated fields you want to show as tags in annotation |
+| Query | Service now filter query string to filter the number of events.<br/><br/>Example: `short_descriptionLIKEoutage^priority<3` filter the records with all the two conditions. <br/>1: **short_description** contains the work outage.<br/>2: **priority** less than 3.<br/>Apart from the two conditions, query automatically include filter with your start time field over grafana time range.|
+| Custom Description | Custom description on the annotation. You can specify content using plain text / HTML tags.<br/> If you want to provide field values in text specify `${__data.fields[FIELD_NAME]}` as token where `FIELD_NAME` is your service now field name (should be one of the tags/title fields specified).<br/><br/>Example : `<a href="https://XXXX.service-now.com/incident.do?sysparm_query=number={field.number}" target="_blank">More about ${__data.fields[number]}</a>` will be turned into hyperlink. |
 
 ## Installation
 
