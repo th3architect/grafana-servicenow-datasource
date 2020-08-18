@@ -6,6 +6,7 @@ export class ServiceNowAnnotationQuery {
   descriptionField = '';
   startTimeField = '';
   endTimeField = '';
+  customDescription = '';
   limit = 25;
 }
 export class Annotation {

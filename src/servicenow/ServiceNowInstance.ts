@@ -101,20 +101,25 @@ export class ServiceNowInstance {
         return item.hide !== true;
       });
     } else if (options.annotation) {
+      let query = '';
+      if (options.annotation.startTimeField) {
+        query = [`${options.annotation.startTimeField}BETWEEN$__timeFilter()`, options.annotation.query].filter(Boolean).join('^');
+      }
       const annotationQuery = {
         limit: options.annotation.limit || 30,
         startTimeField: options.annotation.startTimeField,
         endTimeField: options.annotation.endTimeField,
         titleField: options.annotation.titleField,
         descriptionField: options.annotation.descriptionField,
+        customDescription: options.annotation.customDescription || '',
         fields: [
-          ...options.annotation.fields.split(','),
+          ...(options.annotation.fields || '').split(','),
           options.annotation.titleField,
           options.annotation.descriptionField,
           options.annotation.startTimeField,
           options.annotation.endTimeField,
         ],
-        query: options.annotation.query || '',
+        query,
         table: options.annotation.table,
       };
       queries.push(annotationQuery);

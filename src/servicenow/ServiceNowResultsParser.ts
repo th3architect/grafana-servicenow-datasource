@@ -10,6 +10,7 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnno
     time: new Date().getTime(),
   };
   let amendText = '';
+  let moreDetailsText = query.customDescription || '';
   forEach(cols, (value, index) => {
     if (value.text === query.startTimeField) {
       if (row[index]) {
@@ -34,9 +35,12 @@ const getServiceNowRowAsAnnotation = (row: any, cols: any, query: ServiceNowAnno
         annotation.tags.push(`${value.text} : ${row[index]}`);
       }
     }
+    moreDetailsText = moreDetailsText.replace('${__data.fields[' + value.text + ']}', row[index]);
+    moreDetailsText = moreDetailsText.replace(new RegExp(`{field.${value.text}}`, 'g'), row[index]);
   });
   annotation.text += `
     ${amendText}
+    ${moreDetailsText}
   `;
   return annotation;
 };
