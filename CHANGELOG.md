@@ -5,6 +5,7 @@ Change history of the project. All the feature updates, bug fixes, breaking chan
 ## [0.3.0]
 
 - Query Editor improvements
+- Virtual timeseries format to support grafana graph panels
 
 ## [ 0.2.0 ]
 

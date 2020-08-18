@@ -1,4 +1,4 @@
-import { flatten, cloneDeep } from 'lodash';
+import { flatten, cloneDeep, last } from 'lodash';
 import { DataSourceApi } from './grafana';
 import { ServiceNowInstance } from './servicenow/ServiceNowInstance';
 import { ServiceNowQuery, ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
@@ -15,6 +15,12 @@ export class Datasource extends DataSourceApi {
   query(options: any) {
     const promises: any[] = [];
     const snOptions = cloneDeep(options);
+    const isTimeSeriesFormat: boolean =
+      options &&
+      options.targets &&
+      options.targets[0] &&
+      options.targets[0].servicenow &&
+      options.targets[0].servicenow.resultFormat === 'timeseries';
     if (snOptions.targets.length > 0) {
       const snIncidentPromise = this.serviceNowInstance.query(snOptions);
       if (snIncidentPromise) {
@@ -22,7 +28,26 @@ export class Datasource extends DataSourceApi {
       }
     }
     return Promise.all(promises).then(results => {
-      return { data: flatten(results) };
+      if (isTimeSeriesFormat) {
+        const data: any[] = [];
+        results.forEach(result => {
+          result.rows.forEach((row: any) => {
+            const target =
+              row
+                .map((ri: string, index: number) => (index === row.length - 1 ? '' : ri))
+                .filter(Boolean)
+                .join(' - ') || '';
+            const value = last(row);
+            data.push({
+              target,
+              datapoints: [[value, options.range.from]],
+            });
+          });
+        });
+        return { data };
+      } else {
+        return { data: flatten(results) };
+      }
     });
   }
 

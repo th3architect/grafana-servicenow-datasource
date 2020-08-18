@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Select, SelectableValue } from './../../grafana';
 import { onSelectChange } from './../../utils';
-import { FIELDS_LIST } from './../../config';
+import { FIELDS_LIST, RESULT_FORMATS } from './../../config';
 
 const ORDER_DIRECTIONS: SelectableValue[] = [
   { label: 'Ascending', value: 'asc' },
@@ -64,7 +64,28 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
             </div>
           </div>
         </>
-      ) : null;
+      ) : (
+        <div className="gf-form-inline">
+          <div className="gf-form">
+            <label className="gf-form-label width-8" title="Result Format">
+              Result Format
+            </label>
+            <Select
+              className="width-6"
+              value={
+                RESULT_FORMATS.find((service: any) => service.value === query.servicenow.resultFormat) || {
+                  value: query.servicenow.resultFormat || 'table',
+                  label: query.servicenow.resultFormat || 'Table',
+                }
+              }
+              options={RESULT_FORMATS}
+              defaultValue={query.servicenow.resultFormat}
+              onChange={e => onSelectChange(e, 'resultFormat', this.props)}
+              allowCustomValue
+            />
+          </div>
+        </div>
+      );
     return <>{orderByCtrl}</>;
   }
 }

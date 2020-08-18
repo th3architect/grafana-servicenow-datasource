@@ -12,6 +12,7 @@ type type_sysparm_count = 'true' | 'false';
 type type_sysparm_display_value = 'true' | 'false' | 'all';
 type type_service_now_table = `incident` | 'change_request' | 'problem';
 type type_service_now_api = `table` | 'stats' | 'doc';
+type type_result_format = `table` | `timeseries`;
 export type type_service_now_query_filter_condition = `^` | `^OR`;
 
 class ServiceNowQueryURLParam {
@@ -123,6 +124,7 @@ export class ServiceNowQueryCtrlFields {
   orderBy: string;
   orderByDirection: type_service_now_query_order_by_direction = 'asc';
   groupBy: string[];
+  resultFormat: type_result_format = 'table';
   limit: number;
   constructor(options: any) {
     this.table = options.table || 'incident';
@@ -134,6 +136,7 @@ export class ServiceNowQueryCtrlFields {
     this.orderBy = options.orderBy || '';
     this.groupBy = options.groupBy || [];
     this.limit = options.limit || 25;
+    this.resultFormat = options.resultFormat || 'table';
   }
   getUrl(): string {
     if (this.type === 'table') {
@@ -166,4 +169,5 @@ export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQueryCtrlFields({
   orderBy: 'opened_at',
   orderByDirection: 'desc',
   limit: 10,
+  resultFormat: 'table',
 });

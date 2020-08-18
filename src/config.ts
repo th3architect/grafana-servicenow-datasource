@@ -11,6 +11,10 @@ export const QUERY_TYPES: any[] = [
   { label: 'Table', value: 'table' },
   { label: 'Stats', value: 'stats' },
 ];
+export const RESULT_FORMATS: any[] = [
+  { label: 'Table', value: 'table' },
+  { label: 'Time Series', value: 'timeseries' },
+];
 export const FIELDS_LIST: any[] = [
   { value: 'active', label: 'Active', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
   { value: 'assigned_to', label: 'Assigned To', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
