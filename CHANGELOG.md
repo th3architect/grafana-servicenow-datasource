@@ -6,6 +6,7 @@ Change history of the project. All the feature updates, bug fixes, breaking chan
 
 - Query Editor improvements
 - Virtual timeseries format to support grafana graph panels
+- Showcase dashboards included in plugin
 
 ## [ 0.2.0 ]
 
