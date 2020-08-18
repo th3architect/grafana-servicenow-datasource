@@ -1,12 +1,11 @@
 {
-  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "name": "Service Now",
   "id": "yesoreyeram-servicenow-datasource",
   "type": "datasource",
   "metrics": true,
   "annotations": true,
   "info": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "updated": "2020-08-18",
     "description": "Grafana Service Now Datasource",
     "author": {
