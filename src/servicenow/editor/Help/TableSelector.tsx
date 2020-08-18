@@ -45,10 +45,10 @@ export class ServiceNowQueryTableSelectorCtrl extends PureComponent<Props, State
       <>
         <input
           type="text"
-          className="gf-form-label width-8"
+          className="gf-form-input width-8"
           value={this.props.query.servicenow.table}
-          placeholder="Table Name"
-          title="Click to type"
+          placeholder="Table Name. If you don't know the table name, click 'change' option"
+          title="Table Name. If you don't know the table name, click 'change' option"
           onChange={e => {
             onInputTextChange(e, 'table', this.props);
           }}

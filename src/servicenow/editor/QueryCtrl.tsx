@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { onInputTextChange } from './../../utils';
 import { ServiceNowQueryHelpCtrl } from './Help/QueryHelp';
+import { ServiceNowQueryAdvancedQueryCtrl } from './Help/AdvancedQuery';
 
 export class ServiceNowQueryQueryCtrl extends PureComponent<any, any> {
   render() {
@@ -9,15 +9,7 @@ export class ServiceNowQueryQueryCtrl extends PureComponent<any, any> {
       <div>
         <div className="gf-form-inline">
           <div className="gf-form">
-            <label className="gf-form-label width-8" title="Query">
-              Query
-            </label>
-            <textarea
-              value={query.servicenow.query || ''}
-              onChange={e => onInputTextChange(e, 'query', this.props)}
-              className="gf-form-input min-width-28 width-28"
-              rows={3}
-            />
+            <ServiceNowQueryAdvancedQueryCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
             <ServiceNowQueryHelpCtrl />
           </div>
         </div>

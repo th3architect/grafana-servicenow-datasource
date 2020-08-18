@@ -17,8 +17,8 @@ export class ServiceNowQueryGroupByCtrl extends PureComponent<any, any> {
               type="text"
               onChange={e => onInputTextChange(e, 'groupBy', this.props, true)}
               value={query.servicenow.groupBy.join(',')}
-              placeholder=""
-              title="Group By"
+              placeholder="Comma separated fields list. Use 'Choose' option if you don't know the field names"
+              title="Comma separated fields list. Use 'Choose' option if you don't know the field names"
             ></input>
             <ServiceNowFieldsListCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} fieldName="groupBy" />
           </div>

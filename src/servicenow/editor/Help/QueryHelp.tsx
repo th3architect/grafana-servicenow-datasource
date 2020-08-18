@@ -16,8 +16,14 @@ export class ServiceNowQueryHelpCtrl extends PureComponent<any, State> {
     return (
       <>
         &nbsp;
-        <label role="button" onClick={this.showHelpModal(true)} title="Help" className="btn btn-secondary btn-small">
-          ?
+        <label
+          role="button"
+          onClick={this.showHelpModal(true)}
+          title="Help"
+          className="btn btn-secondary btn-small"
+          style={{ marginTop: '4px', padding: '10px' }}
+        >
+          <i className="fa fa-question fa-large btn btn-small"></i>
         </label>
         <Modal
           title={

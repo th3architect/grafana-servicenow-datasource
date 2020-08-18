@@ -20,24 +20,7 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
         <>
           <div className="gf-form-inline">
             <div className="gf-form">
-              <label className="gf-form-label width-8" title="Limit">
-                Limit
-              </label>
-              <Select
-                className="width-12"
-                value={
-                  LIMITS.find((service: any) => service.value === query.servicenow.limit) || {
-                    value: query.servicenow.limit,
-                    label: query.servicenow.limit,
-                  }
-                }
-                options={LIMITS}
-                defaultValue={query.servicenow.limit}
-                onChange={e => onSelectChange(e, 'limit', this.props, 'number')}
-                allowCustomValue
-              />
-              &nbsp;&nbsp;
-              <label className="gf-form-label width-4" title="Order By">
+              <label className="gf-form-label width-8" title="Order By">
                 Order By
               </label>
               <Select
@@ -60,6 +43,24 @@ export class ServiceNowQueryOrderByCtrl extends PureComponent<any, any> {
                 defaultValue={query.servicenow.orderByDirection}
                 onChange={e => onSelectChange(e, 'orderByDirection', this.props)}
               />
+              &nbsp;&nbsp;
+              <label className="gf-form-label width-4" title="Limit">
+                Limit
+              </label>
+              <Select
+                className="width-6"
+                value={
+                  LIMITS.find((service: any) => service.value === query.servicenow.limit) || {
+                    value: query.servicenow.limit,
+                    label: query.servicenow.limit,
+                  }
+                }
+                options={LIMITS}
+                defaultValue={query.servicenow.limit}
+                onChange={e => onSelectChange(e, 'limit', this.props, 'number')}
+                allowCustomValue
+              />
+              &nbsp;&nbsp;
             </div>
           </div>
         </>
