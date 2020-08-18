@@ -35,5 +35,12 @@
     "grafanaVersion": "5.2.x",
     "plugins": []
   },
+  "includes": [
+    {
+      "type": "dashboard",
+      "name": "Service Now - Showcase",
+      "path": "dashboards/servicenow-showcase.json"
+    }
+  ],
   "routes": []
 }
