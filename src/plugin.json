@@ -1,5 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "name": "Service Now",
   "id": "yesoreyeram-servicenow-datasource",
   "type": "datasource",
