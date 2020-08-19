@@ -7,7 +7,7 @@ Change history of the project. All the feature updates, bug fixes, breaking chan
 - Query Editor improvements
 - Virtual timeseries format to support grafana graph panels
 - Showcase dashboards included in plugin
-- Plugin site added
+- [Plugin site](https://yesoreyeram.github.io/grafana-servicenow-datasource) added 
 
 ## Version 0.2.0
 
