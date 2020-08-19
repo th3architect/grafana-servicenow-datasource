@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { orderBy, set } from 'lodash';
 import { Modal } from '../../../grafana';
-import { ServiceNowInstance } from './../../ServiceNowInstance';
-import { ServiceNowQuery } from './../../ServiceNowQuery';
-import { TABLE_NAMES } from './../../../config';
-import { onInputTextChange } from './../../../utils';
+import { ServiceNowInstance } from './../../../servicenow/ServiceNowInstance';
+import { ServiceNowDocQuery } from './../../../servicenow/ServiceNowQuery';
+import { TABLE_NAMES } from '../../../config';
+import { onInputTextChange } from '../../../utils';
 
 interface Props {
   onChange: any;
@@ -32,7 +32,7 @@ export class ServiceNowQueryTableSelectorCtrl extends PureComponent<Props, State
   }
   loadMoreTables() {
     const snInstance = new ServiceNowInstance(this.props.datasource.instanceSettings, null);
-    const query = new ServiceNowQuery('doc', `table/schema`, '', [], 'all', '', 'asc');
+    const query = new ServiceNowDocQuery(`table/schema`);
     snInstance.getServiceNowResults(query).then(res => {
       if (res && res.data && res.data.result) {
         this.setState({ tablesList: res.data.result });

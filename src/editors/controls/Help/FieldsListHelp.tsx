@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { orderBy } from 'lodash';
 import { Modal } from '../../../grafana';
-import { ServiceNowInstance } from './../../ServiceNowInstance';
-import { ServiceNowQuery } from './../../ServiceNowQuery';
+import { ServiceNowInstance } from './../../../servicenow/ServiceNowInstance';
+import { ServiceNowDocQuery } from './../../../servicenow/ServiceNowQuery';
 
 interface Props {
   query: any;
@@ -31,7 +31,7 @@ export class ServiceNowFieldsListCtrl extends PureComponent<Props, State> {
     if (this.props.query.servicenow.table !== this.state.selectedTable || override) {
       this.setState({ selectedTable: this.props.query.servicenow.table });
       const snInstance = new ServiceNowInstance(this.props.datasource.instanceSettings, null);
-      const query = new ServiceNowQuery('doc', `table/schema/${this.props.query.servicenow.table}`, '', [], 'all', '', 'asc');
+      const query = new ServiceNowDocQuery(`table/schema/${this.props.query.servicenow.table}`);
       snInstance.getServiceNowResults(query).then(res => {
         if (res && res.data && res.data.result) {
           this.setState({ fieldsList: res.data.result });

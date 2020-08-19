@@ -1,21 +1,21 @@
-import { FieldType } from './grafana';
+import { FieldType, SelectableValue } from './grafana';
 export const TABLE_NAME_INCIDENT = 'incident';
 export const TABLE_NAME_CHANGE_REQUEST = 'change_request';
 export const TABLE_NAME_PROBLEM = 'problem';
-export const TABLE_NAMES = [
+export const TABLE_NAMES: SelectableValue[] = [
   { label: 'Incidents (INC)', value: TABLE_NAME_INCIDENT, short_code: 'INC' },
   { label: 'Change Request (CHG)', value: TABLE_NAME_CHANGE_REQUEST, short_code: 'CHG' },
   { label: 'Problem (PRB)', value: TABLE_NAME_PROBLEM, short_code: 'PRB' },
 ];
-export const QUERY_TYPES: any[] = [
+export const QUERY_TYPES: SelectableValue[] = [
   { label: 'Table', value: 'table' },
   { label: 'Stats', value: 'stats' },
 ];
-export const RESULT_FORMATS: any[] = [
+export const RESULT_FORMATS: SelectableValue[] = [
   { label: 'Table', value: 'table' },
   { label: 'Time Series', value: 'timeseries' },
 ];
-export const FIELDS_LIST: any[] = [
+export const FIELDS_LIST: SelectableValue[] = [
   { value: 'active', label: 'Active', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
   { value: 'assigned_to', label: 'Assigned To', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
   { value: 'assignment_group.name', label: 'Assignment Group', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
@@ -45,11 +45,11 @@ export const FIELDS_LIST: any[] = [
   { value: 'subcategory', label: 'Subcategory', tables: [TABLE_NAME_PROBLEM] },
 ];
 export const FIELDS_LIST_TIME = FIELDS_LIST.filter(f => f.FieldType === FieldType.time);
-export const FILTER_CONDITIONS: any[] = [
+export const FILTER_CONDITIONS: SelectableValue[] = [
   { value: '^', label: 'AND' },
   { value: '^OR', label: 'OR' },
 ];
-export const FILTER_OPERATIONS: any[] = [
+export const FILTER_OPERATIONS: SelectableValue[] = [
   { value: '=', label: 'Equals' },
   { value: '!=', label: 'Not Equals' },
   { value: '<', label: 'Less than' },

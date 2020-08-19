@@ -1,7 +1,7 @@
 import { flatten, cloneDeep, last } from 'lodash';
 import { DataSourceApi } from './grafana';
 import { ServiceNowInstance } from './servicenow/ServiceNowInstance';
-import { ServiceNowQuery, ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
+import { ServiceNowDocQuery, ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
 
 export class Datasource extends DataSourceApi {
   private serviceNowInstance: ServiceNowInstance;
@@ -103,7 +103,7 @@ export class Datasource extends DataSourceApi {
 
   testDatasource() {
     return new Promise(async (resolve: any, reject: any) => {
-      const query = new ServiceNowQuery('doc', 'table/schema', '', [], 'all', '', 'asc');
+      const query = new ServiceNowDocQuery('table/schema');
       this.serviceNowInstance
         .getServiceNowResults(query, 0)
         .then((result: any) => {

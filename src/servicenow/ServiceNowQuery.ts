@@ -1,6 +1,5 @@
-import { DataQuery } from './../grafana';
-
-type type_service_now_query_order_by_direction = `asc` | `desc`;
+export type type_service_now_api = `table` | 'stats' | 'doc';
+export type type_service_now_query_order_by_direction = `asc` | `desc`;
 type type_service_now_url_keys =
   | 'sysparm_display_value'
   | 'sysparm_limit'
@@ -10,9 +9,7 @@ type type_service_now_url_keys =
   | 'sysparm_group_by';
 type type_sysparm_count = 'true' | 'false';
 type type_sysparm_display_value = 'true' | 'false' | 'all';
-type type_service_now_table = `incident` | 'change_request' | 'problem';
-type type_service_now_api = `table` | 'stats' | 'doc';
-type type_result_format = `table` | `timeseries`;
+
 export type type_service_now_query_filter_condition = `^` | `^OR`;
 
 class ServiceNowQueryURLParam {
@@ -85,6 +82,11 @@ export class ServiceNowQuery {
     }
   }
 }
+export class ServiceNowDocQuery extends ServiceNowQuery {
+  constructor(tableName: string) {
+    super('doc', tableName, '', [], 'all', '', 'asc');
+  }
+}
 export class ServiceNowTableQuery extends ServiceNowQuery {
   constructor(
     tableName: string,
@@ -115,59 +117,5 @@ export class ServiceNowAggregationQuery extends ServiceNowQuery {
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_count', sysparmCount));
   }
 }
-export class ServiceNowQueryCtrlFields {
-  table: type_service_now_table = 'incident';
-  type: type_service_now_api = 'table';
-  fields: string[];
-  query: string;
-  filters: ServiceNowQueryFilter[];
-  orderBy: string;
-  orderByDirection: type_service_now_query_order_by_direction = 'asc';
-  groupBy: string[];
-  resultFormat: type_result_format = 'table';
-  limit: number;
-  constructor(options: any) {
-    this.table = options.table || 'incident';
-    this.type = options.type || 'table';
-    this.fields = options.fields || [];
-    this.query = options.query || '';
-    this.filters = options.filters || [];
-    this.orderByDirection = options.orderByDirection || 'asc';
-    this.orderBy = options.orderBy || '';
-    this.groupBy = options.groupBy || [];
-    this.limit = options.limit || 25;
-    this.resultFormat = options.resultFormat || 'table';
-  }
-  getUrl(): string {
-    if (this.type === 'table') {
-      const fieldsValue =
-        this.fields && this.fields[0] !== '*'
-          ? this.fields || 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'.split(',')
-          : [];
-      const fields: string[] = fieldsValue.filter(Boolean).map(a => a.trim());
-      const query = new ServiceNowTableQuery(this.table, fields, this.query, this.limit, this.filters, this.orderBy, this.orderByDirection);
-      return query.getUrl();
-    } else if (this.type === 'stats') {
-      const groupByValue = this.groupBy ? this.groupBy : [];
-      const groupBy: string[] = groupByValue.filter(Boolean).map(a => a.trim());
-      const query = new ServiceNowAggregationQuery(this.table, groupBy, this.query, 'true', this.filters);
-      return query.getUrl();
-    } else {
-      return '';
-    }
-  }
-}
-export interface ServiceNowPluginQuery extends DataQuery {
-  servicenow?: ServiceNowQueryCtrlFields;
-}
-export const DEFAULT_SERVICENOW_QUERY = new ServiceNowQueryCtrlFields({
-  table: 'incident',
-  type: 'stats',
-  fields: 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'.split(','),
-  query: '',
-  groupBy: 'state'.split(','),
-  orderBy: 'opened_at',
-  orderByDirection: 'desc',
-  limit: 10,
-  resultFormat: 'table',
-});
+
+export type type_service_now_query = ServiceNowDocQuery | ServiceNowTableQuery | ServiceNowAggregationQuery

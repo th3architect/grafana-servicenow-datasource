@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Select } from './../../grafana';
-import { onSelectChange } from './../../utils';
-import { QUERY_TYPES } from './../../config';
+import { Select } from '../../grafana';
+import { onSelectChange } from '../../utils';
+import { QUERY_TYPES } from '../../config';
 import { ServiceNowQueryTableSelectorCtrl } from './Help/TableSelector';
 
 export class ServiceNowQueryTableAndTypeCtrl extends PureComponent<any, any> {

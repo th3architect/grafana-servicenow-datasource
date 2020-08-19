@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import { ServiceNowQueryCtrlFields, ServiceNowQueryFilter, type_service_now_query_filter_condition } from './../ServiceNowQuery';
-import { Select } from './../../grafana';
-import { onSelectChange, onInputTextChange } from './../../utils';
-import { FIELDS_LIST, FIELDS_LIST_TIME, FILTER_OPERATIONS, FILTER_VALUES, FILTER_CONDITIONS } from './../../config';
+import { ServiceNowQueryFilter, type_service_now_query_filter_condition } from './../../servicenow/ServiceNowQuery';
+import { ServiceNowQueryCtrlFields } from '../QueryEditor';
+import { Select } from '../../grafana';
+import { onSelectChange, onInputTextChange } from '../../utils';
+import { FIELDS_LIST, FIELDS_LIST_TIME, FILTER_OPERATIONS, FILTER_VALUES, FILTER_CONDITIONS } from '../../config';
 
 export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
   onFilterAdd = (condition: type_service_now_query_filter_condition = '^') => {

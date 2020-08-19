@@ -2,6 +2,10 @@ import { ChangeEvent } from 'react';
 import { set, toInteger } from 'lodash';
 import { SelectableValue } from './grafana';
 
+export const filterStringArrays = (input: string[]): string[] => {
+  return input.filter(Boolean).map(a => a.trim());
+};
+
 export const onSelectChange = (selectableItem: SelectableValue, field: string, props: any, format = 'string') => {
   const { query, onChange } = props;
   const servicenow: any = query.servicenow;

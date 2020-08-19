@@ -1,23 +1,15 @@
-import { ServiceNowTableQuery, ServiceNowAggregationQuery } from './ServiceNowQuery';
+import { type_service_now_query,ServiceNowTableQuery, ServiceNowAggregationQuery } from './ServiceNowQuery';
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 import { Annotation, ServiceNowAnnotationQuery } from './../editors/annotations/annotation';
-import { ServiceNowPluginQuery } from './ServiceNowQuery';
-import { getBackendSrv } from './../grafana';
+import { ServiceNowPluginQuery } from './../editors/QueryEditor';
+import { getBackendSrv, replaceTimeTokens } from './../grafana';
 
-const replaceWithGrafanaTimeRange = (field: string, from: any, to: any): string => {
-  const fromDateString = `javascript:gs.dateGenerate('${from.format('YYYY-MM-DD')}','${from.format('HH:mm:ss')}')`;
-  const toDateString = `javascript:gs.dateGenerate('${to.format('YYYY-MM-DD')}','${to.format('HH:mm:ss')}')`;
-  field = field.replace('$__timeFrom()', fromDateString);
-  field = field.replace('$__timeTo()', toDateString);
-  field = field.replace('$__timeFilter()', `${fromDateString}@${toDateString}`);
-  return field;
-};
 export class ServiceNowInstance {
   url: string;
   constructor(private instanceSettings: any, private templateSrv: any) {
     this.url = this.instanceSettings.url;
   }
-  getServiceNowResults(query: ServiceNowTableQuery | ServiceNowAggregationQuery, maxRetries = 1): Promise<any> {
+  getServiceNowResults(query: type_service_now_query, maxRetries = 1): Promise<any> {
     const url = this.url + query.getUrl();
     return getBackendSrv()
       .datasourceRequest({ method: 'GET', url })
@@ -33,12 +25,12 @@ export class ServiceNowInstance {
     return queries.map((query: ServiceNowPluginQuery) => {
       const servicenowQueryItem = query.servicenow;
       if (servicenowQueryItem && servicenowQueryItem.query) {
-        servicenowQueryItem.query = replaceWithGrafanaTimeRange(servicenowQueryItem.query, options.range.from, options.range.to);
+        servicenowQueryItem.query = replaceTimeTokens(servicenowQueryItem.query, options.range.from, options.range.to);
         servicenowQueryItem.query = this.templateSrv.replace(servicenowQueryItem.query, {}, 'csv');
       }
       if (servicenowQueryItem && servicenowQueryItem.filters) {
         servicenowQueryItem.filters = servicenowQueryItem.filters.map(filter => {
-          filter.value = replaceWithGrafanaTimeRange(filter.value, options.range.from, options.range.to);
+          filter.value = replaceTimeTokens(filter.value, options.range.from, options.range.to);
           filter.value = this.templateSrv.replace(filter.value, {}, 'csv');
           return filter;
         });
@@ -70,7 +62,7 @@ export class ServiceNowInstance {
   }
   private doAnnotationQueries(queries: ServiceNowAnnotationQuery[], options: any) {
     return queries.map((query: ServiceNowAnnotationQuery) => {
-      query.query = replaceWithGrafanaTimeRange(query.query, options.range.from, options.range.to);
+      query.query = replaceTimeTokens(query.query, options.range.from, options.range.to);
       const q = new ServiceNowTableQuery(query.table, query.fields, query.query, query.limit, [], query.startTimeField, 'asc');
       return this.getServiceNowResults(q)
         .then((result: any) => {
