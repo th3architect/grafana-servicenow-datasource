@@ -1,0 +1,32 @@
+name: Publish Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Build docs
+      run: |
+        echo "Building & Publishing site";
+        yarn install --frozen-lockfile;
+        echo $(date) > LAST_UPDATED.md;
+        yarn docs:build;
+        rm -rf docs/dist;
+        git config --global user.email "actions@github.com";
+        git config --global user.name "Github Actions";
+        git add --force docs/
+        git commit -m "Build by Github Actions"
+        git push
+        git status

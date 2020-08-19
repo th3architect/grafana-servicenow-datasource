@@ -9,7 +9,9 @@
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect"
+    "prepare": "yarn run snyk-protect",
+    "docs:dev": "vuepress dev",
+    "docs:build": "vuepress build"
   },
   "repository": {
     "type": "git",
@@ -37,7 +39,8 @@
   "devDependencies": {
     "@grafana/toolkit": "6.5.3",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
-    "@types/lodash": "^4.14.149"
+    "@types/lodash": "^4.14.149",
+    "vuepress": "^1.5.3"
   },
   "snyk": true
 }
