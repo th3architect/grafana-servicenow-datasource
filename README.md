@@ -3,7 +3,6 @@
 [![License](https://img.shields.io/github/license/yesoreyeram/grafana-servicenow-datasource)](LICENSE)
 [![Build](https://github.com/yesoreyeram/grafana-servicenow-datasource/workflows/Build%20&%20Publish/badge.svg)](https://github.com/yesoreyeram/grafana-servicenow-datasource/actions?query=workflow%3A%22Build+%26+Publish%22)
 [![Maintainability](https://api.codeclimate.com/v1/badges/83c309f7c60efdfd2fd3/maintainability)](https://codeclimate.com/github/yesoreyeram/grafana-servicenow-datasource/maintainability)
-[![Known Vulnerabilities](https://snyk.io/test/github/yesoreyeram/grafana-servicenow-datasource/badge.svg)](https://snyk.io/test/github/yesoreyeram/grafana-servicenow-datasource)
 
 Service Now data source for Grafana. 
 
