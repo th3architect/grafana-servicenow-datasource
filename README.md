@@ -1,4 +1,4 @@
-# grafana-servicenow-datasource
+# Grafana Service-Now Datasource
 
 [![License](https://img.shields.io/github/license/yesoreyeram/grafana-servicenow-datasource)](LICENSE)
 [![Build](https://github.com/yesoreyeram/grafana-servicenow-datasource/workflows/Build%20&%20Publish/badge.svg)](https://github.com/yesoreyeram/grafana-servicenow-datasource/actions?query=workflow%3A%22Build+%26+Publish%22)
@@ -6,16 +6,16 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/83c309f7c60efdfd2fd3/maintainability)](https://codeclimate.com/github/yesoreyeram/grafana-servicenow-datasource/maintainability)
 [![Known Vulnerabilities](https://snyk.io/test/github/yesoreyeram/grafana-servicenow-datasource/badge.svg)](https://snyk.io/test/github/yesoreyeram/grafana-servicenow-datasource)
 
-Service Now data source for Grafana.
+Service Now data source for Grafana. 
 
 ![image](https://user-images.githubusercontent.com/153843/90498026-b5f2d100-e13f-11ea-9068-08f496d1df30.png)
 ![image](https://user-images.githubusercontent.com/153843/90538813-f7eb3980-e176-11ea-9a51-bf9ee1be2a78.png)
 
-For more screenshots, follow [this github issue](https://github.com/yesoreyeram/grafana-servicenow-datasource/issues/1).
-
 **Warning:** This is not official plugin from Grafana / Service Now. Use [official plugin from Grafana](https://grafana.com/grafana/plugins/grafana-servicenow-datasource) for additional capabilities like alerting, official support. This is a community contributed plugin and it may have only limited features comparing to official plugin.
 
-## Time fields in query & filters
+## Query Guidelines
+
+### Time fields in query & filters
 
 If you want to use grafana time picker's time field in your query/filter values, you can use the following macros to represent grafana time picker's fields. `$__timeFrom()` represents start time and `$__timeTo()` represents end time in grafana. This can be combined with query fields like **Greater Than** and **Less Than**. Use `$__timeFilter()` if you want use **Between** query field.
 
@@ -56,18 +56,19 @@ You can annotate any servicenow table data as annotation in grafana with any of 
 
 There are multiple ways to install this plugin into your grafana instance
 
-#### Download and extract zip file
+### Download and extract zip file
 
 Download the zip file from [github](https://github.com/yesoreyeram/grafana-servicenow-datasource/archive/master.zip) and extract into your grafana plugin folder. Then restart Grafana.
 
-#### Using grafana-cli
+### Using grafana-cli
 
 If you are using grafana-cli, execute the following command to install the plugin
 
 ```
 grafana-cli --pluginUrl https://github.com/yesoreyeram/grafana-servicenow-datasource/archive/master.zip plugins install yesoreyeram-servicenow-datasource
 ```
-#### Using helm chart
+
+### Using helm chart
 
 If you use help chart to provision grafana, use the following config to install the plugin
 
@@ -76,7 +77,9 @@ plugins:
   - https://github.com/yesoreyeram/grafana-servicenow-datasource/archive/master.zip;yesoreyeram-servicenow-datasource
 ```
 
-## Configurations
+## Configuration
+
+### Manual configuration
 
 Configuration of the plugin requires following field.
 
@@ -86,7 +89,9 @@ Configuration of the plugin requires following field.
 | Username   | Service now username |
 | Password   | Service now password |
 
-#### Provisioning via file
+![image](https://user-images.githubusercontent.com/153843/90634456-9e8b1500-e21f-11ea-8e3c-b2fa366e2150.png)
+
+### Provisioning via file
 
 If you want to use the grafana provisioning feature, use the following yaml
 
@@ -108,7 +113,7 @@ datasources:
   readOnly: false
 ```
 
-## Service now permissions
+### Service now permissions & roles
 
 In order to retrieve the data from service-now, the user account used should have appropriate roles in service now. Typically [**Business Stakeholder role**](https://docs.servicenow.com/bundle/orlando-it-business-management/page/product/project-portfolio-suite-with-financials/reference/business-stakeholder-role-ppm.html) can give enough permissions to read the data. If you want to reduce the permissions to more granular level, use one or more of the following roles.
 
@@ -118,6 +123,6 @@ In order to retrieve the data from service-now, the user account used should hav
 * sn_request_read
 * cmdb_read
 
-## Service Now wiki useful links
+### Useful links
 
 [Operators available for filters and queries](https://docs.servicenow.com/bundle/paris-platform-user-interface/page/use/common-ui-elements/reference/r_OpAvailableFiltersQueries.html) 

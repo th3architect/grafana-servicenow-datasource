@@ -1,4 +1,4 @@
-# Examples & Screenshots
+## Dashboard Showcase
 
 ![image](https://user-images.githubusercontent.com/153843/90498026-b5f2d100-e13f-11ea-9068-08f496d1df30.png)
 ![image](https://user-images.githubusercontent.com/153843/90538813-f7eb3980-e176-11ea-9a51-bf9ee1be2a78.png)
