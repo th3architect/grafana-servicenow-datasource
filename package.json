@@ -37,6 +37,9 @@
     "@grafana/toolkit": "6.5.3",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "^4.14.149",
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
     "vuepress": "^1.5.3"
   }
 }
