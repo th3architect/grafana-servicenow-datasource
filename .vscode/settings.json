@@ -21,6 +21,7 @@
         "cmdb",
         "datapoints",
         "groupby",
-        "plugincheck"
+        "plugincheck",
+        "vuepress"
     ]
 }
