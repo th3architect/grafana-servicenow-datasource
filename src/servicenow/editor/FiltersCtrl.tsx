@@ -67,7 +67,7 @@ export class ServiceNowQueryFiltersCtrl extends PureComponent<any, any> {
             );
           }
           if (FIELDS_LIST_TIME.map(v => v.value).indexOf(filter.field) > -1) {
-            if (['>', '>=', '<', '<='].indexOf(filter.operator) > -1) {
+            if (['>', '>=', '<', '<=', 'ON'].indexOf(filter.operator) > -1) {
               valueCtrl = (
                 <Select
                   className="width-12"
