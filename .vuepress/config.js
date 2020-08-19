@@ -1,7 +1,7 @@
 module.exports = {
     title: `Grafana Service Now Datasource`,
     description: `Grafana Service Now Datasource plugin.`,
-    base: '/',
+    base: '/grafana-servicenow-datasource/',
     dest: 'docs',
     themeConfig: {
         nav: [
