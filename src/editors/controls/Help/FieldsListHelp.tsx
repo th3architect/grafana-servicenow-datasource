@@ -82,9 +82,9 @@ export class ServiceNowFieldsListCtrl extends PureComponent<Props, State> {
                 <td>Type</td>
                 <td>Selected</td>
               </tr>
-              {orderBy(this.state.fieldsList, ['label'], ['asc']).map((field: any) => {
+              {orderBy(this.state.fieldsList, ['label'], ['asc']).map((field: any, index: number) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td>{field.label}</td>
                     <td>{field.name}</td>
                     <td>{field.internalType}</td>
@@ -94,10 +94,10 @@ export class ServiceNowFieldsListCtrl extends PureComponent<Props, State> {
                           remove
                         </span>
                       ) : (
-                        <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.addField(field.name)}>
-                          &nbsp;&nbsp;add&nbsp;&nbsp;
-                        </span>
-                      )}
+                          <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.addField(field.name)}>
+                            &nbsp;&nbsp;add&nbsp;&nbsp;
+                          </span>
+                        )}
                     </td>
                   </tr>
                 );

@@ -68,9 +68,9 @@ export class ServiceNowQueryTableSelectorCtrl extends PureComponent<Props, State
           <div>
             <h4>Popular Tables</h4>
             <table style={{ width: '100%' }}>
-              {TABLE_NAMES.map((table: any) => {
+              {TABLE_NAMES.map((table: any, index: number) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td style={{ width: '40%' }}>{table.label}</td>
                     <td style={{ width: '40%' }}>{table.value}</td>
                     {table.value === this.props.query.servicenow.table ? (
@@ -80,12 +80,12 @@ export class ServiceNowQueryTableSelectorCtrl extends PureComponent<Props, State
                         </span>
                       </td>
                     ) : (
-                      <td>
-                        <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.chooseTable(table.value)}>
-                          &nbsp;&nbsp;select&nbsp;&nbsp;
-                        </span>
-                      </td>
-                    )}
+                        <td>
+                          <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.chooseTable(table.value)}>
+                            &nbsp;&nbsp;select&nbsp;&nbsp;
+                          </span>
+                        </td>
+                      )}
                   </tr>
                 );
               })}
@@ -96,9 +96,9 @@ export class ServiceNowQueryTableSelectorCtrl extends PureComponent<Props, State
               <div>
                 <h4>More Tables</h4>
                 <table style={{ width: '100%' }}>
-                  {orderBy(this.state.tablesList, ['label'], ['asc']).map((table: any) => {
+                  {orderBy(this.state.tablesList, ['label'], ['asc']).map((table: any, index: number) => {
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td style={{ width: '40%' }}>{table.label}</td>
                         <td style={{ width: '40%' }}>{table.value}</td>
                         {table.value === this.props.query.servicenow.table ? (
@@ -108,24 +108,24 @@ export class ServiceNowQueryTableSelectorCtrl extends PureComponent<Props, State
                             </span>
                           </td>
                         ) : (
-                          <td>
-                            <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.chooseTable(table.value)}>
-                              &nbsp;&nbsp;select&nbsp;&nbsp;
+                            <td>
+                              <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.chooseTable(table.value)}>
+                                &nbsp;&nbsp;select&nbsp;&nbsp;
                             </span>
-                          </td>
-                        )}
+                            </td>
+                          )}
                       </tr>
                     );
                   })}
                 </table>
               </div>
             ) : (
-              <div style={{ textAlign: 'center' }}>
-                <span className="btn btn-secondary btn-medium" style={{ margin: '5px' }} onClick={() => this.loadMoreTables()}>
-                  Load more tables
+                <div style={{ textAlign: 'center' }}>
+                  <span className="btn btn-secondary btn-medium" style={{ margin: '5px' }} onClick={() => this.loadMoreTables()}>
+                    Load more tables
                 </span>
-              </div>
-            )}
+                </div>
+              )}
           </div>
         </Modal>
       </>
