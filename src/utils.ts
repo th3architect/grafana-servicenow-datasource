@@ -6,6 +6,15 @@ export const filterStringArrays = (input: string[]): string[] => {
   return input.filter(Boolean).map(a => a.trim());
 };
 
+export const getSeriesNameFromRow = (row: any[], joinBy = ' - ') => {
+  return (
+    row
+      .map((ri: string, index: number) => (index === row.length - 1 ? '' : ri))
+      .filter(a => a || a.toString() === '0')
+      .join(joinBy) || ''
+  );
+};
+
 export const onSelectChange = (selectableItem: SelectableValue, field: string, props: any, format = 'string') => {
   const { query, onChange } = props;
   const servicenow: any = query.servicenow;

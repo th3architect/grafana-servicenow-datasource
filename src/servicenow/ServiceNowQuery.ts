@@ -118,4 +118,4 @@ export class ServiceNowAggregationQuery extends ServiceNowQuery {
   }
 }
 
-export type type_service_now_query = ServiceNowDocQuery | ServiceNowTableQuery | ServiceNowAggregationQuery
+export type type_service_now_query = ServiceNowDocQuery | ServiceNowTableQuery | ServiceNowAggregationQuery;

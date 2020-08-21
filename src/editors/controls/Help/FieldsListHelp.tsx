@@ -94,10 +94,10 @@ export class ServiceNowFieldsListCtrl extends PureComponent<Props, State> {
                           remove
                         </span>
                       ) : (
-                          <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.addField(field.name)}>
-                            &nbsp;&nbsp;add&nbsp;&nbsp;
-                          </span>
-                        )}
+                        <span className="btn btn-success btn-small" style={{ margin: '5px' }} onClick={() => this.addField(field.name)}>
+                          &nbsp;&nbsp;add&nbsp;&nbsp;
+                        </span>
+                      )}
                     </td>
                   </tr>
                 );

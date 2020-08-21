@@ -1,4 +1,5 @@
 import { flatten, cloneDeep, last } from 'lodash';
+import { getSeriesNameFromRow } from './utils';
 import { DataSourceApi } from './grafana';
 import { ServiceNowInstance } from './servicenow/ServiceNowInstance';
 import { ServiceNowDocQuery, ServiceNowAggregationQuery } from './servicenow/ServiceNowQuery';
@@ -32,15 +33,9 @@ export class Datasource extends DataSourceApi {
         const data: any[] = [];
         results.forEach(result => {
           result.rows.forEach((row: any) => {
-            const target =
-              row
-                .map((ri: string, index: number) => (index === row.length - 1 ? '' : ri))
-                .filter(Boolean)
-                .join(' - ') || '';
-            const value = last(row);
             data.push({
-              target,
-              datapoints: [[value, options.range.to]],
+              target: getSeriesNameFromRow(row),
+              datapoints: [[last(row), options.range.to]],
             });
           });
         });

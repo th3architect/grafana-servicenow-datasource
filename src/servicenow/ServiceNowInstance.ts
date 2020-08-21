@@ -1,4 +1,4 @@
-import { type_service_now_query,ServiceNowTableQuery, ServiceNowAggregationQuery } from './ServiceNowQuery';
+import { type_service_now_query, ServiceNowTableQuery, ServiceNowAggregationQuery } from './ServiceNowQuery';
 import { ServiceNowResultsParser } from './ServiceNowResultsParser';
 import { Annotation, ServiceNowAnnotationQuery } from './../editors/annotations/annotation';
 import { ServiceNowPluginQuery } from './../editors/QueryEditor';
