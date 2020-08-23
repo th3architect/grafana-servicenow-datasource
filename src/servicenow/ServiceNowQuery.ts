@@ -110,9 +110,10 @@ export class ServiceNowAggregationQuery extends ServiceNowQuery {
     sysparmGroupBy: string[],
     sysparmQuery: string,
     sysparmCount: type_sysparm_count = 'true',
-    filters: ServiceNowQueryFilter[]
+    filters: ServiceNowQueryFilter[],
+    sysparmDisplayValue: type_sysparm_display_value
   ) {
-    super('stats', tableName, sysparmQuery, filters, 'all', '', 'asc');
+    super('stats', tableName, sysparmQuery, filters, sysparmDisplayValue || 'all', '', 'asc');
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_group_by', sysparmGroupBy.join(',')));
     this.queryParams.push(new ServiceNowQueryURLParam('sysparm_count', sysparmCount));
   }

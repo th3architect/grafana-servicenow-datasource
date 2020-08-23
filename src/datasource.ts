@@ -76,7 +76,7 @@ export class Datasource extends DataSourceApi {
       const tableName = queryItems[0];
       const fieldName = queryItems[1];
       const querystring = queryItems.filter((item, index) => index > 1).join(',');
-      const snQuery = new ServiceNowAggregationQuery(tableName, [fieldName], querystring, 'true', []);
+      const snQuery = new ServiceNowAggregationQuery(tableName, [fieldName], querystring, 'true', [], 'all');
       return this.serviceNowInstance
         .getServiceNowResults(snQuery)
         .then(res => {

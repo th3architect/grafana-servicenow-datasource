@@ -35,7 +35,7 @@ export class ServiceNowInstance {
           return filter;
         });
       }
-      let q: ServiceNowTableQuery | ServiceNowAnnotationQuery = new ServiceNowAggregationQuery('', [], '', 'true', []);
+      let q: ServiceNowTableQuery | ServiceNowAnnotationQuery = new ServiceNowAggregationQuery('', [], '', 'true', [], 'all');
       if (query.servicenow && query.servicenow.type === 'table') {
         const sn = query.servicenow;
         q = new ServiceNowTableQuery(
@@ -50,7 +50,14 @@ export class ServiceNowInstance {
         );
       } else if (query.servicenow && query.servicenow.type === 'stats') {
         const sn = query.servicenow;
-        q = new ServiceNowAggregationQuery(sn.table, sn.groupBy.map(a => a.trim()).filter(Boolean), sn.query, 'true', sn.filters);
+        q = new ServiceNowAggregationQuery(
+          sn.table,
+          sn.groupBy.map(a => a.trim()).filter(Boolean),
+          sn.query,
+          'true',
+          sn.filters,
+          sn.sysparmDisplayValue
+        );
       }
       return this.getServiceNowResults(q)
         .then((result: any) => {

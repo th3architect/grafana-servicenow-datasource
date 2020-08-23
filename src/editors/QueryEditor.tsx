@@ -70,7 +70,7 @@ export class ServiceNowQueryCtrlFields {
     } else if (this.type === 'stats') {
       const groupByValue = this.groupBy ? this.groupBy : [];
       const groupBy: string[] = filterStringArrays(groupByValue);
-      const query = new ServiceNowAggregationQuery(this.table, groupBy, this.query, 'true', this.filters);
+      const query = new ServiceNowAggregationQuery(this.table, groupBy, this.query, 'true', this.filters, this.sysparmDisplayValue);
       return query.getUrl();
     } else {
       return '';
