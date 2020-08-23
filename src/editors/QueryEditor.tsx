@@ -12,6 +12,7 @@ import {
 } from './controls';
 import {
   type_service_now_api,
+  type_sysparm_display_value,
   type_service_now_query_order_by_direction,
   ServiceNowQueryFilter,
   ServiceNowTableQuery,
@@ -34,6 +35,7 @@ export class ServiceNowQueryCtrlFields {
   groupBy: string[];
   resultFormat: type_result_format = 'table';
   limit: number;
+  sysparmDisplayValue: type_sysparm_display_value = 'all';
   constructor(options: any) {
     this.table = options.table || 'incident';
     this.type = options.type || 'table';
@@ -45,6 +47,7 @@ export class ServiceNowQueryCtrlFields {
     this.groupBy = options.groupBy || [];
     this.limit = options.limit || 25;
     this.resultFormat = options.resultFormat || 'table';
+    this.sysparmDisplayValue = options.sysparmDisplayValue || 'all';
   }
   getUrl(): string {
     if (this.type === 'table') {
@@ -53,7 +56,16 @@ export class ServiceNowQueryCtrlFields {
           ? this.fields || 'opened_at,number,short_description,sys_created_by,severity,category,state,priority'.split(',')
           : [];
       const fields: string[] = filterStringArrays(fieldsValue);
-      const query = new ServiceNowTableQuery(this.table, fields, this.query, this.limit, this.filters, this.orderBy, this.orderByDirection);
+      const query = new ServiceNowTableQuery(
+        this.table,
+        fields,
+        this.query,
+        this.limit,
+        this.filters,
+        this.sysparmDisplayValue,
+        this.orderBy,
+        this.orderByDirection
+      );
       return query.getUrl();
     } else if (this.type === 'stats') {
       const groupByValue = this.groupBy ? this.groupBy : [];
@@ -99,9 +111,9 @@ export class ServiceNowQueryEditor extends PureComponent<Props> {
       <div>
         <ServiceNowQueryTableAndTypeCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         {outCtrl}
-        <ServiceNowQueryQueryCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryFiltersCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
         <ServiceNowQueryOrderByCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
+        <ServiceNowQueryQueryCtrl onChange={this.props.onChange} query={query} datasource={this.props.datasource} />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Modal } from '../../../grafana';
-import { onInputTextChange } from './../../../utils';
+import { Modal, Select } from '../../../grafana';
+import { onInputTextChange, onSelectChange } from './../../../utils';
+import { SHOW_DISPLAY_OPTIONS } from './../../../config';
 
 interface State {
   showAdvancedQueryModal: boolean;
@@ -20,15 +21,6 @@ export class ServiceNowQueryAdvancedQueryCtrl extends PureComponent<any, State> 
         <label className="gf-form-label width-8" title="Query">
           Query
         </label>
-        <input
-          value={query.servicenow.query || ''}
-          type="text"
-          onChange={e => onInputTextChange(e, 'query', this.props)}
-          className="gf-form-input min-width-24 width-24"
-          title="Can be blank. This is for advance use cases. Only use when filters are not sufficient."
-          placeholder="Can be blank. This is for advance use cases. Only use when filters are not sufficient."
-        />
-        &nbsp;
         <label
           role="button"
           onClick={this.showAdvancedQueryModal(true)}
@@ -36,24 +28,48 @@ export class ServiceNowQueryAdvancedQueryCtrl extends PureComponent<any, State> 
           className="btn btn-secondary btn-small"
           style={{ marginTop: '4px', padding: '10px' }}
         >
-          <i className="fa fa-expand fa-large btn btn-small"></i>
+          Advanced Query Options <i className="fa fa-expand fa-large btn btn-small"></i>
         </label>
         <Modal
           title={
             <div className="modal-header-title">
-              <span className="p-l-1">Service Now Advanced Query</span>
+              <span className="p-l-1">Service Now Query</span>
             </div>
           }
           isOpen={showAdvancedQueryModal}
           onDismiss={this.showAdvancedQueryModal(false)}
         >
-          <textarea
-            value={query.servicenow.query || ''}
-            onChange={e => onInputTextChange(e, 'query', this.props)}
-            className="gf-form-input min-width-28 width-28"
-            rows={10}
-          />
-          <br />
+          <div className="gf-form-inline">
+            <div className="gf-form">
+              <label className="gf-form-label width-8" title="Show display value">
+                Show Display Value
+              </label>
+            </div>
+            <div className="gf-form">
+              <Select
+                className="width-28"
+                value={SHOW_DISPLAY_OPTIONS.find((options: any) => options.value === query.servicenow.sysparmDisplayValue)}
+                defaultValue={query.servicenow.sysparmDisplayValue}
+                options={SHOW_DISPLAY_OPTIONS}
+                onChange={e => onSelectChange(e, 'sysparmDisplayValue', this.props)}
+              ></Select>
+            </div>
+          </div>
+          <div className="gf-form-inline">
+            <div className="gf-form">
+              <label className="gf-form-label width-8" title="Show display value">
+                Custom Query
+              </label>
+            </div>
+            <div className="gf-form">
+              <textarea
+                value={query.servicenow.query || ''}
+                onChange={e => onInputTextChange(e, 'query', this.props)}
+                className="gf-form-input min-width-28 width-28"
+                rows={10}
+              />
+            </div>
+          </div>
           <span className="btn btn-success btn-small" style={{ marginTop: '5px' }} onClick={() => this.setState({ showAdvancedQueryModal: false })}>
             OK
           </span>

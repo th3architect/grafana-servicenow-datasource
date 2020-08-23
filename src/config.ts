@@ -15,6 +15,11 @@ export const RESULT_FORMATS: SelectableValue[] = [
   { label: 'Table', value: 'table' },
   { label: 'Time Series', value: 'timeseries' },
 ];
+export const SHOW_DISPLAY_OPTIONS: SelectableValue[] = [
+  { label: 'All', value: 'all' },
+  { label: 'True', value: 'true' },
+  { label: 'False', value: 'false' },
+];
 export const FIELDS_LIST: SelectableValue[] = [
   { value: 'active', label: 'Active', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },
   { value: 'assigned_to', label: 'Assigned To', tables: [TABLE_NAME_INCIDENT, TABLE_NAME_CHANGE_REQUEST, TABLE_NAME_PROBLEM] },

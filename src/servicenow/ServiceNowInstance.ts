@@ -44,6 +44,7 @@ export class ServiceNowInstance {
           sn.query,
           sn.limit,
           sn.filters,
+          sn.sysparmDisplayValue,
           sn.orderBy,
           sn.orderByDirection
         );
@@ -63,7 +64,7 @@ export class ServiceNowInstance {
   private doAnnotationQueries(queries: ServiceNowAnnotationQuery[], options: any) {
     return queries.map((query: ServiceNowAnnotationQuery) => {
       query.query = replaceTimeTokens(query.query, options.range.from, options.range.to);
-      const q = new ServiceNowTableQuery(query.table, query.fields, query.query, query.limit, [], query.startTimeField, 'asc');
+      const q = new ServiceNowTableQuery(query.table, query.fields, query.query, query.limit, [], 'all', query.startTimeField, 'asc');
       return this.getServiceNowResults(q)
         .then((result: any) => {
           return { result, query, options: {} };

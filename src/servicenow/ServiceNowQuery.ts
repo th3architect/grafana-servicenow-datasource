@@ -8,8 +8,7 @@ type type_service_now_url_keys =
   | 'sysparm_count'
   | 'sysparm_group_by';
 type type_sysparm_count = 'true' | 'false';
-type type_sysparm_display_value = 'true' | 'false' | 'all';
-
+export type type_sysparm_display_value = 'true' | 'false' | 'all';
 export type type_service_now_query_filter_condition = `^` | `^OR`;
 
 class ServiceNowQueryURLParam {
@@ -94,10 +93,11 @@ export class ServiceNowTableQuery extends ServiceNowQuery {
     sysparmQuery: string,
     sysparmLimit = 10,
     filters: ServiceNowQueryFilter[],
+    sysparmDisplayValue: type_sysparm_display_value,
     orderBy: string,
     orderByDirection: type_service_now_query_order_by_direction
   ) {
-    super('table', tableName, sysparmQuery, filters, 'all', orderBy, orderByDirection);
+    super('table', tableName, sysparmQuery, filters, sysparmDisplayValue || 'all', orderBy, orderByDirection);
     if (sysparmFields.length > 0 && sysparmFields[0] && sysparmFields[0] !== '*') {
       this.queryParams.push(new ServiceNowQueryURLParam('sysparm_fields', sysparmFields.join(',')));
     }

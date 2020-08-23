@@ -9,6 +9,7 @@ Change history of the project. All the feature updates, bug fixes, breaking chan
 - Showcase dashboards included in plugin
 - [Plugin site](https://yesoreyeram.github.io/grafana-servicenow-datasource) added 
 - Test cases added
+- Option to customize `sysparm_display_value`
 
 ## Version 0.2.0
 
