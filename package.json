@@ -29,7 +29,7 @@
   "homepage": "https://github.com/yesoreyeram/grafana-servicenow-datasource#readme",
   "dependencies": {
     "@grafana/data": "6.6.1",
-    "@grafana/runtime": "7.0.4",
+    "@grafana/runtime": "7.1.2",
     "@grafana/ui": "7.0.4",
     "lodash": "^4.17.15"
   },
