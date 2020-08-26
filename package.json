@@ -30,7 +30,7 @@
   "dependencies": {
     "@grafana/data": "6.6.1",
     "@grafana/runtime": "7.0.4",
-    "@grafana/ui": "7.0.4",
+    "@grafana/ui": "7.1.2",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
